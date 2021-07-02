@@ -59,6 +59,8 @@
     <Compile Remove="Plugins\**" />
     <EmbeddedResource Remove="Plugins\**" />
     <None Remove="Plugins\**" />
+    <None Remove="App_Data\Resources\Installation\installation.ru.xml" />
+    <None Remove="Themes\eShop\preview.jpg" />
     <Content Update="Plugins\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
