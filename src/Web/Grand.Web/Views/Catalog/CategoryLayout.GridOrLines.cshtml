@@ -24,10 +24,14 @@
         var count = 0;
 
         <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
-            <li class="breadcrumb-item" title="@Loc["Categories.Breadcrumb.Top"]">
-                <a href="@Url.RouteUrl("HomePage")">
+            <li class="breadcrumb-item" itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem">
+                <a href="@Url.RouteUrl("HomePage")" title="@Loc["Categories.Breadcrumb.Top"]">
                     <b-icon icon="house-door" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
-                    @Loc["Categories.Breadcrumb.Top"]
+                    <span itemprop="name">@Loc["Products.Breadcrumb.Top"]</span>
+                    <span itemprop="item" itemscope itemtype="http://schema.org/Thing"
+                          id="@Url.RouteUrl("HomePage")">
+                    </span>
+                    <meta itemprop="position" content="@count" />
                 </a>
             </li>
             @foreach (var cat in Model.CategoryBreadcrumb)
@@ -36,8 +40,8 @@
                 var isLastCategory = cat.Id == Model.Id;
                 @if (isLastCategory)
                 {
-                    <li class="breadcrumb-item" title="@cat.Name">
-                        <a active>
+                    <li class="breadcrumb-item active" itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem">
+                        <a>
                             <strong class="current-item" itemprop="name">@cat.Name</strong>
                             <span itemprop="item" itemscope itemtype="http://schema.org/Thing"
                                   id="@Url.RouteUrl("Category", new {SeName = cat.SeName})">
@@ -48,11 +52,14 @@
                 }
                 else
                 {
-                    <li class="breadcrumb-item" title="@cat.Name">
+                    <li class="breadcrumb-item" itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem">
                         <a href="@Url.RouteUrl("Category", new { SeName = cat.SeName })" title="@cat.Name" itemprop="item">
-                            @cat.Name
+                            <span itemprop="name">@cat.Name</span>
+                            <span itemprop="item" itemscope itemtype="http://schema.org/Thing"
+                                  id="@Url.RouteUrl("Category", new { SeName = cat.SeName })">
+                            </span>
                             <meta itemprop="position" content="@count" />
-                        </a>
+                         </a>
                     </li>
                 }
             }
@@ -107,12 +114,11 @@
                 <span>@Loc["Products.FeaturedProducts"]</span>
             </h2>
             <div class="form-row">
-                @foreach (var item in Model.FeaturedProducts)
-                {
+                <template v-for="Model in catalog.Model.FeaturedProducts">
                     <div class="col-lg-4 col-sm-6 col-6 product-container mb-2">
-                        <partial name="_CatalogProductView" model="item" />
+                        <partial name="_CatalogProductViewVue" />
                     </div>
-                }
+                </template>
             </div>
         </div>
     }

@@ -1,6 +1,7 @@
 ﻿using Grand.Business.Common.Extensions;
 using Grand.Business.Storage.Interfaces;
 using Grand.Infrastructure;
+using Grand.Web.Common.Components;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,11 +75,16 @@ namespace Widgets.Slider.ViewComponents
                 var slides = await _sliderService.GetPictureSliders(SliderType.Collection, additionalData.ToString());
                 await PrepareModel(slides, model);
             }
+            if (widgetZone == SliderWidgetDefaults.WidgetZoneBrandPage)
+            {
+                var slides = await _sliderService.GetPictureSliders(SliderType.Brand, additionalData.ToString());
+                await PrepareModel(slides, model);
+            }
 
             if (!model.Slide.Any())
                 return Content("");
 
-            return View(model);
+            return View(this.GetViewPath(), model);
         }
     }
 }
