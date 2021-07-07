@@ -1,0 +1,244 @@
+﻿@model FooterModel
+
+<footer class="footer">
+    <div class="footer-top section">
+        <div class="container">
+            <div class="item-row">
+                <div class="col-md-12 col-lg-4 col-xl-6">
+                    <div id="footer-block-about-us" class="about-us block">
+                        <ul class="social-icons">
+                            @if (!string.IsNullOrEmpty(Model.FacebookLink))
+                            {
+                                <li>
+                                    <a title="facebook" href="@Model.FacebookLink" rel="noopener" target="_blank">
+                                        <img height="32" width="32" src="/theme/images/facebook.svg" alt="facebook" />
+                                        <span class="sr-only">Facebook</span>
+
+                                    </a>
+                                </li>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.TwitterLink))
+                            {
+                                <li>
+                                    <a title="twitter" href="@Model.TwitterLink" rel="noopener" target="_blank">
+                                        <img height="32" width="32" src="/theme/images/twitter.svg" alt="twitter" />
+                                        <span class="sr-only">twitter</span>
+                                    </a>
+                                </li>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.YoutubeLink))
+                            {
+                                <li>
+                                    <a title="youtube" href="@Model.YoutubeLink" rel="noopener" target="_blank">
+                                        <img height="32" width="32" src="/theme/images/youtube.svg" alt="youtube" />
+                                        <span class="sr-only">youtube</span>
+                                    </a>
+                                </li>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.InstagramLink))
+                            {
+                                <li>
+                                    <a href="@Model.InstagramLink" rel="noopener" target="_blank">
+                                        <img height="32" width="32" src="/theme/images/instagram.svg" alt="instagram" />
+                                        <span class="sr-only">instagram</span>
+                                    </a>
+                                </li>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.LinkedInLink))
+                            {
+                                <li>
+                                    <a href="@Model.LinkedInLink" rel="noopener" target="_blank">
+                                        <img height="32" width="32" src="/theme/images/linkedin.svg" alt="linkedin" />
+                                        <span class="sr-only">linkedin</span>
+                                    </a>
+                                </li>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.PinterestLink))
+                            {
+                                <li>
+                                    <a href="@Model.PinterestLink" rel="noopener" target="_blank">
+                                        <img height="32" width="32" src="/theme/images/pinterest.svg" alt="pinterest" />
+                                        <span class="sr-only">pinterest</span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+
+                        <partial name="_NewsletterBox" />
+
+                        <h6 class="title">@Loc["Footer.AboutUs"]</h6>
+                            <ul class="info">
+                                @if (!string.IsNullOrEmpty(Model.CompanyName))
+                                {
+                                    <li>
+                                        <span class="icon">
+                                            <b-icon icon="building"></b-icon>
+                                        </span>
+                                        <span class="text">@Loc["Footer.CompanyName.Title"] @Model.CompanyName</span>
+                                    </li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.CompanyAddress))
+                                {
+                                    <li>
+                                        <span class="icon">
+                                            <b-icon icon="file-earmark-richtext"></b-icon>
+                                        </span>
+                                        <span class="text">@Loc["Footer.Address.Title"] @Model.CompanyAddress</span>
+                                    </li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.CompanyEmail))
+                                {
+                                    <li>
+                                        <span class="icon">
+                                            <b-icon icon="envelope"></b-icon>
+                                        </span>
+                                        <span class="text">@Loc["footer.Email.Title"] @Model.CompanyEmail</span>
+                                    </li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.CompanyPhone))
+                                {
+                                    <li>
+                                        <span class="icon">
+                                            <b-icon icon="phone"></b-icon>
+                                        </span>
+                                        <span class="text">@Loc["Footer.Phone.Title"] @Model.CompanyPhone</span>
+                                    </li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.CompanyHours))
+                                {
+                                    <li>
+                                        <span class="icon">
+                                            <b-icon icon="clock-history"></b-icon>
+                                        </span>
+                                        <span class="text">@Loc["Footer.Hour.Title"] @Model.CompanyHours</span>
+                                    </li>
+                                }
+                            </ul>
+                    </div>
+                </div>
+                <div id="footer-block-information" class="col-md-6 col-lg-4 col-xl-3">
+                    <h6 class="title">@Loc["Footer.Information"]</h6>
+                    <ul>
+                        @if (Model.SitemapEnabled)
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("Sitemap")">@Loc["Sitemap"]</a>
+                            </li>
+                        }
+                        @if (Model.PrivacyPreference)
+                        {
+                            <li>
+                                <a id="btnPrivacyPreference" href="#" onclick="GetPrivacyPreference('@Url.RouteUrl("PrivacyPreference")'); return false;">@Loc["PrivacyPreference"]</a>
+                            </li>
+                        }
+                        @foreach (var mpage in Model.Pages.Where(x => x.IncludeInFooterRow1).ToList())
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("Page", new { SeName = mpage.SeName })">@mpage.Name</a>
+                            </li>
+                        }
+                        <li>
+                            <a href="@Url.RouteUrl("ContactUs")">@Loc["ContactUs"]</a>
+                        </li>
+                        <li>
+                            <a href="@Url.RouteUrl("ProductSearch")">@Loc["Search"]</a>
+                        </li>
+                        @if (Model.NewsEnabled)
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("NewsArchive")">@Loc["News"]</a>
+                            </li>
+                        }
+                        @if (Model.BlogEnabled)
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("Blog")">@Loc["Blog"]</a>
+                            </li>
+                        }
+                        @if (Model.KnowledgebaseEnabled)
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("Knowledgebase")">@Loc["Knowledgebase"]</a>
+                            </li>
+                        }
+                        @if (Model.RecentlyViewedProductsEnabled)
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("RecentlyViewedProducts")">@Loc["Products.RecentlyViewedProducts"]</a>
+                            </li>
+                        }
+                        @if (Model.CompareProductsEnabled)
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("CompareProducts")">@Loc["Products.Compare.List"]</a>
+                            </li>
+                        }
+                        @if (Model.NewProductsEnabled)
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("NewProducts")">@Loc["Products.NewProducts"]</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div id="footer-block-my-account" class="col-md-6 col-lg-4 col-xl-3">
+                    <h6 class="title">@Loc["Footer.MyAccount"]</h6>
+                    <ul>
+                        <li>
+                            <a href="@Url.RouteUrl("CustomerInfo")">@Loc["Account.MyAccount"]</a>
+                        </li>
+                        <li>
+                            <a href="@Url.RouteUrl("CustomerOrders")">@Loc["Account.CustomerOrders"]</a>
+                        </li>
+                        <li>
+                            <a href="@Url.RouteUrl("CustomerAddresses")">@Loc["Account.CustomerAddresses"]</a>
+                        </li>
+                        @if (Model.ShoppingCartEnabled)
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("ShoppingCart")">@Loc["ShoppingCart"]</a>
+                            </li>
+                        }
+                        @if (Model.WishlistEnabled)
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("Wishlist")">@Loc["Wishlist"]</a>
+                            </li>
+                        }
+                        @if (Model.AllowCustomersToApplyForVendorAccount)
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("ApplyVendorAccount")">@Loc["Vendors.ApplyAccount"]</a>
+                            </li>
+                        }
+                        @foreach (var mpage in Model.Pages.Where(x => x.IncludeInFooterRow2).ToList())
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("Page", new { SeName = mpage.SeName })" target="_blank">@mpage.Name</a>
+                            </li>
+                        }
+                        @foreach (var mpage in Model.Pages.Where(x => x.IncludeInFooterRow3).ToList())
+                        {
+                            <li>
+                                <a href="@Url.RouteUrl("Page", new { SeName = mpage.SeName })">@mpage.Name</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="item-row section">
+                <div class="pb-1 pt-1 flex-column text-lg-left text-center copyright col-md-6 col-12">
+                    <span class="footer-disclaimer">@Html.Raw(Loc["Content.CopyrightNotice", DateTime.Now.Year, Model.StoreName])</span>
+                </div>
+                <div class="pb-1 pt-1 text-center text-lg-right col-md-6 col-12">
+                    <span>Shopping cart software by </span><a class="pr-1 text-success" href="https://grandnode.com/">GrandNode</a>™
+                </div>
+            </div>
+        </div>
+    </div>
+    @await Component.InvokeAsync("Widget", new { widgetZone = "footer" })
+</footer>

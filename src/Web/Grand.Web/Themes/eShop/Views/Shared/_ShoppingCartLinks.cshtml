@@ -43,8 +43,9 @@
         {
             <li class="nav-item shopping-item">
                 <a href="@Url.RouteUrl("Wishlist")" class="nav-link">
-                    <b-icon icon="heart" :variant="[darkMode ? 'white' : 'dark']"></b-icon>
                     <div class="qty-indicator wishlist-qty">@Loc["Wishlist.HeaderQuantity", wishlistItems]</div>
+                    @*<b-icon icon="heart" :variant="[darkMode ? 'white' : 'dark']"></b-icon>*@
+                    <b-icon icon="heart"></b-icon>
                 </a>
             </li>
         }
@@ -52,8 +53,9 @@
         {
             <li class="nav-item shopping-item">
                 <a href="@Url.RouteUrl("ShoppingCart")" class="nav-link">
-                    <b-icon icon="cart" :variant="[darkMode ? 'white' : 'dark']"></b-icon>
                     <div class="qty-indicator cart-qty">@Loc["ShoppingCart.HeaderQuantity", shoppingCartItems]</div>
+                    @*<b-icon icon="cart" :variant="[darkMode ? 'white' : 'dark']"></b-icon>*@
+                    <b-icon icon="cart"></b-icon>
                 </a>
             </li>
         }

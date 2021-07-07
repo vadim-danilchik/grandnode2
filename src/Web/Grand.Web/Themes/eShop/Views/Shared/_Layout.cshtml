@@ -33,7 +33,6 @@
         </div>
         <partial name="_Notifications" />
         <vc:get-coordinate></vc:get-coordinate>
-        @*<partial name="Header" />*@
         <b-container :fluid="true" class="main-container">
             <div class="row">
                 <div class="col-xl-2 col-lg-3 col-12 px-0">
@@ -41,13 +40,14 @@
                         <div class="d-flex justify-content-center">
                             <partial name="_Logo" />
                         </div>
-                        @*<b-sidebar id="sidebar-menu"
-                                   backdrop
-                                   shadow>
-                            <ul class="Menu -vertical">
-                                @await Component.InvokeAsync("Menu")
-                            </ul>
-                        </b-sidebar>*@
+                        <div id="menu-toggler" onclick="openMenu(this, 'mainMenu')" class="menu-toggler d-lg-none d-flex">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <ul id="mainMenu" class="Menu -vertical">
+                            @await Component.InvokeAsync("Menu")
+                        </ul>
                     </div>
                 </div>
                 <div class="col-xl-10 col-lg-9 col-12 right-container">

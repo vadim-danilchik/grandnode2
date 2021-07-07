@@ -15,7 +15,7 @@
             </div>*@
             @*<partial name="_Logo"/>*@
             
-            <ul class="navbar-nav selectors">
+            @*<ul class="navbar-nav selectors">
                 <template>
                     <li class="nav-item">
                         <span class="nav-link">
@@ -28,14 +28,14 @@
                         </span>
                     </li>
                 </template>
-            </ul>
-            <ul class="navbar-nav top-header-items order-3">
+            </ul>*@
+            <ul class="navbar-nav top-header-items">
                 @*<li class="nav-item d-lg-block d-none">
-                    <a href="#" target="_self" class="nav-link">
-                        <b-icon :variant="[darkMode ? 'white' : 'dark']" icon="aspect-ratio" @@click="fluid = !fluid"></b-icon>
-                    </a>
-                </li>*@
-                <li class="nav-item">
+            <a href="#" target="_self" class="nav-link">
+                <b-icon :variant="[darkMode ? 'white' : 'dark']" icon="aspect-ratio" @@click="fluid = !fluid"></b-icon>
+            </a>
+        </li>*@
+                @*<li class="nav-item">
                     <a href="#" target="_self" class="nav-link">
                         <b-icon icon="search" :variant="[darkMode ? 'white' : 'dark']" v-b-modal.search-box></b-icon>
                     </a>
@@ -43,14 +43,18 @@
                 <b-modal id="search-box"
                          hide-footer hide-header size="xl">
                     @await Component.InvokeAsync("SearchBox")
-                </b-modal>
+                </b-modal>*@
+                <li class="search-item">
+                    @await Component.InvokeAsync("SearchBox")
+                </li>
                 <template>
                     <li class="nav-item">
-                        <span class="nav-link">
-                            <b-icon icon="gear" :variant="[darkMode ? 'white' : 'dark']" v-b-toggle.sidebar-right></b-icon>
-                        </span>
+                        <a class="nav-link">
+                            @*<b-icon icon="gear" :variant="[darkMode ? 'white' : 'dark']" v-b-toggle.sidebar-right></b-icon>*@
+                            <b-icon icon="gear" v-b-toggle.sidebar-right></b-icon>
+                        </a>
                         <template>
-                            <b-sidebar id="sidebar-right" body-class="user-panel" title="@Loc["Account.MyAccount"]" right backdrop>
+                            <b-sidebar id="sidebar-right" body-class="user-panel" title="@Loc["Account.MyAccount"]" right backdrop bg-variant="black" text-variant="light">
                                 <div class="d-inline-flex flex-wrap mb-2">
                                     <partial name="_Selector_TaxType" />
                                     <partial name="_Selector_Currency" />
