@@ -59,8 +59,116 @@
     <Compile Remove="Plugins\**" />
     <EmbeddedResource Remove="Plugins\**" />
     <None Remove="Plugins\**" />
+    <None Remove="App_Data\Resources\Installation\installation.ru.xml" />
+    <None Remove="Themes\eShop\Content\css\animate.min.css" />
+    <None Remove="Themes\eShop\Content\css\cart\cart.css" />
+    <None Remove="Themes\eShop\Content\css\cart\cart.rtl.css" />
+    <None Remove="Themes\eShop\Content\css\catalog\catalog.css" />
+    <None Remove="Themes\eShop\Content\css\catalog\catalog.rtl.css" />
+    <None Remove="Themes\eShop\Content\css\common\common.css" />
+    <None Remove="Themes\eShop\Content\css\common\common.rtl.css" />
+    <None Remove="Themes\eShop\Content\css\customer\customer.css" />
+    <None Remove="Themes\eShop\Content\css\customer\customer.rtl.css" />
+    <None Remove="Themes\eShop\Content\css\header\header.css" />
+    <None Remove="Themes\eShop\Content\css\header\header.rtl.css" />
+    <None Remove="Themes\eShop\Content\css\pikaday.min.css" />
+    <None Remove="Themes\eShop\Content\css\print.css" />
+    <None Remove="Themes\eShop\Content\css\product\product.css" />
+    <None Remove="Themes\eShop\Content\css\product\product.rtl.css" />
+    <None Remove="Themes\eShop\preview.jpg" />
+    <None Remove="Themes\eShop\Content\script\app.js" />
+    <None Remove="Themes\eShop\Content\script\menu.js" />
+    <None Remove="Themes\eShop\Content\script\product.reviews.js" />
+    <None Remove="Themes\eShop\Content\script\public.autocomplete.js" />
+    <None Remove="Themes\eShop\Content\script\public.axios.js" />
+    <None Remove="Themes\eShop\Content\script\public.checkout.js" />
+    <None Remove="Themes\eShop\Content\script\public.common.js" />
+    <None Remove="Themes\eShop\Content\script\public.reservation.js" />
+    <None Remove="Themes\eShop\Content\script\validation-config.js" />
+    <None Remove="Themes\eShop\Content\script\validation-config.min.js" />
+    <None Remove="Themes\eShop\Content\script\vue.push.notifications.js" />
     <Content Update="Plugins\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Themes\eShop\Content\css\animate.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\cart\cart.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\cart\cart.rtl.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\catalog\catalog.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\catalog\catalog.rtl.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\common\common.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\common\common.rtl.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\customer\customer.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\customer\customer.rtl.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\header\header.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\header\header.rtl.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\pikaday.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\print.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\product\product.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\product\product.rtl.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\script\app.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\script\menu.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\script\product.reviews.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\script\public.autocomplete.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\script\public.axios.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\script\public.checkout.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\script\public.common.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\script\public.reservation.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\script\validation-config.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\script\validation-config.min.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\script\vue.push.notifications.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
   </ItemGroup>
   <ItemGroup>

@@ -62,14 +62,13 @@
                          </a>
                     </li>
                 }
-
             }
         </ol>
         @await Component.InvokeAsync("Widget", new { widgetZone = "categorydetails_after_breadcrumb", additionalData = Model.Id })
 
     }
 }
-<div class="page category-page">
+<div class="page category-page catalog-page">
     <h1 class="generalTitle h2">@Model.Name</h1>
     @await Component.InvokeAsync("Widget", new { widgetZone = "categorydetails_top", additionalData = Model.Id })
     @*Rendering category description*@
