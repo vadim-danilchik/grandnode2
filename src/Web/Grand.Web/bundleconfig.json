@@ -18,7 +18,7 @@
       "wwwroot/theme/lib/vue.min.js",
       "wwwroot/theme/lib/portal-vue.umd.min.js",
       "wwwroot/theme/lib/bootstrap-vue.min.js",
-      "wwwroot/theme/lib/bootstrap-vue-icons-slim.min.js",
+      "wwwroot/theme/lib/bootstrap-vue-icons.min.js",
       "wwwroot/theme/lib/axios.min.js",
       "wwwroot/theme/lib/vue-awesome-countdown.umd.min.js",
       "wwwroot/theme/lib/vee-validate.minimal.min.js"

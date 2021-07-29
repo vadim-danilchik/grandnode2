@@ -647,4 +647,18 @@ document.addEventListener("DOMContentLoaded", function () {
     newsletterBox();
     CloseSearchBox();
     backToTop();
-}); 
+});
+
+function openMenu(e, t) {
+    t = document.getElementById(t);
+    t.classList.contains("show") ? (t.classList.remove("show"), e.classList.remove("show")) : (t.classList.add("show"), e.classList.add("show"))
+}
+
+function sideToggle() {
+    var e = document.querySelector(".generalLeftSide");
+    e.classList.contains("show") ? (e.classList.remove("show"), localStorage.setItem("leftSideOpen", "false")) : (e.classList.add("show"), localStorage.setItem("leftSideOpen", "true"))
+}
+function closeLeftSide() {
+    var e = document.querySelector(".generalLeftSide");
+    e.classList.contains("show") && (e.classList.remove("show"), localStorage.setItem("leftSideOpen", "false"))
+}

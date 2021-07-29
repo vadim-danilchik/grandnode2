@@ -63,6 +63,7 @@
     <None Remove="Themes\eShop\Content\css\animate.min.css" />
     <None Remove="Themes\eShop\Content\css\cart\cart.css" />
     <None Remove="Themes\eShop\Content\css\cart\cart.rtl.css" />
+    <None Remove="Themes\eShop\Content\css\cart\cart_.css" />
     <None Remove="Themes\eShop\Content\css\catalog\catalog.css" />
     <None Remove="Themes\eShop\Content\css\catalog\catalog.rtl.css" />
     <None Remove="Themes\eShop\Content\css\common\common.css" />
@@ -75,6 +76,14 @@
     <None Remove="Themes\eShop\Content\css\print.css" />
     <None Remove="Themes\eShop\Content\css\product\product.css" />
     <None Remove="Themes\eShop\Content\css\product\product.rtl.css" />
+    <None Remove="Themes\eShop\Content\images\facebook.svg" />
+    <None Remove="Themes\eShop\Content\images\instagram.svg" />
+    <None Remove="Themes\eShop\Content\images\linkedin.svg" />
+    <None Remove="Themes\eShop\Content\images\pinterest.svg" />
+    <None Remove="Themes\eShop\Content\images\rss.svg" />
+    <None Remove="Themes\eShop\Content\images\twitter.svg" />
+    <None Remove="Themes\eShop\Content\images\viber.svg" />
+    <None Remove="Themes\eShop\Content\images\youtube.svg" />
     <None Remove="Themes\eShop\preview.jpg" />
     <None Remove="Themes\eShop\Content\script\app.js" />
     <None Remove="Themes\eShop\Content\script\menu.js" />
@@ -93,6 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Update="Themes\eShop\Content\css\animate.min.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\css\cart\cart_.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Themes\eShop\Content\css\cart\cart.css">
@@ -135,6 +147,27 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Themes\eShop\Content\css\product\product.rtl.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\images\facebook.svg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\images\instagram.svg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\images\linkedin.svg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\images\pinterest.svg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\images\rss.svg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\images\twitter.svg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Themes\eShop\Content\images\youtube.svg">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="Themes\eShop\Content\script\app.js">
@@ -181,5 +214,9 @@
     <None Update="Rotativa\Windows\wkhtmltopdf.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Themes\eShop\Content\fonts\" />
+    <Folder Include="Themes\eShop\Content\swiper\" />
   </ItemGroup>
 </Project>

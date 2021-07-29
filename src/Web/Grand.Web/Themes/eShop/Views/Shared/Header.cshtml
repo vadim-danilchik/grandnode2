@@ -1,49 +1,68 @@
 ﻿<div class="header-nav">
-    <b-navbar type="light" class="shadow-sm">
+    <b-navbar>
         <b-container :fluid="true" id="header-container">
-            @*<div class="menu-container">
-                <template>
-                    <button aria-label="menu-toggler" class="btn menu-toggler" v-b-toggle.sidebar-menu><span></span><span></span><span></span></button>
-                    <b-sidebar id="sidebar-menu"
-                               backdrop
-                               shadow>
-                        <ul class="Menu -vertical">
-                            @await Component.InvokeAsync("Menu")
-                        </ul>
-                    </b-sidebar>
-                </template>
-            </div>*@
-            @*<partial name="_Logo"/>*@
-            
-            @*<ul class="navbar-nav selectors">
-                <template>
-                    <li class="nav-item">
-                        <span class="nav-link">
-                            <template>
-                                <b-form-checkbox size="lg" v-model="darkMode" name="contrast-button" class="contrast-switch" switch>
-                                    <b-icon icon="sun" class="light" variant="info"></b-icon>
-                                    <b-icon icon="moon" class="dark" variant="dark"></b-icon>
-                                </b-form-checkbox>
-                            </template>
-                        </span>
-                    </li>
-                </template>
-            </ul>*@
-            <ul class="navbar-nav top-header-items">
-                @*<li class="nav-item d-lg-block d-none">
-            <a href="#" target="_self" class="nav-link">
-                <b-icon :variant="[darkMode ? 'white' : 'dark']" icon="aspect-ratio" @@click="fluid = !fluid"></b-icon>
-            </a>
-        </li>*@
-                @*<li class="nav-item">
-                    <a href="#" target="_self" class="nav-link">
-                        <b-icon icon="search" :variant="[darkMode ? 'white' : 'dark']" v-b-modal.search-box></b-icon>
-                    </a>
+            <ul class="d-none d-lg-flex navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.RouteUrl("Page", new { SeName = "ShippingInfo" })">@Loc["header.link.shipping"]</a>
                 </li>
-                <b-modal id="search-box"
-                         hide-footer hide-header size="xl">
-                    @await Component.InvokeAsync("SearchBox")
-                </b-modal>*@
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.RouteUrl("Page", new { SeName = "payment" })">@Loc["header.link.payment"]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.RouteUrl("Page", new { SeName = "Sale" })">@Loc["header.link.sale"]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.RouteUrl("Page", new { SeName = "InfoForCustomer" })">@Loc["header.link.customerinfo"]</a>
+                </li>
+            </ul>
+            <ul class="d-flex d-lg-none navbar-nav">
+                @if (!string.IsNullOrEmpty(Loc["menu.contacts.instagram.value"]))
+                {
+                    <li class="mr-1 nav-item">
+                        <a href="@Loc["menu.contacts.instagram.value"]" rel="noopener" target="_blank">
+                            <img height="32" width="32" src="../Themes/eShop/Content/images/instagram.svg" alt="instagram" />
+                            <span class="sr-only">instagram</span>
+                        </a>
+                    </li>
+                }
+                @if (!string.IsNullOrEmpty(Loc["menu.contacts.email.value"]))
+                {
+                    <li class="mr-1 nav-item">
+                        <a title="mail" href="mailto:@Loc["menu.contacts.email.value"]" rel="noopener" target="_blank">
+                            <img height="32" width="32" src="../Themes/eShop/Content/images/mail.svg" alt="viber" />
+                            <span class="sr-only">Mail</span>
+                        </a>
+                    </li>
+                }
+                @if (!string.IsNullOrEmpty(Loc["menu.contacts.telegram.value"]))
+                {
+                    <li class="mr-1 nav-item">
+                        <a title="telegram" href="tg://resolve?domain=@Loc["menu.contacts.telegram.value"]" rel="noopener" target="_blank">
+                            <img height="32" width="32" src="../Themes/eShop/Content/images/telegram.svg" alt="viber" />
+                            <span class="sr-only">Telegram</span>
+                        </a>
+                    </li>
+                }
+                @if (!string.IsNullOrEmpty(Loc["header.phone.value"]))
+                {
+                    <li class="mr-1 nav-item">
+                        <a title="phone">
+                            <img height="32" width="32" src="../Themes/eShop/Content/images/mts.svg#svgView(viewBox(0, 0, 258, 259))" alt="phone" />
+                            <span class="sr-only">Phone</span>
+                        </a>
+                    </li>
+                    <li class="mr-1 nav-item">
+                        <a title="viber" href="viber://chat?number=@Loc["menu.contacts.viber.value"]" rel="noopener" target="_blank">
+                            <img height="32" width="32" src="../Themes/eShop/Content/images/viber.svg" alt="viber" />
+                            <span class="sr-only">Viber</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <h6 class="phone">@Loc["menu.contacts.viber.value"]</h6>
+                    </li>
+                }
+            </ul>
+            <ul class="navbar-nav top-header-items">
                 <li class="search-item">
                     @await Component.InvokeAsync("SearchBox")
                 </li>
@@ -54,7 +73,7 @@
                             <b-icon icon="gear" v-b-toggle.sidebar-right></b-icon>
                         </a>
                         <template>
-                            <b-sidebar id="sidebar-right" body-class="user-panel" title="@Loc["Account.MyAccount"]" right backdrop bg-variant="black" text-variant="light">
+                            <b-sidebar id="sidebar-right" body-class="user-panel" title="@Loc["Account.MyAccount"]" right backdrop>
                                 <div class="d-inline-flex flex-wrap mb-2">
                                     <partial name="_Selector_TaxType" />
                                     <partial name="_Selector_Currency" />

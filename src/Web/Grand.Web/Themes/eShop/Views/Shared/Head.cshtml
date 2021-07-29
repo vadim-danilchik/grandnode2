@@ -3,6 +3,8 @@
 @{
     var supportRtl = workContext.WorkingLanguage.Rtl;
 
+    <link rel="stylesheet" type="text/css" href="../Themes/eShop/Content/swiper/swiper.min.css">
+
     <environment include="Development">
         <link rel="stylesheet" type="text/css" href="/theme/bootstrap-vue/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="/theme/bootstrap-vue/bootstrap-vue.min.css">
@@ -12,6 +14,7 @@
         <link rel="stylesheet" type="text/css" href="/bundles/site.min.css">
     </environment>
 
+    <link href="/theme/css/pikaday.min.css" type="text/css" rel="stylesheet">
     @*<link rel="stylesheet" type="text/css" href="/assets/custom/style.css">*@
 
     <link rel="stylesheet" type="text/css" href="../Themes/eShop/Content/css/common/common.css">
@@ -31,8 +34,14 @@
     </environment>
 
     <script src="/theme/script/validation-config.min.js"></script>
-    <script src="/theme/script/public.common.js"></script>
+    <script src="../Themes/eShop/Content/script/public.common.js"></script>
     <script src="/theme/script/public.axios.js"></script>
+    <script src="/theme/lib/pikaday.min.js"></script>
+    <script src="/theme/script/public.reservation.js"></script>
+
+    <script src="../Themes/eShop/Content/swiper/swiper.min.js"></script>
+    <script src="../Themes/eShop/Content/swiper/vue-awesome-swiper.min.js"></script>
+    <script src="../Themes/eShop/Content/script/medium-zoom.min.js"></script>
 
     <script asp-location="Footer" asp-src="../Themes/eShop/Content/script/menu.js"></script>
     <script asp-location="Footer" asp-src="/theme/lib/popper.min.js"></script>

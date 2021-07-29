@@ -1,0 +1,6 @@
+﻿@model ProductDetailsModel
+<a class="btn email-a-friend-button mr-1 btn-outline-secondary" href="@Url.RouteUrl("ProductEmailAFriend", new { productId = Model.Id })" title="@Loc["Products.EmailAFriend"]">
+    <b-icon icon="envelope"></b-icon>
+    <span class="sr-only">@Loc["Products.EmailAFriend"]</span>
+    <span class="text">@Loc["Products.EmailAFriend"]</span>
+</a>

@@ -1,0 +1,10 @@
+﻿@{ 
+    var sendfriend = @Url.RouteUrl("ProductEmailAFriend");
+}
+<template v-if="PopupQuickViewVueModal.EmailAFriendEnabled">
+    <a class="btn email-a-friend-button mr-1 btn-outline-secondary" :href="'@sendfriend/' + PopupQuickViewVueModal.Id" title="@Loc["Products.EmailAFriend"]">
+        <b-icon icon="envelope"></b-icon>
+        <span class="sr-only">@Loc["Products.EmailAFriend"]</span>
+        <span class="text">@Loc["Products.EmailAFriend"]</span>
+    </a>
+</template>

@@ -15,7 +15,7 @@
 </li>
 <template>
     <li>
-        <b-sidebar id="sidebar-cart" backdrop right bg-variant="black" text-variant="light">
+        <b-sidebar id="sidebar-cart" backdrop right class="sidebar-cart">
             <template v-slot:title v-if="flycartindicator > 0">
                 @Html.Raw(string.Format(Loc["ShoppingCart.Mini.ItemsText"], string.Format("<a href=\"{0}\">{1}</a>", Url.RouteUrl("ShoppingCart"), string.Format(Loc["ShoppingCart.Mini.Items"], "{{flycartindicator}}"))))
             </template>

@@ -10,7 +10,7 @@
 </li>
 <template>
     <li>
-        <b-sidebar id="sidebar-wishlist" backdrop right bg-variant="black" text-variant="light">
+        <b-sidebar id="sidebar-wishlist" backdrop right class="sidebar-cart">
             <template v-slot:title v-if="wishindicator > 0">
                 @Html.Raw(string.Format(Loc["Wishlist.Mini.ItemsText"], string.Format("<a href=\"{0}\">{1}</a>", Url.RouteUrl("ShoppingCart"), string.Format(Loc["Wishlist.Mini.Items"], "{{wishindicator}}"))))
             </template>

@@ -25,20 +25,19 @@
     }
 
 .category-item {
-    border: 1px solid #333;
+    border: 1px solid var(--secondary-border-colorr);
     -webkit-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
 }
 
     .category-item:hover {
-        border-color: #b57e10;
+        border-color: var(--secondary-border-colorr);
     }
 
     .category-item .title {
         font-size: 22px;
         font-weight: 400;
-        color: #fff;
-        font-family: 'Prata', serif;
+        color: var(--secondary-text-color);
         margin: 5px 0 0 0;
         white-space: pre-wrap;
         overflow: hidden;
@@ -103,10 +102,10 @@
     overflow-x: hidden;
     overflow-y: auto;
     max-height: calc(100% - 54px);
-    background-color: #1c1b1b;
+    background-color: var(--secondary-color);
     margin: 15px 0 0 0;
     padding: 0 15px 15px 15px;
-    border: 1px solid #333;
+    border: 1px solid var(--secondary-color);
     border-left: 0;
     direction: rtl;
     z-index: 4;
@@ -149,7 +148,7 @@
         .generalLeftSide .modal-close:focus::before,
         .generalLeftSide .modal-close:hover::before,
         .generalLeftSide .modal-close:active::before {
-            border-color: #b57e10;
+            border-color: var(--primary-border-color);
         }
 
     .generalLeftSide .viewBox {
@@ -157,7 +156,6 @@
     }
 
     .generalLeftSide .block {
-        font-family: 'Prata', serif;
     }
 
         .generalLeftSide .block h2.h5 {
@@ -186,7 +184,7 @@
 
     .generalLeftSide li a {
         position: relative;
-        color: #aaa;
+        color: var(--secondary-text-color);
         text-decoration: none;
         font-size: 16px;
         font-weight: 400;
@@ -195,7 +193,7 @@
     }
 
     .generalLeftSide .block-category-navigation li.active > .sublist > li a {
-        color: #ddd;
+        color: var(--secondary-text-color);
         font-weight: 400;
     }
 
@@ -280,7 +278,7 @@ a.left-side-toggler {
     a.left-side-toggler:active,
     a.left-side-toggler:focus,
     a.left-side-toggler:hover {
-        border-color: #b57e10;
+        border-color: var(--primary-border-color);
     }
 
 .left-side-toggler .inner {
@@ -294,7 +292,7 @@ a.left-side-toggler {
 
     .left-side-toggler .inner span {
         height: 3px;
-        background: #b57e10;
+        background: var(--secondaty-text-color);
         -webkit-transition: width .4s cubic-bezier(0.645, 0.045, 0.355, 1.000);
         transition: width .4s cubic-bezier(0.645, 0.045, 0.355, 1.000);
     }
@@ -390,7 +388,7 @@ a.left-side-toggler {
         flex-direction: column;
         align-items: flex-start;
         padding: 20px;
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .8));
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, .95));
     }
 
         .category-item .content .title {
@@ -445,7 +443,7 @@ a.left-side-toggler {
         width: 7px;
         display: flex;
         height: 7px;
-        background: #aaa;
+        background: var(--secondary-text-color);
     }
 
     .grid-icon span::after {
@@ -457,7 +455,7 @@ a.left-side-toggler {
         display: flex;
         height: 7px;
         margin: 2px 0 0 0;
-        background: #aaa;
+        background: var(--secondary-text-color);
     }
 
 .list-icon {
@@ -472,19 +470,19 @@ a.left-side-toggler {
         display: flex;
         width: 100%;
         height: 3px;
-        background: #aaa;
+        background: var(--secondary-text-color);
     }
 
 .viewmode-icon.selected .grid-icon span::before,
 .viewmode-icon.selected .grid-icon span::after,
 .viewmode-icon.selected .list-icon span {
-    background: #b57e10;
+    background: var(--accent-color);
 }
 
 .viewmode-icon:hover .grid-icon span::before,
 .viewmode-icon:hover .grid-icon span::after,
 .viewmode-icon:hover .list-icon span {
-    background: #ad783f;
+    background: var(--accent-hover-color);
 }
 
 .viewmode-icon {

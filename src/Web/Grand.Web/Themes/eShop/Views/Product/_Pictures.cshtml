@@ -1,0 +1,73 @@
+﻿@model ProductDetailsModel
+<script>
+        Vue.use(VueAwesomeSwiper)
+        var ppslider = new Vue({
+            el: '#ppslider',
+            data() {
+                return {
+                    Model: @Html.Raw(Json.Serialize(Model)),
+                    swiperOptionTop: {
+                        loop: true,
+                        loopedSlides: 4, // looped slides should be the same
+                        spaceBetween: 10,
+                        navigation: {
+                            nextEl: '#ppslider .swiper-button-next',
+                            prevEl: '#ppslider .swiper-button-prev'
+                        },
+                    },
+                    swiperOptionThumbs: {
+                        direction: 'vertical',
+                        loop: true,
+                        loopedSlides: 4, // looped slides should be the same
+                        spaceBetween: 10,
+                        centeredSlides: true,
+                        slidesPerView: 'auto',
+                        touchRatio: 0.2,
+                        slideToClickedSlide: true,
+                    }
+                }
+            },
+            mounted() {
+                setTimeout(function () {
+                    const swiperTop = vm.$refs.swiperTop.$swiper
+                    const swiperThumbs = vm.$refs.swiperThumbs.$swiper
+                    swiperTop.controller.control = swiperThumbs
+                    swiperThumbs.controller.control = swiperTop
+                }, 1000)
+            }
+        });
+</script>
+<div class="px-0 col-md-6 col-lg-6 col-xl-6 col-12">
+    <div class="gallery">
+        <template>
+            <div id="ppslider" class="gallery-slider">
+                <template>
+                    <!-- swiper1 Thumbs -->
+                    <swiper class="swiper gallery-thumbs" :options="ppslider.swiperOptionThumbs" ref="swiperThumbs">
+                        <swiper-slide v-for="item in ppslider.Model.PictureModels">
+                            <img :src="item.ThumbImageUrl" :alt="item.AlternateText" :title="item.Title" />
+                        </swiper-slide>
+                    </swiper>
+                    <!-- swiper2 Main -->
+                    <swiper class="swiper gallery-top" :options="ppslider.swiperOptionTop" ref="swiperTop">
+                        <swiper-slide v-for="item in ppslider.Model.PictureModels">
+                            <img :src="item.ImageUrl" :data-srcs="item.ImageUrl" :data-zoom-src="item.FullSizeImageUrl" :alt="item.AlternateText" :title="item.Title" />
+                            <div v-if="ppslider.Model.DefaultPictureZoomEnabled" class="zoom-button" onclick="zoomImg(this)">
+                                <b-icon icon="aspect-ratio"></b-icon>
+                            </div>
+                        </swiper-slide>
+                        <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
+                        <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+                    </swiper>
+                </template>
+            </div>
+        </template>
+    </div>
+</div>
+<script asp-location="Footer">
+    function zoomImg(el) {
+        var img = el.parentElement.querySelector('img');
+        const zoom = mediumZoom(img, { background: '#232323', margin: 30 });
+        zoom.open()
+    }
+</script>

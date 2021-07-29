@@ -1,0 +1,9 @@
+﻿@model ProductDetailsModel
+@if (Model.AskQuestionEnabled)
+{
+<button value="@Loc["Products.AskQuestion"]" class="btn ask-a-question-button  mr-1 btn-outline-secondary" href="@Url.RouteUrl("AskQuestion", new { productId = Model.Id })" title="@Loc["Products.AskQuestion"]">
+    <b-icon icon="question-circle"></b-icon>
+    <span class="sr-only">@Loc["Products.AskQuestion"]</span>
+    <span class="text">@Loc["Products.AskQuestion"]</span>
+</button>
+}

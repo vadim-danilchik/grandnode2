@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<TieredCompilation>true</TieredCompilation>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>..\..\Web\Grand.Web\Plugins\Checkout.OnePage\</OutputPath>
+		<OutDir>$(OutputPath)</OutDir>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutputPath>..\..\Web\Grand.Web\Plugins\Checkout.OnePage\</OutputPath>
+		<OutDir>$(OutputPath)</OutDir>
+	</PropertyGroup>
+	
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<RemoveDir Directories="..\..\Web\Grand.Web\Plugins\Checkout.OnePage\refs" />
+		<RemoveDir Directories="..\..\Web\Grand.Web\Plugins\Checkout.OnePage\ref" />
+	</Target>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Business\Grand.Business.Common\Grand.Business.Common.csproj">
+			<Private>false</Private>
+		</ProjectReference>
+	  <ProjectReference Include="..\..\Core\Grand.Infrastructure\Grand.Infrastructure.csproj">
+			<Private>false</Private>
+		</ProjectReference>
+	  <ProjectReference Include="..\..\Web\Grand.Web\Grand.Web.csproj">
+			<Private>false</Private>
+		</ProjectReference>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Update="logo.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,12 @@
+﻿@model ProductDetailsModel
+@{
+    var addtocomparelink = Url.RouteUrl("AddProductToCompare", new { productId = Model.Id });
+}
+@if (Model.CompareProductsEnabled)
+{
+<button class="btn add-to-compare-list-button mr-1 btn-outline-secondary" onclick="AxiosCart.addproducttocomparelist('@addtocomparelink');return false;" title="@Loc["Products.Compare.AddToCompareList"]">
+    <b-icon icon="shuffle"></b-icon>
+    <span class="sr-only">@Loc["Products.Compare.AddToCompareList"]</span>
+    <span class="text">@Loc["Products.Compare.AddToCompareList"]</span>
+</button>
+}

@@ -1,0 +1,236 @@
+﻿<script>
+    Vue.use(VueAwesomeSwiper)
+    var ppsliderQV = new Vue({
+        el: '#ppsliderQV',
+        data() {
+            return {
+                swiperOptionTop: {
+                    loop: true,
+                    loopedSlides: 4, // looped slides should be the same
+                    spaceBetween: 10,
+                    navigation: {
+                        nextEl: '#ppsliderQV .swiper-button-next',
+                        prevEl: '#ppsliderQV .swiper-button-prev'
+                    },
+                }
+            }
+        },
+        mounted() {
+        }
+    });
+</script>
+<b-modal id="ModalQuickView" ref="ModalQuickView" :dark-theme="darkMode" @@shown="initReservationQV();QuickViewShown()" size="xl" centered hide-footer hide-header>
+    <template v-if="PopupQuickViewVueModal !== null">
+        <button class="btn modal-close btn-secondary btn-block" @@click="$bvModal.hide('ModalQuickView')"><b-icon icon="x"></b-icon></button>
+        <div class="page product-details-page">
+            @{
+                <link rel="stylesheet" type="text/css" href="../Themes/eShop/Content/css/product/product.css">
+            }
+            <form method="post" id="product-details-form" :action="'/' + PopupQuickViewVueModal.SeName">
+                <div itemscope itemtype="http://schema.org/Product" :data-productid="PopupQuickViewVueModal.Id">
+                    <div class="position-relative col">
+                        <div class="row">
+                            <div class="px-0 col-md-5 col-lg-6 col-xl-7 col-12">
+                                <div class="gallery">
+                                    <template>
+                                        <div id="ppsliderQV" class="gallery-slider">
+                                            <template>
+                                                <swiper class="swiper gallery-top" :options="ppsliderQV.swiperOptionTop" ref="swiperTop">
+                                                    <swiper-slide v-for="item in PopupQuickViewVueModal.PictureModels">
+                                                        <img :src="item.ImageUrl" :data-srcs="item.ImageUrl" :alt="item.AlternateText" :title="item.Title" />
+                                                    </swiper-slide>
+                                                    <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
+                                                    <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+                                                </swiper>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="overview pl-md-3 pl-0 pr-0 col-md-7 col-lg-6 col-xl-5 col-12">
+                                <h1 itemprop="name" class="generalTitle">
+                                    {{PopupQuickViewVueModal.Name}}
+                                </h1>
+                                <template v-if="PopupQuickViewVueModal.ProductReviewOverview.AllowCustomerReviews">
+                                    <b-form-rating :id="'rating-inline-overview-' + PopupQuickViewVueModal.Id" class="p-0" variant="warning" no-border size="sm" show-value precision="2" readonly inline :value="PopupQuickViewVueModal.ProductReviewOverview.RatingSum / PopupQuickViewVueModal.ProductReviewOverview.TotalReviews"></b-form-rating>
+                                </template>
+                                <template v-if="PopupQuickViewVueModal.ShortDescription !== null">
+                                    <div class="short-description generalMarginSupporter">
+                                        {{PopupQuickViewVueModal.ShortDescription}}
+                                    </div>
+                                </template>
+                                <div class="overview-buttons generalMarginSupporter">
+                                    <div class="col-lg-12 px-0">
+                                        <partial name="_PricesQV" />
+                                    </div>
+                                    <div class="generalMarginSupporter">
+                                        <div role="group" class="input-group product-add-to-cart flex-nowrap">
+                                            <template v-if="PopupQuickViewVueModal.ProductType !== 10">
+                                                <partial name="_AddToCartQV" />
+                                            </template>
+                                        </div>
+                                        <div class="product-other-buttons">
+                                            <template v-if="PopupQuickViewVueModal.ProductType !== 10">
+                                                <template v-if="!PopupQuickViewVueModal.AddToCart.DisableWishlistButton || PopupQuickViewVueModal.CompareProductsEnabled || PopupQuickViewVueModal.EmailAFriendEnabled">
+                                                    <partial name="_AddToWishlistQV" />
+                                                    <partial name="_ProductsComparisonQV" />
+                                                    <partial name="_SendFriendQV" />
+                                                </template>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="quick-view-overview">
+                                    <template>
+                                        <template v-if="PopupQuickViewVueModal.StockAvailability !== ''">
+                                            <div class="stock">
+                                                <label class="col-form-label">@Loc["Products.Availability"]:</label>
+                                                <span class="value" :id="'stock-availability-value-' + PopupQuickViewVueModal.Id">
+                                                    <link itemprop="availability" href="http://schema.org/InStock" />
+                                                    <template v-if="PopupQuickViewVueModal.StockAvailability !== ''">
+                                                        {{PopupQuickViewVueModal.StockAvailability}}
+                                                    </template>
+                                                    <template v-else-if="PopupQuickViewVueModal.DisplayDiscontinuedMessage">
+                                                        @Loc["Products.Discontinued"]
+                                                    </template>
+                                                </span>
+                                            </div>
+                                        </template>
+
+                                        @* PRODUCT BUNDLES *@
+
+                                        <partial name="_ProductBundlesQV" />
+
+                                        @* ATTRIBUTES *@
+
+                                        <template v-if="PopupQuickViewVueModal.ProductAttributes.length > 0">
+                                            <div class="attributes">
+                                                <table class="table">
+                                                    <tr v-for="attribute in PopupQuickViewVueModal.ProductAttributes">
+                                                        <partial name="_AttributesQV" />
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </template>
+
+                                        @* WAREHOUSES *@
+
+                                        <partial name="_WarehousesQV" />
+
+                                        @* RESERVATIONS *@
+
+                                        <partial name="_ReservationInfoQV" />
+
+                                        @* GIFT VOUCHERS *@
+
+                                        <partial name="_GiftVoucherInfoQV" />
+
+                                        @* AUCTION *@
+
+                                        <partial name="_AuctionInfoQV" />
+
+                                        <template v-if="PopupQuickViewVueModal.ProductSpecifications.length > 0">
+                                            <div class="spec-container table-responsive">
+                                                <table class="table data-table border-bottom-0">
+                                                    <colgroup>
+                                                        <col />
+                                                        <col />
+                                                    </colgroup>
+                                                    <tbody>
+                                                        <template v-for="item in PopupQuickViewVueModal.ProductSpecifications">
+                                                            <tr class="spec">
+                                                                <td class="border-bottom border-top-0">
+                                                                    <div class="spec-name">
+                                                                        {{item.SpecificationAttributeName}}
+                                                                    </div>
+                                                                </td>
+                                                                <td class="border-bottom border-top-0">
+                                                                    <div class="spec-value d-inline-flex w-100">
+                                                                        <template v-if="item.ColorSquaresRgb !== null">
+                                                                            <div class="color-squares mb-2 mr-2">
+                                                                                <span class="color-container" :title="item.ValueRaw">
+                                                                                    <span class="color" v-bind:style="'background-color:' + item.ValueRaw">&nbsp;</span>
+                                                                                </span>
+                                                                            </div>
+                                                                        </template>
+                                                                        <template v-else>
+                                                                            <div class="mb-2 mr-2" v-html="item.ValueRaw"></div>
+                                                                        </template>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </template>
+
+                                        <template v-if="PopupQuickViewVueModal.ProductType == 10">
+                                            <template v-if="PopupQuickViewVueModal.AssociatedProducts.length > 0">
+                                                <template v-for="variant in PopupQuickViewVueModal.AssociatedProducts">
+                                                    <div class="card overflow-hidden associatedItem mb-3">
+                                                        <div class="row" no-gutters>
+                                                            <div class="col-lg-3 col-md-4">
+                                                                <img :id="'main-product-img-' + variant.Id" :alt="variant.DefaultPictureModel.AlternateText" :src="variant.DefaultPictureModel.ImageUrl" class="rounded-0 img-fluid">
+                                                            </div>
+                                                            <div class="col-lg-9 col-md-8">
+                                                                <div class="card-body overview" :title="variant.Name">
+
+                                                                    <!--short description-->
+
+                                                                    <div v-if="variant.ShortDescription !== null" class="short-description mb-3" v-html="variant.ShortDescription"></div>
+
+                                                                    <!--availability-->
+
+                                                                    <template v-if="variant.StockAvailability !== null">
+                                                                        <div class="stock">
+                                                                            <label class="col-form-label">@Loc["Products.Availability"]:</label>
+                                                                            <span class="value" :id="'stock-availability-value-' + variant.Id">
+                                                                                <link itemprop="availability" href="http://schema.org/InStock" />
+                                                                                {{variant.StockAvailability}}
+                                                                            </span>
+                                                                        </div>
+                                                                    </template>
+
+                                                                    <!--attributes-->
+                                                                    <template v-if="variant.ProductAttributes.length > 0">
+                                                                        <div class="attributes">
+                                                                            <table class="table">
+                                                                                <tr v-for="attribute in variant.ProductAttributes">
+                                                                                    <partial name="_AttributesQV" />
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    </template>
+
+                                                                    <!--price & add to cart-->
+
+                                                                    <partial name="_PricesGroupQV" />
+                                                                    <partial name="_AddToCartGroupQV" />
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                            <template v-else>
+                                                <div class="no-associated-products alert alert-info">
+                                                    @Loc["Products.NoAssociatedProducts"]
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <partial name="_LinkedProducts" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </template>
+</b-modal>

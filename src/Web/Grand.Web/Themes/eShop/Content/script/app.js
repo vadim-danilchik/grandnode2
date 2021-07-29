@@ -14,6 +14,7 @@
             searchbrands: null,
             searchblog: null,
             searchproducts: null,
+            leftSideOpen: false,
             flycartfirstload: true,
         }
     },
@@ -30,6 +31,7 @@
         if (localStorage.fluid == "fluid") this.fluid = "fluid";
         if (localStorage.fluid == "") this.fluid = "false";
         if (localStorage.darkMode == "true") this.darkMode = true;
+        if (localStorage.leftSideOpen == "true") this.leftSideOpen = true;
     },
     watch: {
         fluid: function (newName) {
