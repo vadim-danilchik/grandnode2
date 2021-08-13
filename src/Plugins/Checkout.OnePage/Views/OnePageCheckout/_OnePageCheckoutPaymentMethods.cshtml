@@ -12,11 +12,11 @@
     </div>
         <div v-if="vmorder.PaymentMethods !== []" class="list-inline col-12 mt-2 mb-2 px-0" id="payment-method-block">
             <div v-for="(paymentMethod, index) in vmorder.PaymentMethods" class="col-12 method-name px-0">
-                <label class="custom-control custom-radio flex-row">
+                <label class="custom-control custom-checkbox flex-row">
                     <input :id="'paymentmethod_' + index" type="radio" name="paymentmethod" 
                            :value="paymentMethod.PaymentMethodSystemName" 
                            :checked="paymentMethod.Selected" 
-                           onchange="vmorder.Checkout.selectPayment()"
+                           onchange="vmorder.Checkout.selectPayment(value)"
                            class="custom-control-input">
                     <span class="custom-control-label"></span>
                     <img v-if="paymentMethod.LogoUrl !== null" :src="paymentMethod.LogoUrl" :alt="paymentMethod.Name" />

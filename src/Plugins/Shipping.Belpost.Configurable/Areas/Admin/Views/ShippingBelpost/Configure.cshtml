@@ -1,0 +1,214 @@
+﻿@inject AdminAreaSettings adminAreaSettings
+@using Shipping.Belpost.Configurable.Models;
+@using Grand.Domain.Common;
+@{
+    Layout = "_ConfigurePlugin";
+}
+<input id="active-menu-item" type="hidden" value="/Admin/Shipping/Providers" />
+
+@{
+    var addNewByWeightUrl = Url.Action("AddByWeightPopup", "ShippingBelpost", new { btnId = "btnRefreshByWeight", formId = "shipping-byweight-form" });
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div id="shipping-byweight-grid"></div>
+    </div>
+    <div class="panel-footer">
+        <input type="submit" id="btnAddNewOptionByWeight" value="@Loc["Plugins.Shipping.Belpost.Configurable.AddRecord"]" onclick="javascript:OpenWindow('@(addNewByWeightUrl)', 800, 550, true); return false;" class="btn default" />
+        <input type="submit" id="btnRefreshByWeight" style="display: none" />
+    </div>
+</div>
+<script>
+        $(document).ready(function () {
+            $("#shipping-byweight-grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@Html.Raw(Url.Action("RatesByWeightList", "ShippingBelpost"))",
+                            type: "POST",
+                            dataType: "json",
+                            data: addAntiForgeryToken
+                        },
+                        destroy: {
+                            url: "@Html.Raw(Url.Action("RateByWeightDelete", "ShippingBelpost"))",
+                            type: "POST",
+                            dataType: "json",
+                            data: addAntiForgeryToken
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        errors: "Errors",
+                        model: {
+                            id: "Id"
+                        }
+                    },
+                    requestEnd: function (e) {
+                        if (e.type == "update") {
+                            this.read();
+                        }
+                    },
+                    error: function (e) {
+                        display_kendoui_grid_error(e);
+                        // Cancel the changes
+                        this.cancelChanges();
+                    },
+                    pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+                },
+                pageable: {
+                    refresh: true,
+                    pageSizes: [@(adminAreaSettings.GridPageSizes)]
+                },
+                editable: {
+                    confirmation: false,
+                    mode: "inline"
+                },
+                scrollable: false,
+                columns: [{
+                    field: "WeightFrom",
+                    title: "@Loc["Plugins.Shipping.Belpost.Configurable.Fields.WeightFrom"]",
+                    width: 300
+                }, {
+                    field: "WeightTo",
+                    title: "@Loc["Plugins.Shipping.Belpost.Configurable.Fields.WeightTo"]",
+                    width: 300
+                }, {
+                    field: "WeightRate",
+                    title: "@Loc["Plugins.Shipping.Belpost.Configurable.Fields.WeightRate"]",
+                    width: 200
+                }, {
+                    field: "Id",
+                    title: "@Loc["Admin.Common.Edit"]",
+                    width: 100,
+                    template: "<input type='submit' value='@Loc["Admin.Common.Edit"]' onclick=\"javascript:OpenWindow('@Url.Action("EditByWeightPopup", "ShippingBelpost")?id=#=Id#&btnId=btnRefreshByWeight&formId=shipping-byweight-form', 800, 400, true); return false;\" class='k-button k-button-icontext' />"
+                },  {
+                    command: { name: "destroy", text: "@Loc["Admin.Common.Delete"]" },
+                    title: "@Loc["Admin.Common.Delete"]",
+                    width: 100
+                }]
+            });
+        });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#btnRefreshByWeight').click(function () {
+            //refresh grid
+            var grid = $("#shipping-byweight-grid").data('kendoGrid');
+            //grid.dataSource.page(1); //new search. Set page size to 1
+            grid.dataSource.read();
+
+            //return false to don't reload a page
+            return false;
+        });
+    });
+</script>
+
+
+@{
+    var addNewByTotalUrl = Url.Action("AddByTotalPopup", "ShippingBelpost", new { btnId = "btnRefreshByTotal", formId = "shipping-bytotal-form" });
+}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div id="shipping-bytotal-grid"></div>
+    </div>
+    <div class="panel-footer">
+        <input type="submit" id="btnAddNewOptionByTotal" value="@Loc["Plugins.Shipping.Belpost.Configurable.AddRecord"]" onclick="javascript:OpenWindow('@(addNewByTotalUrl)', 800, 550, true); return false;" class="btn default" />
+        <input type="submit" id="btnRefreshByTotal" style="display: none" />
+    </div>
+</div>
+<script>
+        $(document).ready(function () {
+            $("#shipping-bytotal-grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@Html.Raw(Url.Action("RatesByTotalList", "ShippingBelpost"))",
+                            type: "POST",
+                            dataType: "json",
+                            data: addAntiForgeryToken
+                        },
+                        destroy: {
+                            url: "@Html.Raw(Url.Action("RateByTotalDelete", "ShippingBelpost"))",
+                            type: "POST",
+                            dataType: "json",
+                            data: addAntiForgeryToken
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        errors: "Errors",
+                        model: {
+                            id: "Id"
+                        }
+                    },
+                    requestEnd: function (e) {
+                        if (e.type == "update") {
+                            this.read();
+                        }
+                    },
+                    error: function (e) {
+                        display_kendoui_grid_error(e);
+                        // Cancel the changes
+                        this.cancelChanges();
+                    },
+                    pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+                },
+                pageable: {
+                    refresh: true,
+                    pageSizes: [@(adminAreaSettings.GridPageSizes)]
+                },
+                editable: {
+                    confirmation: false,
+                    mode: "inline"
+                },
+                scrollable: false,
+                columns: [{
+                    field: "TotalFrom",
+                    title: "@Loc["Plugins.Shipping.Belpost.Configurable.Fields.TotalFrom"]",
+                    width: 300
+                }, {
+                    field: "TotalTo",
+                    title: "@Loc["Plugins.Shipping.Belpost.Configurable.Fields.TotalTo"]",
+                    width: 300
+                }, {
+                    field: "TotalRate",
+                    title: "@Loc["Plugins.Shipping.Belpost.Configurable.Fields.TotalRate"]",
+                    width: 200
+                }, {
+                    field: "Id",
+                    title: "@Loc["Admin.Common.Edit"]",
+                    width: 100,
+                    template: "<input type='submit' value='@Loc["Admin.Common.Edit"]' onclick=\"javascript:OpenWindow('@Url.Action("EditByTotalPopup", "ShippingBelpost")?id=#=Id#&btnId=btnRefreshByTotal&formId=shipping-bytotal-form', 800, 400, true); return false;\" class='k-button k-button-icontext' />"
+                },  {
+                    command: { name: "destroy", text: "@Loc["Admin.Common.Delete"]" },
+                    title: "@Loc["Admin.Common.Delete"]",
+                    width: 100
+                }]
+            });
+        });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#btnRefreshByTotal').click(function () {
+            //refresh grid
+            var grid = $("#shipping-bytotal-grid").data('kendoGrid');
+            //grid.dataSource.page(1); //new search. Set page size to 1
+            grid.dataSource.read();
+
+            //return false to don't reload a page
+            return false;
+        });
+    });
+</script>
+

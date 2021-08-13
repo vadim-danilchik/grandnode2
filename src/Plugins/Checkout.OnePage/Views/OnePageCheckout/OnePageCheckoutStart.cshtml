@@ -17,79 +17,73 @@
     @await Component.InvokeAsync("Widget", new { widgetZone = "checkout_content_before" })
     <div class="col-12 px-0">
         <div class="form-row">
-            <div class="col-xl-8 col-12">
+            <div class="col-12">
                 <template>
-                    <div class="form-row">
-                        <div class="col-6" id="checkout-steps">
-                            @if (Model.ShippingRequired)
-                            {
+                    <form id="checkout-form">
+                        <div class="form-row">
+                            <div class="col-xl-4 col-12" id="checkout-steps">
+                                @if (Model.ShippingRequired)
+                                {
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <span block id="button-shipping" class="">@Loc["Checkout.ShippingAddress"]</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div action="" id="co-shipping-form">
+                                                <div id="checkout-shipping-load">
+                                                    <partial name="_OnePageCheckoutShippingAddress" model="Model.ShippingAddress" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-xl-4 col-6">
+                                @if (Model.ShippingRequired)
+                                {
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <span block id="button-shipping-method" class="">@Loc["Checkout.ShippingMethod"]</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="co-shipping-method-form" action="">
+                                                <div id="checkout-shipping-method-load">
+                                                    @*In that field all available shipping methods will be loaded*@
+                                                    <partial name="_OnePageCheckoutShippingMethods" model="Model.ShippingAddress" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                            <div class="col-xl-4 col-6">
                                 <div class="card">
-                                    <div class="card-header">
-                                        <button block id="button-shipping" class="btn btn-info">@Loc["Checkout.ShippingAddress"]</button>
+                                    <div class="card-header" role="tab">
+                                        <span block id="button-payment-method" class="">@Loc["Checkout.PaymentMethod"]</span>
                                     </div>
                                     <div class="card-body">
-                                        <form action="" id="co-shipping-form">
-                                            <div id="checkout-shipping-load">
-                                                <partial name="_OnePageCheckoutShippingAddress" model="Model.ShippingAddress" />
+                                        <div action="" id="co-payment-method-form">
+                                            <div id="checkout-payment-method-load">
+                                                @*In that field all available payment methods will be loaded*@
+                                                <partial name="_OnePageCheckoutPaymentMethods" model="Model" />
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            }
-                            <div class="card">
-                                <div class="card-header" role="tab">
-                                    <button block id="button-payment-info" class="btn btn-info">@Loc["Checkout.PaymentInfo"]</button>
-                                </div>
-                                <div class="card-body">
-                                    <form action="" id="co-payment-info-form">
-                                        <div id="checkout-payment-info-load">
-                                            @*In that field payment info section will be loaded*@
-                                            <partial name="_OnePageCheckoutPaymentInfo" />
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            @if (Model.ShippingRequired)
-                            {
-                                <div class="card">
-                                    <div class="card-header">
-                                        <button block id="button-shipping-method" class="btn btn-info">@Loc["Checkout.ShippingMethod"]</button>
-                                    </div>
-                                    <div class="card-body">
-                                        <form id="co-shipping-method-form" action="">
-                                            <div id="checkout-shipping-method-load">
-                                                @*In that field all available shipping methods will be loaded*@
-                                                <partial name="_OnePageCheckoutShippingMethods" model="Model.ShippingAddress" />
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            }
-                            <div class="card">
-                                <div class="card-header" role="tab">
-                                    <button block id="button-payment-method" class="btn btn-info">@Loc["Checkout.PaymentMethod"]</button>
-                                </div>
-                                <div class="card-body">
-                                    <form action="" id="co-payment-method-form">
-                                        <div id="checkout-payment-method-load">
-                                            @*In that field all available payment methods will be loaded*@
-                                            <partial name="_OnePageCheckoutPaymentMethods" model="Model" />
-                                        </div>
-                                    </form>
-                                </div>
+                        <div class="form-row">
+                            <div class="col-12 buttons my-3 d-flex" id="confirm-order-buttons-container">
+                                <input type="button" class="btn btn-info confirm-order-next-step-button ml-auto" @@click="validateBeforeClick($event); vmorder.setDisabled(event)" onclick="vmorder.Checkout.save()" value="@Loc["Common.Confirm"]" />
                             </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-12 buttons py-1 mt-3 px-0" id="confirm-order-buttons-container">
-                            <input type="button" class="btn btn-info confirm-order-next-step-button" @@click="validateBeforeClick($event); vmorder.setDisabled(event)" onclick="vmorder.Checkout.save()" value="@Loc["Common.Confirm"]" />
-                        </div>                        
-                    </div>
+                    </form>
                 </template>
             </div>
-            <div class="col-xl-4 col-12">
+        </div>
+        <div class="form-row">
+            <div class="col-12">
                 <div class="opc-totals">
                     <partial name="_OnePageCheckoutSummary" />
                 </div>
@@ -125,8 +119,6 @@
             LoyaltyPointsBalance: null,
             LoyaltyPointsEnoughToPayForOrder: null,
             UseLoyaltyPoints: null,
-            // payment info
-            PaymentViewComponentName: null,
             // confirm order
             MinOrderTotalWarning: null,
             TermsOfServiceOnOrderConfirmPage: null,
@@ -136,8 +128,6 @@
             acceptTerms: false,
             // checkout steps methods
             Checkout: null,
-            vPaymentInfo: null,
-            vConfirmOrder: null,
             // paymentinfobussy
             paymentBussy: false,
             // shippingbussy
@@ -150,8 +140,6 @@
     mounted() {
         this.Model = @Json.Serialize(Model);
         this.vmCheckout();
-        //this.vmPaymentInfo();
-        //this.vmConfirmOrder();
         this.updateCart();
         this.updateTotals();
         this.cartView();
@@ -169,24 +157,19 @@
             this.Checkout = {
                 loadWaiting: false,
                 failureUrl: false,
-                shippingForm: false,
-                shippingMethodForm: false,
-                paymentMethodForm: false,
-                paymentMethodUrl: false,
                 saveUrl: false,
                 successUrl: false,
                 isSuccess: false,
+                checkoutForm: false,
+                saveShippingMethodUrl: false,
 
                 init: function () {
                     this.loadWaiting = false;
                     this.failureUrl = '/cart/';
-                    this.shippingForm = '#co-shipping-form';
-                    this.shippingMethodForm = '#co-shipping-method-form';
-                    this.paymentMethodForm = '#co-payment-method-form';
-                    this.paymentInfoForm = '#co-payment-info-form';
-                    this.paymentMethodUrl = '/checkout/SelectPaymentMethod/';
                     this.saveUrl = '/checkout/ConfirmOrder/';
                     this.successUrl = '/checkout/completed/';
+                    this.checkoutForm = '#checkout-form';
+                    this.saveShippingMethodUrl = '/onepagecheckout/SaveShippingMethod/';
 
                     vmorder.ShippingAllowPickUpInStore = vmorder.Model.ShippingAddress.AllowPickUpInStore;
                     vmorder.ShippingExistingAddresses = vmorder.Model.ShippingAddress.ExistingAddresses;
@@ -199,6 +182,7 @@
 
                     vmorder.ShippingMethods = vmorder.Model.ShippingMethod.ShippingMethods;
                     vmorder.ShippingMethodWarnings = vmorder.Model.ShippingMethod.Warnings;
+                    vmorder.selectedShippingMethod = vmorder.ShippingMethods.findIndex(currentValue => currentValue.Selected);
                     if (vmorder.ShippingMethods.length > 0) {
                         var index;
                         if (vmorder.selectedShippingMethod !== undefined) {
@@ -209,7 +193,6 @@
                         var elem = vmorder.ShippingMethods[index].Name + '___' + vmorder.ShippingMethods[index].ShippingRateProviderSystemName;
                         vmorder.loadPartialView(elem);
                     }
-                    vmorder.updateTotals();
 
                     vmorder.DisplayLoyaltyPoints = vmorder.Model.PaymentMethod.DisplayLoyaltyPoints;
                     vmorder.PaymentMethods = vmorder.Model.PaymentMethod.PaymentMethods;
@@ -224,7 +207,6 @@
                         } else {
                             index = 0;
                         }
-                        vmorder.loadPaymentInfoPartialView(vmorder.PaymentMethods[index].PaymentViewComponentName);
                     }
                 },
 
@@ -258,7 +240,6 @@
                         container.classList.add('disabled');
                         container.style.opacity = '0.5';
                         this._disableEnableAll(container, true);
-                        document.querySelector('#' + step + '-please-wait').style.display = 'block';
                     } else {
                         if (this.loadWaiting) {
                             var container = document.querySelector('#' + this.loadWaiting + '-buttons-container');
@@ -268,7 +249,6 @@
                                 container.style.opacity = '1';
                             }
                             this._disableEnableAll(container, isDisabled);
-                            document.querySelector('#' + this.loadWaiting + '-please-wait').style.display = 'none';
                         }
                     }
                     this.loadWaiting = step;
@@ -289,69 +269,10 @@
                             vmorder.ShippingWarnings = model.Warnings;
                             vmorder.ShippingAddress = true;
                         }
-                        if (response.data.goto_section == "shipping_method") {
-                            var model = response.data.update_section.model;
-                            vmorder.ShippingMethods = model.ShippingMethods;
-                            vmorder.ShippingMethodWarnings = model.Warnings;
-                            vmorder.ShippingMethod = true;
-                            if (model.ShippingMethods.length > 0) {
-                                var index;
-                                if (vmorder.selectedShippingMethod !== undefined) {
-                                    index = vmorder.selectedShippingMethod;
-                                } else {
-                                    index = 0;
-                                }
-                                var elem = model.ShippingMethods[index].Name + '___' + model.ShippingMethods[index].ShippingRateProviderSystemName;
-                                vmorder.loadPartialView(elem);
-                            }
-                            vmorder.updateTotals();
-                        }
-                        if (response.data.goto_section == "payment_method") {
-                            var model = response.data.update_section.model;
-                            vmorder.DisplayLoyaltyPoints = model.DisplayLoyaltyPoints;
-                            vmorder.PaymentMethods = model.PaymentMethods;
-                            vmorder.LoyaltyPointsAmount = model.LoyaltyPointsAmount;
-                            vmorder.LoyaltyPointsBalance = model.LoyaltyPointsBalance;
-                            vmorder.LoyaltyPointsEnoughToPayForOrder = model.LoyaltyPointsEnoughToPayForOrder;
-                            vmorder.UseLoyaltyPoints = model.UseLoyaltyPoints;
-                            vmorder.PaymentMethod = true;
-
-                            vmorder.updateTotals();
-
-                        }
-                        if (response.data.goto_section == "payment_info") {
-                            var model = response.data.update_section.model;
-                            vmorder.PaymentViewComponentName = model.PaymentViewComponentName;
-                            vmorder.PaymentInfo = true;
-                            vmorder.paymentBussy = true;
-                            axios({
-                                baseURL: '/Component/Index?Name=' + model.PaymentViewComponentName,
-                                method: 'get',
-                                data: null,
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json',
-                                }
-                            }).then(response => {
-                                vmorder.paymentBussy = false;
-                                var html = response.data;
-                                document.querySelector('.payment-info .info').innerHTML = html;
-                            }).then(function () {
-                                if (document.querySelector('.script-tag-info')) {
-                                    runScripts(document.querySelector('.script-tag-info'))
-                                }
-                            });
-
-                            this.updateOrderSummary(false);
-                            vmorder.updateTotals();
-
-                        }
                         if (response.data.goto_section == "confirm_order") {
                             var model = response.data.update_section.model;
                             vmorder.MinOrderTotalWarning = model.MinOrderTotalWarning;
                             vmorder.ConfirmWarnings = model.Warnings;
-
-                            vmorder.Confirm = true;
 
                             setTimeout(function () {
                                 var c_back = document.getElementById('back-confirm_order').getAttribute('onclick');
@@ -361,18 +282,10 @@
                             this.updateOrderSummary(true);
                             vmorder.updateTotals();
                         }
-
-                        if (!response.data.wrong_billing_address) {
-                            if (!(document.querySelector("#opc-confirm-order").classList.contains('show'))) {
-                                vm.$root.$emit('bv::toggle::collapse', 'opc-' + response.data.update_section.name)
-                                vmorder.vmresetSteps(document.querySelector('#opc-' + response.data.update_section.name));
-                            }
+                        if (response.data.goto_section == "shipping_method") {
+                            this.updateOrderSummary(true);
+                            vmorder.updateTotals();
                         }
-                    }
-                    if (response.data.allow_sections) {
-                        response.data.allow_sections.forEach(function (e) {
-                            document.querySelector('#button-' + e).classList.add('allow');
-                        });
                     }
 
                     if (document.querySelector("#shipping-address-select")) {
@@ -384,6 +297,7 @@
                     }
                     return false;
                 },
+
                 updateOrderSummary: function (displayOrderReviewData) {
                     axios({
                         baseURL: '/Component/Index?Name=OrderSummary',
@@ -401,21 +315,43 @@
                     });
                 },
 
+                saveShippingMethod: function () {
+                    if (vmorder.Checkout.loadWaiting != false) return;
+                    vmorder.Checkout.setLoadWaiting('confirm-order');
+
+                    if (this.validateShippingMethods()) {
+                        var checkoutEl = document.querySelector(this.checkoutForm);
+                        var data = new FormData(checkoutEl);
+
+                        axios({
+                            url: this.saveShippingMethodUrl,
+                            method: 'post',
+                            data: data,
+                        }).then(function (response) {
+                            vmorder.Checkout.nextStep(response);
+                        }).catch(function (error) {
+                            error.axiosFailure;
+                        }).then(function () {
+                            vmorder.updateTotals();
+                            vmorder.Checkout.setLoadWaiting(false);
+                        });
+                    }
+                },
+
                 save: function () {
                     if (vmorder.Checkout.loadWaiting != false) return;
                     vmorder.Checkout.setLoadWaiting('confirm-order');
 
-                    if (this.validateShippingMethods() && this.validatePaymentMethods()) {
-                        var form = document.querySelector(this.form);
-                        var data = new FormData(form);
+                    if (this.validateShippingMethods()) {
+                        var checkoutEl = document.querySelector(this.checkoutForm);
+                        var data = new FormData(checkoutEl);
+
                         axios({
                             url: this.saveUrl,
                             method: 'post',
                             data: data,
                         }).then(function (response) {
-                            if (response.data.goto_section !== undefined) {
-                                vmorder.Checkout.nextStep(response);
-                            }
+                            vmorder.Checkout.nextStep(response);
                         }).catch(function (error) {
                             error.axiosFailure;
                         }).then(function () {
@@ -462,7 +398,7 @@
                         selectElement.value = '';
                     }
                 },
-                
+
                 validateShippingMethods: function () {
                     var methods = document.getElementsByName('shippingoption');
                     if (methods.length == 0) {
@@ -479,22 +415,6 @@
                     return false;
                 },
 
-                validatePaymentMethods: function () {
-                    var methods = document.getElementsByName('paymentmethod');
-                    if (methods.length == 0) {
-                        alert('Your order cannot be completed at this time as there is no payment methods available for it.');
-                        return false;
-                    }
-
-                    for (var i = 0; i < methods.length; i++) {
-                        if (methods[i].checked) {
-                            return true;
-                        }
-                    }
-                    alert('Please specify payment method.');
-                    return false;
-                },
-
                 toggleUseLoyaltyPoints: function (useLoyaltyPointsInput) {
                     if (useLoyaltyPointsInput.checked) {
                         document.querySelector('#payment-method-block').style.display = 'none';
@@ -503,173 +423,6 @@
                         document.querySelector('#payment-method-block').style.display = 'block';
                     }
                 },
-
-                selectPayment: function () {
-                    if (this.validatePaymentMethods()) {
-                        var form = document.querySelector(this.paymentMethodForm);
-                        var data = new FormData(form);
-                        axios({
-                            url: this.paymentMethodUrl,
-                            method: 'post',
-                            data: data,
-                        }).then(function (response) {
-                            if (response.data.goto_section !== undefined) {
-                                if (response.data.error) {
-                                    if ((typeof response.data.message) == 'string') {
-                                        alert(response.data.message);
-                                    } else {
-                                        alert(response.data.message.join("\n"));
-                                    }
-                                    return false;
-                                }
-
-                                if (response.data.goto_section == "payment_info") {
-                                    var model = response.data.update_section.model;
-                                    vmorder.PaymentViewComponentName = model.PaymentViewComponentName;
-                                    vmorder.paymentBussy = true;
-
-                                    vmorder.loadPaymentInfoPartialView(model.PaymentViewComponentName);
-
-                                    this.updateOrderSummary(false);
-                                    vmorder.updateTotals();
-                                }
-                            }
-                            if (response.data.error) {
-                                alert(response.data.message);
-                            }
-                        }).catch(function (error) {
-                            error.axiosFailure;
-                        });
-                    }
-                }
-            };
-        },
-        vmPaymentInfo() {
-            this.vPaymentInfo = {
-                form: false,
-                saveUrl: false,
-
-                init: function (form, saveUrl) {
-                    this.form = form;
-                    this.saveUrl = saveUrl;
-                },
-
-                save: function () {
-                    if (vmorder.Checkout.loadWaiting != false) return;
-
-                    vmorder.Checkout.setLoadWaiting('payment-info');
-                    var form = document.querySelector(this.form);
-                    var data = new FormData(form);
-
-                    axios({
-                        url: this.saveUrl,
-                        method: 'post',
-                        data: data,
-                    }).then(function (response) {
-                        if (response.data.goto_section !== undefined) {
-                            vmorder.vPaymentInfo.nextStep(response);
-                        }
-                        if (response.data.update_section !== undefined && response.data.update_section.name == 'payment-info') {
-                            var model = response.data.update_section.model;
-                            vm.PaymentViewComponentName = model.PaymentViewComponentName,
-                                vm.PaymentInfo = true;
-
-                            axios({
-                                baseURL: '/Component/Form?Name=' + model.PaymentViewComponentName,
-                                method: 'post',
-                                data: data,
-                            }).then(response => {
-                                var html = response.data;
-                                document.querySelector('.payment-info .info').innerHTML = html;
-                            })
-
-                        }
-
-                    }).catch(function (error) {
-                        error.axiosFailure;
-                    }).then(function () {
-                        vmorder.vPaymentInfo.resetLoadWaiting()
-                    });
-                },
-
-                resetLoadWaiting: function () {
-                    vmorder.Checkout.setLoadWaiting(false);
-                },
-
-                nextStep: function (response) {
-                    if (response.data.error) {
-                        if ((typeof response.data.message) == 'string') {
-                            alert(response.data.message);
-                        } else {
-                            alert(response.data.message.join("\n"));
-                        }
-
-                        return false;
-                    }
-
-                    vmorder.Checkout.setStepResponse(response);
-                }
-            };
-        },
-        vmConfirmOrder() {
-            this.vConfirmOrder = {
-                form: false,
-                saveUrl: false,
-                isSuccess: false,
-
-                init: function (saveUrl, successUrl) {
-                    this.saveUrl = saveUrl;
-                    this.successUrl = successUrl;
-                },
-
-                save: function () {
-                    if (vmorder.Checkout.loadWaiting != false) return;
-
-                    // terms of service
-                    var termOfServiceOk = true;
-                    if (termOfServiceOk) {
-                        vmorder.Checkout.setLoadWaiting('confirm-order');
-                        axios({
-                            url: this.saveUrl,
-                            method: 'post',
-                        }).then(function (response) {
-                            vmorder.vConfirmOrder.nextStep(response);
-                        }).catch(function (error) {
-                            error.axiosFailure;
-                        }).then(function () {
-                            vmorder.vConfirmOrder.resetLoadWaiting()
-                        });
-                    } else {
-                        return false;
-                    }
-                },
-
-                resetLoadWaiting: function (transport) {
-                    vmorder.Checkout.setLoadWaiting(false, vmorder.vConfirmOrder.isSuccess);
-                },
-
-                nextStep: function (response) {
-                    if (response.data.error) {
-                        if ((typeof response.data.message) == 'string') {
-                            alert(response.data.message);
-                        } else {
-                            alert(response.data.message.join("\n"));
-                        }
-
-                        return false;
-                    }
-
-                    if (response.data.redirect) {
-                        vmorder.vConfirmOrder.isSuccess = true;
-                        location.href = response.data.redirect;
-                        return;
-                    }
-                    if (response.data.success) {
-                        vmorder.vConfirmOrder.isSuccess = true;
-                        window.location = vmorder.vConfirmOrder.successUrl;
-                    }
-                    vmorder.Checkout.setStepResponse(response);
-                }
             };
         },
         cartView() {
@@ -737,6 +490,14 @@
         },
         loadPartialView(arg_value) {
             vmorder.shippingBussy = true;
+
+            var el = document.getElementsByName("selectedShippingOption");
+            if (el.length > 0) {
+                el[0].removeEventListener("change", function () {
+                    vmorder.Checkout.saveShippingMethod();
+                }, false);
+            }
+
             var url = window.location.origin + '/checkout/GetShippingFormPartialView?shippingOption=' + arg_value;
             axios({
                 url: url,
@@ -744,28 +505,21 @@
             }).then(function (response) {
                 vmorder.shippingBussy = false;
                 document.getElementById('shipping_form').innerHTML = response.data;
-            }).then(function () {
+                return { data: response.data };
+            }).then(function (response) {
                 if (document.querySelector('.script-tag')) {
                     runScripts(document.querySelector('.script-tag'))
                 }
-            });
-        },
-        loadPaymentInfoPartialView(arg_value) {
-            axios({
-                baseURL: '/Component/Index?Name=' + arg_value,
-                method: 'get',
-                data: null,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                if (response.data.length === 0) {
+                    vmorder.Checkout.saveShippingMethod();
                 }
-            }).then(response => {
-                vmorder.paymentBussy = false;
-                var html = response.data;
-                document.querySelector('.payment-info .info').innerHTML = html;
-            }).then(function () {
-                if (document.querySelector('.script-tag-info')) {
-                    runScripts(document.querySelector('.script-tag-info'))
+                else {
+                    var el = document.getElementsByName("selectedShippingOption");
+                    if (el.length > 0) {
+                        el[0].addEventListener("change", function () {
+                            vmorder.Checkout.saveShippingMethod();
+                        }, false);
+                    }
                 }
             });
         }

@@ -17,7 +17,9 @@
                         <span :for="'shippingoption_' + index" class="custom-control-description">
                             {{shippingMethod.Name}} ({{shippingMethod.Fee}})
                             <template v-if="shippingMethod.Description !== null">
-                                <span v-html="shippingMethod.Description"></span>
+                                <p class="mb-0">
+                                    <span v-html="shippingMethod.Description"></span>
+                                </p>
                             </template>
                         </span>
                     </label>

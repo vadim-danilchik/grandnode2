@@ -1,11 +1,17 @@
-﻿
-@font-face {
+﻿/*@font-face {
+    font-family: 'Roboto';
+    src: url('../../fonts/subset-Roboto-Regular.woff2') format('woff2'), url('../../fonts/subset-Roboto-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}*/
+/*@font-face {
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-display: swap;
     src: url(../fonts/Roboto-Regula.ttf) format('truetype');
-}
+}*/
 
 :root {
     --accent-color: #17a2b8;
@@ -90,7 +96,7 @@ a:hover {
 body {
     background-color: var(--secondary-color);
     color: var(--secondary-text-color);
-    font-family: 'Roboto', sans-serif;
+/*    font-family: 'Roboto', sans-serif;*/
 }
 body:not(.modal-open) {
     overflow-x: hidden;
@@ -411,7 +417,7 @@ button.close {
 }
 /* page */
 .page {
-    margin: 15px 0 140px 0;
+    margin: 15px 0 110px 0;
 }
 
 /* no data */
@@ -440,11 +446,12 @@ button.close {
 /* table */
 
 .table, table {
-    color: #aaa;
+    color: var(--secondary-text-color);
 }
 
 .table-hover tbody tr:hover {
-    color: #fff;
+    color: var(--secondary-text-hover-color);
+    background-color: var(--secondary-color);
 }
 
 /* dropdowns */
@@ -1099,7 +1106,7 @@ ul.Menu.-vertical {
 /* buttons */
 
 .btn {
-    padding: .8rem 2.5rem;
+    /*padding: .8rem 2.5rem;*/
     font-weight: 500;
     border-radius: 0;
 }
@@ -1147,9 +1154,9 @@ ul.Menu.-vertical {
 /* headings */
 
 .generalTitle {
-    position: relative;
+    /*position: relative;*/
     font-weight: 400;
-    margin: 0 0 15px 0;
+    margin: 0 0 25px 0;
 }
 
     .generalTitle span {
@@ -1904,7 +1911,8 @@ input:checked ~ .color-container .color::before {
     align-items: center;
     justify-content: center;
     margin: 10px 0 0 0;
-    padding: 12px 14px;
+    padding-right: 14px;
+    padding-left: 14px;
     width: 100%;
     border-color: var(--secondary-border-color);
     background-color: var(--secondary-color);
@@ -2487,7 +2495,7 @@ input:checked ~ .color-container .color::before {
 
     .header-nav .search-item {
         position: absolute;
-        top: -48px;
+        top: -38px;
         width: calc(100% + 20px);
         left: -10px;
         box-shadow: 0px -10px 9px rgba(0, 0, 0, .2);

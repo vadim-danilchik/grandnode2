@@ -495,15 +495,47 @@ a.left-side-toggler {
 
 /* pagintaion */
 
-.pagination .page-link {
-    color: #000;
-    font-weight: 500;
-    background-color: #f8f9fa;
+.pagination {
+    flex-wrap: wrap;
 }
 
-.pagination .current-page.page-item .page-link {
-    color: #fff;
-    background-color: #17a2b8;
+    .pagination .page-item {
+        margin: 0 0 5px 0;
+    }
+
+    .pagination .page-link {
+        color: #000;
+        font-weight: 500;
+        background-color: #f8f9fa;
+        cursor: pointer;
+    }
+
+    .pagination .currentpage.page-item .page-link {
+        pointer-events: none;
+    }
+
+    .pagination .currentpage.page-item .page-link {
+        color: #fff;
+        background-color: #0E606C;
+        border-color: #0E606C;
+    }
+
+    .pagination .page-item:not(.currentpage):hover .page-link {
+        color: #fff;
+        background-color: #1FB0C7;
+        border-color: #1FB0C7;
+    }
+
+@media (max-width: 575px) {
+    .sort-container, .sort-container:not(:last-child) {
+        width: 100%;
+        margin: 0 0 10px 0;
+    }
+
+        .sort-container.change-view {
+            justify-content: flex-end;
+            margin: 10px 10px 0 0;
+        }
 }
 
 /* new cols */

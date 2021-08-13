@@ -46,9 +46,7 @@ namespace Shipping.ShippingPickupPoint
             await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.Fields.ZipPostalCode", "Zip postal code");
             await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.Fields.Country", "Country");
 
-            await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.ShippingPickupPointName", "Point Name");
-            await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.Address", "Address");
-            await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.MethodAndFee", "{0} ({1})");
+            await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.MethodAndFee", "{0}");
 
             await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.AddNew", "Add New Point");
             await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.RequiredShippingPickupPointName", "Shipping Point Name Is Required");
@@ -86,8 +84,6 @@ namespace Shipping.ShippingPickupPoint
             await this.DeletePluginTranslationResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.Fields.ZipPostalCode");
             await this.DeletePluginTranslationResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.Fields.Country");
 
-            await this.DeletePluginTranslationResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.ShippingPickupPointName");
-            await this.DeletePluginTranslationResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.Address");
             await this.DeletePluginTranslationResource(_translationService, _languageService, "Shipping.ShippingPickupPoint.MethodAndFee");
 
 

@@ -5,12 +5,10 @@
 <div class="form-horizontal">
     <div class="form-body">
         <div class="row">
-            <div class="col-md-2 text-right">@Loc["Shipping.ShippingPickupPoint.ShippingPickupPointName"]</div>
-            <div class="col-md-10">@Loc["Shipping.ShippingPickupPoint.MethodAndFee", Model.ShippingPickupPointName, Model.PickupFee]</div>
+            <div class="col-12">@Loc["Shipping.ShippingPickupPoint.MethodAndFee", Model.ShippingPickupPointName]</div>
         </div>
         <div class="row">
-            <div class="col-md-2 text-right"><label for="">@Loc["Shipping.ShippingPickupPoint.Address"]</label></div>
-            <div class="col-md-10">@Model.CountryName,&nbsp;@Model.ZipPostalCode&nbsp;@Model.City,&nbsp;@Model.Address1</div>
+            <div class="col-md-12">@Model.CountryName,&nbsp;@Model.ZipPostalCode&nbsp;@Model.City,&nbsp;@Model.Address1</div>
         </div>
     </div>
 </div>

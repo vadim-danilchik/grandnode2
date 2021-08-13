@@ -29,10 +29,6 @@ namespace Checkout.OnePage
                             pattern + "checkout/completed/{orderId?}",
                             new { controller = "OnePageCheckout", action = "OnePageCheckoutCompleted" });
 
-            endpointRouteBuilder.MapControllerRoute("CheckoutSelectPayment",
-                            pattern + "checkout/SelectPaymentMethod/",
-                            new { controller = "OnePageCheckout", action = "SelectPaymentMethod" });
-
             endpointRouteBuilder.MapControllerRoute("CheckoutConfirmOrder",
                             pattern + "checkout/ConfirmOrder/",
                             new { controller = "OnePageCheckout", action = "ConfirmOrder" });

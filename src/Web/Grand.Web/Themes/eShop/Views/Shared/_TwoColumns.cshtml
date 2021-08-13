@@ -72,7 +72,7 @@
                        shadow>
             </b-sidebar>
         </div>*@
-    <div class="generalLeftSide col-sm-8 col-md-6 col-lg-4 col-xl-3 col-9" onclick="StopPropagation(event)">
+    <div class="generalLeftSide col-sm-6 col-md-6 col-lg-4 col-xl-3 col-9" onclick="StopPropagation(event)">
         @if (IsSectionDefined("left"))
         {
             @RenderSection("left")
@@ -95,7 +95,7 @@
             @await Component.InvokeAsync("Widget", new { widgetZone = "left_side_column_after" })
         }
     </div>
-    <div class="generalSideRight col-md-12 col-lg-9">
+    <div class="generalSideRight col-sm-6 col-md-6 col-lg-8 col-xl-9">
         @await Component.InvokeAsync("Widget", new { widgetZone = "main_column_before" })
         @RenderBody()
         @await Component.InvokeAsync("Widget", new { widgetZone = "main_column_after" })

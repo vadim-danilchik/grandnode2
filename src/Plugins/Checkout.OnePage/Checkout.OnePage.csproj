@@ -19,6 +19,9 @@
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<RemoveDir Directories="..\..\Web\Grand.Web\Plugins\Checkout.OnePage\refs" />
 		<RemoveDir Directories="..\..\Web\Grand.Web\Plugins\Checkout.OnePage\ref" />
+		<Delete Files="..\..\Web\Grand.Web\Plugins\Checkout.OnePage\libzstd.dll" />
+		<Delete Files="..\..\Web\Grand.Web\Plugins\Checkout.OnePage\snappy32.dll" />
+		<Delete Files="..\..\Web\Grand.Web\Plugins\Checkout.OnePage\snappy64.dll" />
 	</Target>
 	
 	<ItemGroup>

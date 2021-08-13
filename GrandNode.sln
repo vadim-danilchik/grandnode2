@@ -110,6 +110,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Checkout.OnePage", "src\Plu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shipping.ShippingPickupPoint", "src\Plugins\Shipping.ShippingPickupPoint\Shipping.ShippingPickupPoint.csproj", "{E806F909-FA46-4523-B63C-7930D6A0077E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shipping.Belpost.Configurable", "src\Plugins\Shipping.Belpost.Configurable\Shipping.Belpost.Configurable.csproj", "{92923B68-BD57-4A99-839A-97D637D60CCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -295,6 +297,10 @@ Global
 		{E806F909-FA46-4523-B63C-7930D6A0077E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E806F909-FA46-4523-B63C-7930D6A0077E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E806F909-FA46-4523-B63C-7930D6A0077E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92923B68-BD57-4A99-839A-97D637D60CCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92923B68-BD57-4A99-839A-97D637D60CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92923B68-BD57-4A99-839A-97D637D60CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92923B68-BD57-4A99-839A-97D637D60CCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -344,6 +350,7 @@ Global
 		{B34CA673-578B-46D8-BEC0-2C32BF6997F9} = {6360202A-F931-4BBD-ADBD-C9A628EE59F8}
 		{AA5CE101-C624-4D57-9089-33F8BAD64BA4} = {F6F48227-B3C5-4A51-B33F-FF9AD96352DB}
 		{E806F909-FA46-4523-B63C-7930D6A0077E} = {F6F48227-B3C5-4A51-B33F-FF9AD96352DB}
+		{92923B68-BD57-4A99-839A-97D637D60CCF} = {F6F48227-B3C5-4A51-B33F-FF9AD96352DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88B478F4-FD3B-4C24-9E84-4FAAF0254397}

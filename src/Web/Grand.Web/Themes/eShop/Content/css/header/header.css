@@ -126,7 +126,7 @@
 
 .sidebar-cart {
     padding-left: 0;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
 }
 
 .sidebar-cart .item {
@@ -225,7 +225,6 @@
         left: 0;
         right: 0;
         width: 100%;
-        padding: 10px;
         display: inline-flex;
         justify-content: space-around;
         box-shadow: 0 -3px 6px rgba(0,0,0,.16), 0 -3px 6px rgba(0,0,0,.23);
