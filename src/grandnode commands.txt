@@ -1,0 +1,139 @@
+Способы доставки:
+ - самовывоз(fixedrate)
+ - курьер (fixedrate)
+ - почта (postshipping) сумма от цены
+ - европочта(plugin - selectpoint) сумма от веса
+ 
+Способы оплаты:
+ - наложенный платеж
+ - наличные при получении (cashondelivery)
+ - картой при получении (cashondelivery)
+ - картой онлайн(плагин как paypal, redirect to page)
+
+
+
+аккаунт - меню на маленьких разрешениях
+каталог - открывающийся фильтр
+
+
+
+236x60 logo
+
+sudo apt update
+sudo apt install nginx
+sudo apt-get install –y libgdiplus && sudo ln -s /lib/x86_64-linux-gnu/libdl.so.2 /lib/x86_64-linux-gnu/libdl.so
+wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org=5.0.2 mongodb-org-database=5.0.2 mongodb-org-server=5.0.2 mongodb-org-shell=5.0.2 mongodb-org-mongos=5.0.2 mongodb-org-tools=5.0.2
+sudo systemctl start mongod
+sudo systemctl status mongod
+sudo systemctl enable mongod
+wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo add-apt-repository universe
+sudo apt-get update
+sudo apt-get install apt-transport-https
+sudo apt-get install aspnetcore-runtime-5.0
+wget https://github.com/vadim-danilchik/grandnode2/releases/download/v1.0.0/eshop-v1.0.0.zip
+sudo apt-get install unzip
+mkdir /var/webapps
+unzip eshop-v1.0.0.zip -d /var/webapps/grandnode
+sudo rm eshop-v1.0.0.zip
+sudo chown -R www-data:www-data /var/webapps/grandnode
+sudo vi /etc/systemd/system/grandnode.service
+sudo systemctl enable grandnode.service
+sudo systemctl start grandnode.service
+
+sudo vi /etc/nginx/sites-available/default
+
+insert in file(esc -> :wq)
+server {
+    listen        80;
+    server_name   example.com *.example.com;
+    location / {
+        proxy_pass         http://127.0.0.1:5000;
+        proxy_http_version 1.1;
+        proxy_set_header   Upgrade $http_upgrade;
+        proxy_set_header   Connection keep-alive;
+        proxy_set_header   Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+sudo vi /etc/nginx/proxy.conf
+
+proxy_redirect off;
+proxy_set_header Host $host;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+client_max_body_size 10m;
+client_body_buffer_size 128k;
+proxy_connect_timeout 90;
+proxy_send_timeout 90;
+proxy_read_timeout 90;
+proxy_buffers 32 4k;
+
+sudo vi /etc/nginx/nginx.conf
+uncomment gzip
+
+sudo nginx -t
+sudo systemctl reload nginx.service
+
+sudo apt-get install ufw
+
+sudo ufw allow 22/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+sudo ufw enable
+
+
+
+sudo systemctl reload nginx.service
+sudo journalctl -fu grandnode.service
+sudo systemctl start grandnode.service
+sudo systemctl stop grandnode.service && sudo systemctl start grandnode.service
+sudo systemctl status grandnode.service
+
+sudo vi /etc/nginx/sites-available/default
+sudo vi /var/webapps/grandnode/App_Data/appsettings.json
+
+
+cd ~/source/grandnode2
+git clone -b feature/my-theme-implemented https://github.com/vadim-danilchik/grandnode2.git
+dotnet restore GrandNode.sln
+sudo dotnet build src/Plugins/Authentication.Facebook && sudo dotnet build src/Plugins/Authentication.Google && sudo dotnet build src/Plugins/DiscountRules.Standard && sudo dotnet build src/Plugins/ExchangeRate.McExchange && sudo dotnet build src/Plugins/Payments.BrainTree && sudo dotnet build src/Plugins/Payments.CashOnDelivery && sudo dotnet build src/Plugins/Payments.PayPalStandard && sudo dotnet build src/Plugins/Shipping.ByWeight && sudo dotnet build src/Plugins/Shipping.FixedRateShipping && sudo dotnet build src/Plugins/Shipping.ShippingPoint && sudo dotnet build src/Plugins/Tax.CountryStateZip && sudo dotnet build src/Plugins/Tax.FixedRate && sudo dotnet build src/Plugins/Widgets.FacebookPixel && sudo dotnet build src/Plugins/Widgets.GoogleAnalytics && sudo dotnet build src/Plugins/Widgets.Slider && sudo dotnet build src/Plugins/Shipping.Belpost.Configurable && sudo dotnet build src/Plugins/Checkout.OnePage && sudo dotnet publish src/Web/Grand.Web -c Release -o /var/webapps/grandnode
+
+
+
+скопировать настройки
+cp -r /var/webapps/grandnode/App_Data /var/webapps/
+удалить папку
+rm -rf /var/webapps/grandnode
+скачать архив
+wget https://github.com/vadim-danilchik/grandnode2/releases/download/v1.0.0/eshop-v1.0.0.zip
+распаковать
+unzip eshop-v1.0.0.zip -d /var/webapps/grandnode
+удалить архив
+sudo rm eshop-v1.0.0.zip
+удалить новые настройки
+rm -rf /var/webapps/grandnode/App_Data
+вернуть настройки
+cp -r /var/webapps/App_Data /var/webapps/grandnode/
+назначить права
+sudo chown -R www-data:www-data /var/webapps/grandnode
+перезапустить сервис
+sudo systemctl stop grandnode.service && sudo systemctl start grandnode.service
+
+
+cp -r /var/webapps/grandnode/App_Data /var/webapps/
+rm -rf /var/webapps/grandnode
+wget https://github.com/vadim-danilchik/grandnode2/releases/download/v1.0.0/eshop-v1.0.0.zip
+unzip eshop-v1.0.0.zip -d /var/webapps/grandnode
+sudo rm eshop-v1.0.0.zip
+rm -rf /var/webapps/grandnode/App_Data
+cp -r /var/webapps/App_Data /var/webapps/grandnode/
+sudo chown -R www-data:www-data /var/webapps/grandnode
+sudo systemctl stop grandnode.service && sudo systemctl start grandnode.service

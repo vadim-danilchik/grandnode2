@@ -68,12 +68,15 @@
     border-right: 0;
 }
 .qty-indicator {
+    position: absolute;
+    top: 3px;
+    right: 3px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 5px 0 0;
-    width: 20px;
-    height: 20px;
+    margin: 0;
+    width: 18px;
+    height: 18px;
     color: var(--accent-text-color);
     font-size: 12px;
     font-weight: 500;

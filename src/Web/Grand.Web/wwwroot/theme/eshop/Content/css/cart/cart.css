@@ -41,7 +41,7 @@
     font-weight: 500;
 }
 .shopping-cart .prod-total {
-    color: #17a2b8;
+    color: var(--accent-color);
 }
 .shopping-cart .qty-input {
     max-width: 75px;
@@ -58,7 +58,7 @@
     position: sticky;
     top: 75px;
     padding: 15px;
-    border: 2px solid #1FB0C7;
+    border: 2px solid var(--accent-color);
     border-radius: .25rem;
 }
 .checkout-buttons {

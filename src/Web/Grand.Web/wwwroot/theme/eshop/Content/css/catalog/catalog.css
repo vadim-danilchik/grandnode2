@@ -268,9 +268,9 @@ a.left-side-toggler {
     align-items: flex-end;
     padding: 10px;
     margin: 0 15px 0 0;
-    color: #fff;
-    border: 1px solid #333;
-    background-color: #1c1b1b;
+    color: var(--secondary-text-color);
+    border: 1px solid var(--secondary-border-color);
+    background-color: var(--secondary-color);
     cursor: pointer;
     z-index: 3;
 }
@@ -355,6 +355,7 @@ a.left-side-toggler {
 
     .sort-container .col-form-label {
         white-space: nowrap;
+        margin-right: 10px;
     }
 
 .item-statistics {
@@ -405,7 +406,7 @@ a.left-side-toggler {
 /* selectors */
 
 .catalog-selectors {
-    border-bottom: 1px solid #555;
+    border-bottom: 1px solid var(--secondary-border-color);
 }
 
 .grid-icon {

@@ -14,11 +14,14 @@
 }*/
 
 :root {
-    --accent-color: #17a2b8;
-    --accent-hover-color: #138496;
+    /*--accent-color: #17a2b8;
+    --accent-hover-color: #138496;*/
+    --accent-color: #8282ba;
+    --accent-hover-color: #6969b8;
     --accent-text-color: white;
     /*--------------------------------*/
-    --primary-color: #F2F0F9;
+    /*--primary-color: #F2F0F9;*/
+    --primary-color: #e5e1f2;
     --primary-text-color: #191919;
     --primary-text-hover: #666666;
     --primary-border-color: #808080;
@@ -803,7 +806,7 @@ ul.Menu.-vertical {
     }
     .Menu li .badge {
         position: absolute;
-        top: -8px;
+        top: -1px;
         left: 10px;
         padding: 2px 5px;
         font-size: 10px;
@@ -1150,9 +1153,29 @@ ul.Menu.-vertical {
         background-color: var(--accent-hover-color);
         border-color: var(--accent-hover-color);
     }
+.btn-info:not(:disabled):not(.disabled).active, .btn-info:not(:disabled):not(.disabled):active, .show > .btn-info.dropdown-toggle {
+    color: var(--accent-text-color);
+    background-color: var(--accent-hover-color);
+    border-color: var(--accent-hover-color);
+}
+.btn.btn-outline-info {
+    color: var(--accent-text-color);
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
 
+    .btn.btn-outline-info:hover {
+        color: var(--accent-text-color);
+        background-color: var(--accent-hover-color);
+        border-color: var(--accent-hover-color);
+    }
+
+.btn-outline-info:not(:disabled):not(.disabled).active, .btn-outline-info:not(:disabled):not(.disabled):active, .show > .btn-outline-info.dropdown-toggle {
+    color: var(--accent-text-color);
+    background-color: var(--accent-hover-color);
+    border-color: var(--accent-hover-color);
+}
 /* headings */
-
 .generalTitle {
     /*position: relative;*/
     font-weight: 400;
@@ -1745,7 +1768,7 @@ input:checked ~ .color-container .color::before {
 }
 
     .product-box .other-buttons .btn.btn-outline-secondary:hover {
-        border-color: var(--secondary-a-hover-color);
+        border-color: var(--accent-color);
     }
 
 .product-box .card-title {
@@ -2011,7 +2034,7 @@ input:checked ~ .color-container .color::before {
         width: auto;
     }
     .product-box.list::before {
-        border: 1px solid #333;
+        border-bottom: 1px solid var(--secondary-border-color);
         opacity: 1;
         visibility: visible;
     }
@@ -2645,7 +2668,7 @@ input:checked ~ .color-container .color::before {
         top: 100%;
         overflow-x: hidden;
         overflow-y: auto;
-        height: calc(100vh - 186px);
+        height: calc(100vh - 167px);
         left: 0;
         margin: 1px 0 0 0;
         background-color: var(--primary-color);
