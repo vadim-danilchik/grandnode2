@@ -26,14 +26,14 @@
 	
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Business\Grand.Business.Common\Grand.Business.Common.csproj">
-			<Private>false</Private>
-		</ProjectReference>
+	    <Private>false</Private>
+	  </ProjectReference>
 	  <ProjectReference Include="..\..\Core\Grand.Infrastructure\Grand.Infrastructure.csproj">
 			<Private>false</Private>
 		</ProjectReference>
 	  <ProjectReference Include="..\..\Web\Grand.Web\Grand.Web.csproj">
-			<Private>false</Private>
-		</ProjectReference>
+	    <Private>false</Private>
+	  </ProjectReference>
 	</ItemGroup>
 	
 	<ItemGroup>

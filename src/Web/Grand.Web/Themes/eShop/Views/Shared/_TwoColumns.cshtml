@@ -62,23 +62,13 @@
     @await Component.InvokeAsync("Widget", new { widgetZone = "home_page_brand", additionalData = Model.Id })
 }
 <div id="TwoColumns" class="row custom-container">
-    @*<div class="d-lg-none d-block">
-            <div class="col-12">
-                <button id="sidebar-mobile-button" class="btn btn-outline-info" v-b-toggle.sidebar-mobile><b-icon icon="layout-sidebar-inset"></b-icon> @Loc["catalog.selectors.fiters"]</button>
-            </div>
-            <b-sidebar id="sidebar-mobile"
-                       backdrop
-                       left
-                       shadow>
-            </b-sidebar>
-        </div>*@
-    <div class="generalLeftSide col-sm-6 col-md-6 col-lg-4 col-xl-3 col-9" onclick="StopPropagation(event)">
+    <div class="generalLeftSide col-sm-8 col-md-6 col-lg-4 col-xl-3 col-9" onclick="StopPropagation(event)">
+        <div class=modal-close onclick=closeLeftSide()>
+            <b-icon icon=x></b-icon>
+        </div>
         @if (IsSectionDefined("left"))
         {
             @RenderSection("left")
-            <script asp-location="Footer">
-                sideToggle();
-            </script>
         }
         else
         {
@@ -95,25 +85,18 @@
             @await Component.InvokeAsync("Widget", new { widgetZone = "left_side_column_after" })
         }
     </div>
-    <div class="generalSideRight col-sm-6 col-md-6 col-lg-8 col-xl-9">
+    <div class="generalSideRight col-md-12 col-lg-9">
+        @if (IsSectionDefined("left"))
+        {
+            <div class="pl-lg-3 pt-3">
+                <button id="sidebar-mobile-button" class="btn btn-outline-info left-side-toggler" onclick="sideToggle()">
+                    <b-icon icon="person"></b-icon>
+                    @Loc["account.navigation"]
+                </button>
+            </div>
+        }
         @await Component.InvokeAsync("Widget", new { widgetZone = "main_column_before" })
         @RenderBody()
         @await Component.InvokeAsync("Widget", new { widgetZone = "main_column_after" })
     </div>
 </div>
-@*<script asp-location="Footer">
-        document.addEventListener("DOMContentLoaded", function () {
-            var leftSide = document.querySelector('.generalLeftSide');
-            function LeftSideBar() {
-                if (991 > (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth)) {
-                    document.querySelector("#sidebar-mobile .b-sidebar-body").appendChild(leftSide);
-                } else {
-                    document.getElementById("TwoColumns").appendChild(leftSide);
-                }
-            }
-            LeftSideBar();
-            window.addEventListener("resize", function () {
-                LeftSideBar();
-            });
-        });
-    </script>*@

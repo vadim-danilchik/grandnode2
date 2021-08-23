@@ -11,10 +11,15 @@
  - картой онлайн(плагин как paypal, redirect to page)
 
 
-
-аккаунт - меню на маленьких разрешениях
-каталог - открывающийся фильтр
-
+убрать отзывы и свяжитесь с нами
+выбор размера страницы в поиске убрать
+в корзине убрать рассчитывается в процессе
+validation-config.js translation
+счет-фактура заказа
+плагин европочта
+спсисок желаний - сортировки не работают
+товары по тэгу - кол-во товаров в строке
+валидация адреса при выборе доставки
 
 
 236x60 logo
@@ -127,6 +132,7 @@ sudo chown -R www-data:www-data /var/webapps/grandnode
 перезапустить сервис
 sudo systemctl stop grandnode.service && sudo systemctl start grandnode.service
 
+85.209.148.26
 
 cp -r /var/webapps/grandnode/App_Data /var/webapps/
 rm -rf /var/webapps/grandnode
@@ -136,4 +142,5 @@ sudo rm eshop-v1.0.0.zip
 rm -rf /var/webapps/grandnode/App_Data
 cp -r /var/webapps/App_Data /var/webapps/grandnode/
 sudo chown -R www-data:www-data /var/webapps/grandnode
-sudo systemctl stop grandnode.service && sudo systemctl start grandnode.service
+sudo systemctl stop grandnode.service
+sudo systemctl start grandnode.service

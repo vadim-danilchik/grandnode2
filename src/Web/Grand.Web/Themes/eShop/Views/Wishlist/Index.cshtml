@@ -56,9 +56,9 @@
                                                 </text>
                                             }
                                             { key: 'product', label: '@Loc["ShoppingCart.Product(s)"]', class: 'text-center' },
-                                            { key: 'unit', label: '@Loc["ShoppingCart.UnitPrice"]', sortable: true, class: 'text-center' },
-                                            { key: 'qty', label: '@Loc["ShoppingCart.Quantity"]', sortable: true, class: 'text-center'  },
-                                            { key: 'total', label: '@Loc["ShoppingCart.ItemTotal"]', sortable: true, class: 'text-center'  },
+                                            { key: 'unit', label: '@Loc["ShoppingCart.UnitPrice"]', class: 'text-center' },
+                                            { key: 'qty', label: '@Loc["ShoppingCart.Quantity"]', class: 'text-center'  },
+                                            { key: 'total', label: '@Loc["ShoppingCart.ItemTotal"]', class: 'text-center'  },
                                             @if (Model.IsEditable || Model.DisplayAddToCart){
                                                 <text>
                                                     { key: 'remove', label: '@Loc["Remove"]' },

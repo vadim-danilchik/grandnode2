@@ -63,7 +63,6 @@
     <None Remove="wwwroot\theme\eshop\Content\css\animate.min.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\cart\cart.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\cart\cart.rtl.css" />
-    <None Remove="wwwroot\theme\eshop\Content\css\cart\cart_.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\catalog\catalog.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\catalog\catalog.rtl.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\common\common.css" />
@@ -102,9 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Update="wwwroot\theme\eshop\Content\css\animate.min.css">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="wwwroot\theme\eshop\Content\css\cart\cart_.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="wwwroot\theme\eshop\Content\css\cart\cart.css">

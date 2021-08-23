@@ -28,7 +28,7 @@ vee._validator.extend('required', {
         if (text) {
             return text;
         }
-        return 'The ' + field + ' field is required.'
+        return 'Поле ' + field + ' обязательно.'
     },
     validate: value => !!value
 });
@@ -39,7 +39,7 @@ vee._validator.extend('email', {
         if (text) {
             return text;
         }
-        return 'This field must be a valid email.'
+        return 'Введите валидный email.'
     },
     validate: value => {
         // if the field is empty
@@ -68,7 +68,7 @@ vee._validator.extend('confirmed', {
         if (text) {
             return text;
         }
-        return 'Password confirmation does not match'
+        return 'Пароли не совпадают.'
     },
 });
 

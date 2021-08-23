@@ -101,12 +101,11 @@
     left: 0;
     overflow-x: hidden;
     overflow-y: auto;
-    max-height: calc(100% - 54px);
     background-color: var(--secondary-color);
-    margin: 15px 0 0 0;
+    margin: 0;
     padding: 0 15px 15px 15px;
-    border: 1px solid var(--secondary-color);
-    border-left: 0;
+    border: 0;
+    border-right: 1px solid var(--secondary-border-color);
     direction: rtl;
     z-index: 4;
     -webkit-transition: transition: transform .4s cubic-bezier(0.645, 0.045, 0.355, 1.000);
@@ -127,7 +126,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 1px solid #333;
+        border: 1px solid transparent;
         border-radius: 0;
         outline: none;
     }
@@ -148,7 +147,7 @@
         .generalLeftSide .modal-close:focus::before,
         .generalLeftSide .modal-close:hover::before,
         .generalLeftSide .modal-close:active::before {
-            border-color: var(--primary-border-color);
+            border-color: transparent;
         }
 
     .generalLeftSide .viewBox {
@@ -265,7 +264,7 @@
 
 a.left-side-toggler {
     display: inline-flex;
-    align-items: flex-end;
+    align-items: center;
     padding: 10px;
     margin: 0 15px 0 0;
     color: var(--secondary-text-color);
@@ -278,7 +277,7 @@ a.left-side-toggler {
     a.left-side-toggler:active,
     a.left-side-toggler:focus,
     a.left-side-toggler:hover {
-        border-color: var(--primary-border-color);
+        border-color: var(--secondary-border-color);
     }
 
 .left-side-toggler .inner {
@@ -291,8 +290,8 @@ a.left-side-toggler {
 }
 
     .left-side-toggler .inner span {
-        height: 3px;
-        background: var(--secondaty-text-color);
+        height: 2px;
+        background: var(--secondary-text-color);
         -webkit-transition: width .4s cubic-bezier(0.645, 0.045, 0.355, 1.000);
         transition: width .4s cubic-bezier(0.645, 0.045, 0.355, 1.000);
     }
@@ -315,8 +314,8 @@ a.left-side-toggler {
 
 .left-side-toggler .text {
     margin: 0 0 0 5px;
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 500;
     text-transform: uppercase;
     line-height: 1;
 }
@@ -488,6 +487,7 @@ a.left-side-toggler {
 
 .viewmode-icon {
     display: none;
+    cursor: pointer;
 }
 
     .viewmode-icon[data-cols='2'], .viewmode-icon[data-cols='list'] {
@@ -517,14 +517,14 @@ a.left-side-toggler {
 
     .pagination .currentpage.page-item .page-link {
         color: #fff;
-        background-color: #0E606C;
-        border-color: #0E606C;
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
     }
 
     .pagination .page-item:not(.currentpage):hover .page-link {
         color: #fff;
-        background-color: #1FB0C7;
-        border-color: #1FB0C7;
+        background-color: var(--accent-hover-color);
+        border-color: var(--accent-hover-color);
     }
 
 @media (max-width: 575px) {
@@ -722,9 +722,9 @@ a.left-side-toggler {
 
     .generalLeftSide {
         position: fixed;
-        top: 54px;
+        top: 70px;
         left: 0;
-        max-height: calc(100% - 185px);
+        max-height: calc(100% - 165px);
     }
 
     .generalSideRight {

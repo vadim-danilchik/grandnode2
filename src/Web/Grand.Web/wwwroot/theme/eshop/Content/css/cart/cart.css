@@ -12,7 +12,7 @@
 
 .shopping-cart {
     margin: 0 0 15px 0;
-    color: #333;
+    color: var(--secondary-text-color);
     border-bottom: 2px solid #333;
 }
 .shopping-cart.table thead th {
@@ -40,9 +40,9 @@
     font-size: 18px;
     font-weight: 500;
 }
-.shopping-cart .prod-total {
-    color: var(--accent-color);
-}
+    .shopping-cart .prod-total {
+        color: var(--secondary-text-color);
+    }
 .shopping-cart .qty-input {
     max-width: 75px;
     min-width: 60px;
@@ -118,7 +118,7 @@
     color: #fff;
 }
 .opc-header .card-header .btn-info.not-collapsed {
-    color: #1FB0C7;
+    color: var(--accent-color);
     font-weight: 500;
 }
 .opc-header .card-header .btn-info::before,
@@ -144,7 +144,7 @@
 [dark-theme="true"] .opc-header .card-header .btn-info.not-collapsed::after,
 .opc-header .card-header .btn-info.not-collapsed::before,
 .opc-header .card-header .btn-info.not-collapsed::after {
-    background: #1FB0C7;
+    background: var(--accent-color);
 }
 .opc-header .card-header:last-child .btn-info::before,
 .opc-header .card-header:last-child .btn-info::after {
@@ -210,8 +210,8 @@
     margin: 0 auto;
     font-size: 16px;
     font-weight: 500;
-    color: #fff;
-    background: #1FB0C7;
+    color: var(--accent-text-color);
+    background: var(--accent-color);
     width: 30px;
     height: 30px;
     border-radius: 100%;

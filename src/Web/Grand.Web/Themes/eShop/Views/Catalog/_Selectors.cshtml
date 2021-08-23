@@ -2,6 +2,19 @@
     <div class="generalMarginSupporter categoryGrid catalog-selectors mb-3">
         @*Rendering mobile left side trigger*@
         <div class="d-flex flex-row row px-3">
+            <template v-if="catalog.Model.PagingFilteringContext.SpecificationFilter.Enabled">
+                <a class="left-side-toggler btn" onclick="sideToggle()">
+                    <b-icon icon="filter-right"></b-icon>
+                    @*<div class="inner">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>*@
+                    <div class="text">
+                        @Loc["catalog.selectors.fiters"]
+                    </div>
+                </a>
+            </template>
             @*Rendering sorting*@
             <template v-if="catalog.Model.PagingFilteringContext.AllowProductSorting">
                 <div class="sort-container">
