@@ -206,4 +206,7 @@
     <None Include="wwwroot\theme\eshop\Content\swiper\swiper.min.js" />
     <None Include="wwwroot\theme\eshop\Content\swiper\vue-awesome-swiper.min.js" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\theme\eshop\Content\css\home\" />
+  </ItemGroup>
 </Project>

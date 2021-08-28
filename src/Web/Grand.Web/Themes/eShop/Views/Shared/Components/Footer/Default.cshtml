@@ -4,7 +4,7 @@
     <div class="footer-top section">
         <div class="container">
             <div class="item-row">
-                <div class="col-md-12 col-lg-4 col-xl-4">
+                <div class="col-md-12 col-lg-3 col-xl-3">
                     <div class="d-flex align-items-baseline footer-title">
                         <span class="icon mr-2">
                             <b-icon icon="clock-history"></b-icon>
@@ -23,7 +23,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-12 col-lg-4 col-xl-4">
+                <div class="col-md-12 col-lg-3 col-xl-3">
                     <div class="d-flex align-items-baseline footer-title">
                         <span class="icon mr-2">
                             <b-icon icon="cash-stack"></b-icon>
@@ -44,11 +44,61 @@
                             <span class="text">@Loc["Footer.Payments.Postondelivery"]</span>
                         </li>
                         @*<li>
-                                <span class="text">@Loc["Footer.Payments.Cardonline"]</span>
-                            </li>*@
+                    <span class="text">@Loc["Footer.Payments.Cardonline"]</span>
+                </li>*@
                     </ul>
                 </div>
-                <div class="col-md-12 col-lg-4 col-xl-4 footer-registration">
+                <div class="col-md-12 col-lg-3 col-xl-3">
+                    <div class="d-flex align-items-baseline footer-title">
+                        <span class="icon mr-2">
+                            <b-icon icon="phone"></b-icon>
+                        </span>
+                        <h6 class="title">@Loc["Footer.Contacts"]</h6>
+                    </div>
+                    <ul>
+                        <li>
+                            <a title="mts" href="tel:@Loc["header.phone2.value"]">
+                                <img height="16" width="16" src="/theme/eshop/Content/images/life.svg" alt="life" />
+                                <span class="phone ml-2">@Loc["header.phone2.value"]</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a title="mts" href="tel:@Loc["header.phone.value"]">
+                                <img height="16" width="16" src="/theme/eshop/Content/images/mts.svg#svgView(viewBox(0, 0, 258, 259))" alt="mts" />
+                                <span class="phone mb-0 ml-2">@Loc["header.phone.value"]</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a title="viber" href="viber://chat?number=@Loc["menu.contacts.viber.value"]" rel="noopener" target="_blank">
+                                <img height="16" width="16" src="/theme/eshop/Content/images/viber.svg" alt="viber" />
+                                <span class="sr-only">Viber</span>
+                                <span class="phone mb-0 ml-2">@Loc["menu.contacts.viber.value"]</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a title="telegram" href="tg://resolve?domain=@Loc["menu.contacts.telegram.value"]" rel="noopener" target="_blank">
+                                <img height="16" width="16" src="/theme/eshop/Content/images/telegram.svg" alt="telegram" />
+                                <span class="sr-only">Telegram</span>
+                                <span class="phone mb-0 ml-2">@Loc["menu.contacts.telegram.value"]</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Loc["menu.contacts.instagram.value"]" rel="noopener" target="_blank">
+                                <img height="16" width="16" src="/theme/eshop/Content/images/instagram.svg" alt="instagram" />
+                                <span class="sr-only">instagram</span>
+                                <span class="phone mb-0 ml-2">@Loc["menu.contacts.instagram.name.value"]</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a title="mail" href="mailto:@Loc["menu.contacts.email.value"]" rel="noopener" target="_blank">
+                                <img height="16" width="16" src="/theme/eshop/Content/images/mail.svg" alt="mail" />
+                                <span class="sr-only">Mail</span>
+                                <span class="phone mb-0 ml-2">@Loc["menu.contacts.email.value"]</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-12 col-lg-3 col-xl-3 footer-registration">
                     <span class="footer-disclaimer text-black-50">@Html.Raw(Loc["Content.CopyrightNotice", Model.StoreName, DateTime.Now.Year])</span>
                 </div>
             </div>

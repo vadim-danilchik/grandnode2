@@ -1,0 +1,293 @@
+﻿@model EuropostShippingSettingsModel
+@inject AdminAreaSettings adminAreaSettings
+@using Grand.Domain.Common;
+@{
+    Layout = "_ConfigurePlugin";
+}
+@{
+    var addNewByWeightUrl = Url.Action("AddByWeightPopup", "ShippingEuropost", new { btnId = "btnRefreshByWeight", formId = "shipping-byweight-form" });
+    var addNewByTotalUrl = Url.Action("AddByTotalPopup", "ShippingEuropost", new { btnId = "btnRefreshByTotal", formId = "shipping-bytotal-form" });
+}
+
+<input id="active-menu-item" type="hidden" value="/Admin/Shipping/Providers" />
+<form asp-controller="ShippingEuropost" asp-action="Configure" method="post" id="shipping-byweight-form">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div id="shipping-byweight-grid"></div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" id="btnAddNewOptionByWeight" value="@Loc["Plugins.Shipping.Europost.Configurable.AddRecord"]" onclick="javascript:OpenWindow('@(addNewByWeightUrl)', 800, 550, true); return false;" class="btn default" />
+            <input type="submit" id="btnRefreshByWeight" style="display: none" />
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#shipping-byweight-grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@Html.Raw(Url.Action("RatesByWeightList", "ShippingEuropost"))",
+                            type: "POST",
+                            dataType: "json",
+                            data: addAntiForgeryToken
+                        },
+                        destroy: {
+                            url: "@Html.Raw(Url.Action("RateByWeightDelete", "ShippingEuropost"))",
+                            type: "POST",
+                            dataType: "json",
+                            data: addAntiForgeryToken
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        errors: "Errors",
+                        model: {
+                            id: "Id"
+                        }
+                    },
+                    requestEnd: function (e) {
+                        if (e.type == "update") {
+                            this.read();
+                        }
+                    },
+                    error: function (e) {
+                        display_kendoui_grid_error(e);
+                        // Cancel the changes
+                        this.cancelChanges();
+                    },
+                    pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+                },
+                pageable: {
+                    refresh: true,
+                    pageSizes: [@(adminAreaSettings.GridPageSizes)]
+                },
+                editable: {
+                    confirmation: false,
+                    mode: "inline"
+                },
+                scrollable: false,
+                columns: [{
+                    field: "WeightFrom",
+                    title: "@Loc["Plugins.Shipping.Europost.Configurable.Fields.WeightFrom"]",
+                    width: 300
+                }, {
+                    field: "WeightTo",
+                    title: "@Loc["Plugins.Shipping.Europost.Configurable.Fields.WeightTo"]",
+                    width: 300
+                }, {
+                    field: "WeightRate",
+                    title: "@Loc["Plugins.Shipping.Europost.Configurable.Fields.WeightRate"]",
+                    width: 200
+                }, {
+                    field: "Id",
+                    title: "@Loc["Admin.Common.Edit"]",
+                    width: 100,
+                    template: "<input type='submit' value='@Loc["Admin.Common.Edit"]' onclick=\"javascript:OpenWindow('@Url.Action("EditByWeightPopup", "ShippingEuropost")?id=#=Id#&btnId=btnRefreshByWeight&formId=shipping-byweight-form', 800, 400, true); return false;\" class='k-button k-button-icontext' />"
+                },  {
+                    command: { name: "destroy", text: "@Loc["Admin.Common.Delete"]" },
+                    title: "@Loc["Admin.Common.Delete"]",
+                    width: 100
+                }]
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#btnRefreshByWeight').click(function () {
+                //refresh grid
+                var grid = $("#shipping-byweight-grid").data('kendoGrid');
+                //grid.dataSource.page(1); //new search. Set page size to 1
+                grid.dataSource.read();
+
+                //return false to don't reload a page
+                return false;
+            });
+        });
+    </script>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div id="shipping-bytotal-grid"></div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" id="btnAddNewOptionByTotal" value="@Loc["Plugins.Shipping.Europost.Configurable.AddRecord"]" onclick="javascript:OpenWindow('@(addNewByTotalUrl)', 800, 550, true); return false;" class="btn default" />
+            <input type="submit" id="btnRefreshByTotal" style="display: none" />
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#shipping-bytotal-grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "@Html.Raw(Url.Action("RatesByTotalList", "ShippingEuropost"))",
+                            type: "POST",
+                            dataType: "json",
+                            data: addAntiForgeryToken
+                        },
+                        destroy: {
+                            url: "@Html.Raw(Url.Action("RateByTotalDelete", "ShippingEuropost"))",
+                            type: "POST",
+                            dataType: "json",
+                            data: addAntiForgeryToken
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        errors: "Errors",
+                        model: {
+                            id: "Id"
+                        }
+                    },
+                    requestEnd: function (e) {
+                        if (e.type == "update") {
+                            this.read();
+                        }
+                    },
+                    error: function (e) {
+                        display_kendoui_grid_error(e);
+                        // Cancel the changes
+                        this.cancelChanges();
+                    },
+                    pageSize: @(adminAreaSettings.DefaultGridPageSize),
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+                },
+                pageable: {
+                    refresh: true,
+                    pageSizes: [@(adminAreaSettings.GridPageSizes)]
+                },
+                editable: {
+                    confirmation: false,
+                    mode: "inline"
+                },
+                scrollable: false,
+                columns: [{
+                    field: "TotalFrom",
+                    title: "@Loc["Plugins.Shipping.Europost.Configurable.Fields.TotalFrom"]",
+                    width: 300
+                }, {
+                    field: "TotalTo",
+                    title: "@Loc["Plugins.Shipping.Europost.Configurable.Fields.TotalTo"]",
+                    width: 300
+                }, {
+                    field: "TotalRate",
+                    title: "@Loc["Plugins.Shipping.Europost.Configurable.Fields.TotalRate"]",
+                    width: 200
+                }, {
+                    field: "Id",
+                    title: "@Loc["Admin.Common.Edit"]",
+                    width: 100,
+                    template: "<input type='submit' value='@Loc["Admin.Common.Edit"]' onclick=\"javascript:OpenWindow('@Url.Action("EditByTotalPopup", "ShippingEuropost")?id=#=Id#&btnId=btnRefreshByTotal&formId=shipping-bytotal-form', 800, 400, true); return false;\" class='k-button k-button-icontext' />"
+                },  {
+                    command: { name: "destroy", text: "@Loc["Admin.Common.Delete"]" },
+                    title: "@Loc["Admin.Common.Delete"]",
+                    width: 100
+                }]
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#btnRefreshByTotal').click(function () {
+                //refresh grid
+                var grid = $("#shipping-bytotal-grid").data('kendoGrid');
+                //grid.dataSource.page(1); //new search. Set page size to 1
+                grid.dataSource.read();
+
+                //return false to don't reload a page
+                return false;
+            });
+        });
+    </script>
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-body">
+                    <div class="form-group">
+                        <div class="col-md-3 col-sm-3 text-right">
+                            <admin-label asp-for="UpdateRequestUrl" class="control-label" />
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <admin-input asp-for="UpdateRequestUrl" />
+                            <span asp-validation-for="UpdateRequestUrl"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3 col-sm-3 text-right">
+                            <admin-label asp-for="UpdateRequestBody" class="control-label" />
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <admin-input asp-for="UpdateRequestBody" />
+                            <span asp-validation-for="UpdateRequestBody"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3 col-sm-3 text-right">
+                            <admin-label asp-for="MapUrl" class="control-label" />
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <admin-input asp-for="MapUrl" />
+                            <span asp-validation-for="MapUrl"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="button" id="savegeneralsettings" class="btn default" value="@Loc["Admin.Common.Save"]" />
+                        <input type="button" id="updatepoints" class="btn default" value="@Loc["Plugins.Shipping.Europost.Configurable.UpdatePoints"]" />
+                        <script>
+                            $(function () {
+                                $('#savegeneralsettings').click(function () {
+
+                                    var postData = $(this.form).serialize();
+                                    addAntiForgeryToken(postData);
+
+                                    $.ajax({
+                                        cache: false,
+                                        type: 'POST',
+                                        url: '@Url.Action("SaveGeneralSettings", "ShippingEuropost")',
+                                        data: postData,
+                                        dataType: 'json',
+                                        success: function (data) {
+                                            alert('Saved');
+                                        },
+                                        error: function (xhr, ajaxOptions, thrownError) {
+                                            alert('Failed to add record.');
+                                        }
+                                    });
+                                    return false;
+                                });
+                                $('#updatepoints').click(function () {
+
+                                    var postData = $(this.form).serialize();
+                                    addAntiForgeryToken(postData);
+
+                                    $.ajax({
+                                        cache: false,
+                                        type: 'POST',
+                                        url: '@Url.Action("UpdatePoints", "ShippingEuropost")',
+                                        data: postData,
+                                        dataType: 'json',
+                                        success: function (data) {
+                                            alert('Saved');
+                                        },
+                                        error: function (xhr, ajaxOptions, thrownError) {
+                                            alert('Failed to add record.');
+                                        }
+                                    });
+                                    return false;
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

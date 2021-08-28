@@ -1,0 +1,46 @@
+﻿@model ShippingEuropostByWeightModel
+@using Shipping.Europost.Configurable.Models
+@using Microsoft.AspNetCore.Routing
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+@if (ViewBag.RefreshPage == true)
+{
+    <script>
+        try {window.opener.document.forms['@(Context.Request.Query["formId"])'].@(Context.Request.Query["btnId"]).click();}
+        catch (e){}
+        window.close();
+    </script>
+}
+
+<div class="form-horizontal">
+    <div class="form-body">
+        <div class="form-group">
+            <div class="col-md-3 col-sm-3 text-right">
+                <admin-label asp-for="WeightFrom" class="control-label" />
+            </div>
+            <div class="col-md-9 col-sm-9">
+                <admin-input asp-for="WeightFrom" /> [@Model.BaseWeightIn]
+                <span asp-validation-for="WeightFrom"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 col-sm-3 text-right">
+                <admin-label asp-for="WeightTo" class="control-label" />
+            </div>
+            <div class="col-md-9 col-sm-9">
+                <admin-input asp-for="WeightTo" /> [@Model.BaseWeightIn]
+                <span asp-validation-for="WeightTo"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 col-sm-3 text-right">
+                <admin-label asp-for="WeightRate" class="control-label" />
+            </div>
+            <div class="col-md-9 col-sm-9">
+                <admin-input asp-for="WeightRate" /> [@Model.PrimaryStoreCurrencyCode]
+                <span asp-validation-for="WeightRate"></span>
+            </div>
+        </div>
+    </div>
+</div>

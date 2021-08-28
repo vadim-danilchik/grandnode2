@@ -11,17 +11,15 @@
  - картой онлайн(плагин как paypal, redirect to page)
 
 
-убрать отзывы и свяжитесь с нами
-выбор размера страницы в поиске убрать
-в корзине убрать рассчитывается в процессе
-validation-config.js translation
-счет-фактура заказа
-плагин европочта
-спсисок желаний - сортировки не работают
-товары по тэгу - кол-во товаров в строке
+валидация адреса в заказе
+не правильно подставляет адрес
+группировка и поиск в скписке
+
+счет-фактура заказа(вернуть способ оплаты, убрать адресс)
 валидация адреса при выборе доставки
+коллекции на будущее
 
-
+https://biz.mail.ru/
 236x60 logo
 
 sudo apt update
@@ -113,24 +111,6 @@ sudo dotnet build src/Plugins/Authentication.Facebook && sudo dotnet build src/P
 
 
 
-скопировать настройки
-cp -r /var/webapps/grandnode/App_Data /var/webapps/
-удалить папку
-rm -rf /var/webapps/grandnode
-скачать архив
-wget https://github.com/vadim-danilchik/grandnode2/releases/download/v1.0.0/eshop-v1.0.0.zip
-распаковать
-unzip eshop-v1.0.0.zip -d /var/webapps/grandnode
-удалить архив
-sudo rm eshop-v1.0.0.zip
-удалить новые настройки
-rm -rf /var/webapps/grandnode/App_Data
-вернуть настройки
-cp -r /var/webapps/App_Data /var/webapps/grandnode/
-назначить права
-sudo chown -R www-data:www-data /var/webapps/grandnode
-перезапустить сервис
-sudo systemctl stop grandnode.service && sudo systemctl start grandnode.service
 
 85.209.148.26
 

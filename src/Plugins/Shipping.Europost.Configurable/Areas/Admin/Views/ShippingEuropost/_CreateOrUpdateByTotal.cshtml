@@ -1,0 +1,46 @@
+﻿@model ShippingEuropostByTotalModel
+@using Shipping.Europost.Configurable.Models
+@using Microsoft.AspNetCore.Routing
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+@if (ViewBag.RefreshPage == true)
+{
+    <script>
+        try {window.opener.document.forms['@(Context.Request.Query["formId"])'].@(Context.Request.Query["btnId"]).click();}
+        catch (e){}
+        window.close();
+    </script>
+}
+
+<div class="form-horizontal">
+    <div class="form-body">
+        <div class="form-group">
+            <div class="col-md-3 col-sm-3 text-right">
+                <admin-label asp-for="TotalFrom" class="control-label" />
+            </div>
+            <div class="col-md-9 col-sm-9">
+                <admin-input asp-for="TotalFrom" /> [@Model.PrimaryStoreCurrencyCode]
+                <span asp-validation-for="TotalFrom"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 col-sm-3 text-right">
+                <admin-label asp-for="TotalTo" class="control-label" />
+            </div>
+            <div class="col-md-9 col-sm-9">
+                <admin-input asp-for="TotalTo" /> [@Model.PrimaryStoreCurrencyCode]
+                <span asp-validation-for="TotalTo"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 col-sm-3 text-right">
+                <admin-label asp-for="TotalRate" class="control-label" />
+            </div>
+            <div class="col-md-9 col-sm-9">
+                <admin-input asp-for="TotalRate" /> [@Model.PrimaryStoreCurrencyCode]
+                <span asp-validation-for="TotalRate"></span>
+            </div>
+        </div>
+    </div>
+</div>

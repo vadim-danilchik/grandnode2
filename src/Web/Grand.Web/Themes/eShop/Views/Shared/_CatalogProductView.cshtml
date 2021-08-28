@@ -72,7 +72,7 @@
         }
     </div>
     <div class="card-body">
-        <h3 class="card-title mb-0">
+        <h3 class="card-title">
             <a href="@Url.RouteUrl("Product", new { SeName = Model.SeName })">
                 @Model.Name
             </a>
@@ -148,8 +148,44 @@
                 }
             </div>
         </div>
+        @if (Model.ShowQty)
+        {
+            var qtyId = "addtocart_" + @Model.Id + "_EnteredQuantity";
+            <input class="form-control input-group-addon catalog-quantity" type="number" min="1" id="@qtyId" name="@qtyId" value="1">
+        }
+
+        @if (!Model.ProductPrice.DisableBuyButton)
+        {
+            var addToCartText = Loc["ShoppingCart.AddToCart"];
+            if (Model.ProductType == ProductType.Reservation)
+            {
+                addToCartText = Loc["ShoppingCart.Reservation"];
+            }
+            if (Model.ProductPrice.AvailableForPreOrder)
+            {
+                addToCartText = Loc["ShoppingCart.PreOrder"];
+            }
+            <button class="add-to-cart-button btn btn-outline-info" onclick="AxiosCart.addproducttocart_catalog('@addtocartlink', '@Model.ShowQty', '@Model.Id');return false;">
+                <b-icon icon="cart2" class="mx-auto d-sm-none d-block"></b-icon>
+                <span class="add-cart-text d-sm-block d-none">@(addToCartText)</span>
+                <span class="sr-only">@(addToCartText)</span>
+            </button>
+        }
+        else
+        {
+            if (Model.ProductType == ProductType.Auction)
+            {
+
+                var addToCartText = Loc["ShoppingCart.Bids"];
+                <button class="add-to-cart-button btn btn-outline-info" onclick="AxiosCart.addproducttocart_catalog('@addtocartlink', 'false', '@Model.Id');return false;">
+                    <b-icon icon="hammer" class="mx-auto d-sm-none d-block"></b-icon>
+                    <span class="add-cart-text d-sm-block d-none">@(addToCartText)</span>
+                    <span class="sr-only">@(addToCartText)</span>
+                </button>
+            }
+        }
     </div>
-    <div class="card-footer">
+    @*<div class="card-footer">
         @if (Model.SpecificationAttributeModels.Any())
         {
             <div class="spec-container">
@@ -296,5 +332,5 @@
                 </button>
             }
         }
-    </div>
+    </div>*@
 </article> 

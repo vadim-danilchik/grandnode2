@@ -39,7 +39,7 @@
         </template>
     </div>
     <div class="card-body">
-        <h3 class="card-title mb-0">
+        <h3 class="card-title">
             <a :href="Model.Url">
                 {{Model.Name}}
             </a>
@@ -108,8 +108,60 @@
                 </template>
             </div>
         </div>
+        <template v-if="Model.ShowQty">
+            <input class="form-control input-group-addon catalog-quantity" type="number" min="1" :id="'addtocart_' + Model.Id + '_EnteredQuantity'" :name="'addtocart_' + Model.Id + '_EnteredQuantity'" value="1">
+        </template>
+        <template v-if="!Model.ProductPrice.DisableBuyButton">
+            <template v-if="!Model.ShowQty">
+                <button class="add-to-cart-button btn btn-outline-info" :onclick="'AxiosCart.addproducttocart_catalog(`@Url.RouteUrl("AddProductCatalog")/' + Model.Id +'/1?quantity=1`, `' + Model.ShowQty +'`,`' + Model.Id + '`);return false;'">
+                    <b-icon icon="cart2" class="mx-auto d-sm-none d-block"></b-icon>
+                    <span class="add-cart-text d-sm-block d-none">
+                        <template v-if="Model.ProductType == 20">
+                            @Loc["ShoppingCart.Reservation"]
+                        </template>
+                        <template v-else>
+                            <template v-if="Model.ProductPrice.AvailableForPreOrder">
+                                @Loc["ShoppingCart.PreOrder"]
+                            </template>
+                            <template v-else>
+                                @Loc["ShoppingCart.AddToCart"]
+                            </template>
+                        </template>
+                    </span>
+                    <span class="sr-only">AddToCart</span>
+                </button>
+            </template>
+            <template v-else>
+                <button class="add-to-cart-button btn btn-outline-info" :onclick="'AxiosCart.addproducttocart_catalog(`@Url.RouteUrl("AddProductCatalog")/' + Model.Id +'/1`, `' + Model.ShowQty +'`,`' + Model.Id + '`);return false;'">
+                    <b-icon icon="cart2" class="mx-auto d-sm-none d-block"></b-icon>
+                    <span class="add-cart-text d-sm-block d-none">
+                        <template v-if="Model.ProductType == 20">
+                            @Loc["ShoppingCart.Reservation"]
+                        </template>
+                        <template v-else>
+                            <template v-if="Model.ProductPrice.AvailableForPreOrder">
+                                @Loc["ShoppingCart.PreOrder"]
+                            </template>
+                            <template v-else>
+                                @Loc["ShoppingCart.AddToCart"]
+                            </template>
+                        </template>
+                    </span>
+                    <span class="sr-only">AddToCart</span>
+                </button>
+            </template>
+        </template>
+        <template v-else>
+            <template v-if="Model.ProductType == 40">
+                <button class="add-to-cart-button btn btn-outline-info" :onclick="'AxiosCart.addproducttocart_catalog(`@Url.RouteUrl("AddProductCatalog")/' + Model.Id +'/1?quantity=1`, `' + Model.ShowQty +'`,`' + Model.Id + '`);return false;'">
+                    <b-icon icon="hammer" class="mx-auto d-sm-none d-block"></b-icon>
+                    <span class="add-cart-text d-sm-block d-none">@Loc["ShoppingCart.Bids"]</span>
+                    <span class="sr-only">AddToCart</span>
+                </button>
+            </template>
+        </template>
     </div>
-    <div class="card-footer">
+    @*<div class="card-footer">
         <template v-if="Model.SpecificationAttributeModels.length > 0">
             <div class="spec-container">
                 <table>
@@ -232,6 +284,6 @@
                     <span class="sr-only">AddToCart</span>
                 </button>
             </template>
-        </template>
+        </template>*@
     </div>
 </article>

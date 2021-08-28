@@ -1,0 +1,21 @@
+﻿@model IList<ProductOverviewModel>
+@inject DisplayOrderHomePage order
+<div data-id="HomePageNewProducts" class="home-page-section" data-load="more">
+    <b-tab class="section" title="@Loc["HomePage.NewProducts"]">
+        <div id="HomePageNewProducts">
+            <div class="product-grid order-@order.HomePageNewProducts">
+                <b-col cols="12" class="px-0">
+                    <div class="item-row">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-for-5-xl col-xl-@order.Np_Xl col-lg-@order.Np_Lg col-md-@order.Np_Md col-sm-@order.Np_Sm col-@order.Np_Col product-container mb-2">
+                                <partial name="_CatalogProductView" model="item" />
+                            </div>
+                        }
+                    </div>
+                </b-col>
+            </div>
+        </div>
+    </b-tab>
+</div>
+

@@ -4,6 +4,7 @@
 .nav-item .phone {
     font-weight: 600;
     margin-bottom: 0;
+    color: var(--primary-text-color);
 }
 .nav-item .text {
     color: var(--primary-text-color);
@@ -178,7 +179,6 @@
 #sidebar-menu .b-sidebar-body {
     padding: 0;
 }
-
 @media (min-width: 768px) {
     .top-header-items {
         margin-left: auto;
@@ -199,24 +199,6 @@
         width: 75%;
     }
 }
-/*@media (min-width: 992px) {
-    .menu-container {
-        align-items: flex-start;
-    }
-    .navbar-light .navbar-brand {
-        text-align: center;
-    }
-    .top-header-items {
-        justify-content: flex-end;
-    }
-    .menu-container, .store-logo, .top-header-items {
-        -ms-flex-preferred-size: 0;
-        flex-basis: 0;
-        -ms-flex-positive: 1;
-        flex-grow: 1;
-        max-width: 100%;
-    }
-}*/
 @media (max-width: 991px) {
     .header-nav-container {
         border-bottom: 1px solid var(--primary-border-color);
@@ -288,5 +270,39 @@
 @media (max-width: 380px) {
     .header-nav .navbar-brand img {
         max-width: 120px;
+    }
+}
+
+@media (min-width: 1800px) and (max-width: 2559.98px) {
+    .nav-item .phone {
+        font-size: 1.3rem;
+    }
+}
+
+@media (min-width: 1600px) and (max-width: 1799.98px) {
+    .nav-item .phone {
+        font-size: 0.98rem;
+    }
+}
+
+@media (min-width: 1440px) and (max-width: 1599.98px) {
+    .nav-item .phone {
+        font-size: 0.98rem;
+    }
+}
+@media (min-width: 1360px) and (max-width: 1439.98px) {
+    .nav-item .phone {
+        font-size: 0.95rem;
+    }
+}
+@media (min-width: 1200px) and (max-width: 1359.98px) {
+    .nav-item .phone {
+        font-size: 0.84rem;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .nav-item .phone {
+        font-size: 1.15rem;
     }
 }

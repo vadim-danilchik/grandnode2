@@ -18,63 +18,78 @@
             <ul class="d-flex flex-column d-lg-none mb-0 pl-0">
                 <li>
                     <ul class="d-flex pl-0">
+                        @if (!string.IsNullOrEmpty(Loc["header.phone.value"]))
+                        {
+                            <li class="mr-2 align-self-end">
+                                <a class="nav-item d-flex" title="mts" href="tel:@Loc["header.phone.value"]">
+                                    <img height="24" width="24" src="/theme/eshop/Content/images/mts.svg#svgView(viewBox(0, 0, 258, 259))" alt="mts" />
+                                    <h6 class="phone mb-0 ml-1 d-none d-md-flex">@Loc["header.phone.value"]</h6>
+                                </a>
+                            </li>
+                        }
+                        @if (!string.IsNullOrEmpty(Loc["header.phone2.value"]))
+                        {
+                            <li class="mr-2 align-self-end">
+                                <a class="nav-item d-flex" title="mts" href="tel:@Loc["header.phone2.value"]">
+                                    <img height="24" width="24" src="/theme/eshop/Content/images/life.svg" alt="life" />
+                                    <h6 class="phone mb-o ml-1 d-none d-md-flex">@Loc["header.phone2.value"]</h6>
+                                </a>
+                            </li>
+                        }
+                        @if (!string.IsNullOrEmpty(@Loc["menu.contacts.viber.value"]))
+                        {
+                            <li class="mr-2">
+                                <a title="viber" href="viber://chat?number=@Loc["menu.contacts.viber.value"]" rel="noopener" target="_blank">
+                                    <img height="24" width="24" src="/theme/eshop/Content/images/viber.svg" alt="viber" />
+                                    <span class="sr-only">Viber</span>
+                                </a>
+                            </li>
+                        }
+                        @if (!string.IsNullOrEmpty(Loc["menu.contacts.telegram.value"]))
+                        {
+                            <li class="mr-2">
+                                <a title="telegram" href="tg://resolve?domain=@Loc["menu.contacts.telegram.value"]" rel="noopener" target="_blank">
+                                    <img height="24" width="24" src="/theme/eshop/Content/images/telegram.svg" alt="telegram" />
+                                    <span class="sr-only">Telegram</span>
+                                </a>
+                            </li>
+                        }
                         @if (!string.IsNullOrEmpty(Loc["menu.contacts.instagram.value"]))
                         {
-                            <li class="mr-1">
+                            <li class="mr-2">
                                 <a href="@Loc["menu.contacts.instagram.value"]" rel="noopener" target="_blank">
-                                    <img height="32" width="32" src="/theme/eshop/Content/images/instagram.svg" alt="instagram" />
+                                    <img height="24" width="24" src="/theme/eshop/Content/images/instagram.svg" alt="instagram" />
                                     <span class="sr-only">instagram</span>
                                 </a>
                             </li>
                         }
                         @if (!string.IsNullOrEmpty(Loc["menu.contacts.email.value"]))
                         {
-                            <li class="mr-1 nav-item">
+                            <li class="mr-2">
                                 <a title="mail" href="mailto:@Loc["menu.contacts.email.value"]" rel="noopener" target="_blank">
-                                    <img height="32" width="32" src="/theme/eshop/Content/images/mail.svg" alt="viber" />
+                                    <img height="24" width="24" src="/theme/eshop/Content/images/mail.svg" alt="mail" />
                                     <span class="sr-only">Mail</span>
                                 </a>
                             </li>
                         }
-                        @if (!string.IsNullOrEmpty(Loc["menu.contacts.telegram.value"]))
-                        {
-                            <li class="mr-1">
-                                <a title="telegram" href="tg://resolve?domain=@Loc["menu.contacts.telegram.value"]" rel="noopener" target="_blank">
-                                    <img height="32" width="32" src="/theme/eshop/Content/images/telegram.svg" alt="viber" />
-                                    <span class="sr-only">Telegram</span>
-                                </a>
-                            </li>
-                        }
-                        @if (!string.IsNullOrEmpty(Loc["header.phone.value"]))
-                        {
-                            <li class="mr-1">
-                                <a title="phone">
-                                    <img height="32" width="32" src="/theme/eshop/Content/images/mts.svg#svgView(viewBox(0, 0, 258, 259))" alt="phone" />
-                                    <span class="sr-only">Phone</span>
-                                </a>
-                            </li>
-                            <li class="mr-1">
-                                <a title="viber" href="viber://chat?number=@Loc["menu.contacts.viber.value"]" rel="noopener" target="_blank">
-                                    <img height="32" width="32" src="/theme/eshop/Content/images/viber.svg" alt="viber" />
-                                    <span class="sr-only">Viber</span>
-                                </a>
-                            </li>
-                            <li class="d-none d-md-flex align-items-center">
-                                <h6 class="phone mb-0">@Loc["menu.contacts.viber.value"]</h6>
-                            </li>
-                        }
                     </ul>
                 </li>
-                <li>
+                @*<li>
                     <ul class="d-flex justify-content-center pl-0">
                         @if (!string.IsNullOrEmpty(Loc["header.phone.value"]))
                         {
                             <li class="d-sm-flex d-md-none align-items-center">
-                                <h6 class="phone mb-0">@Loc["menu.contacts.viber.value"]</h6>
+                                <h6 class="phone mb-0">@Loc["header.phone.value"]</h6>
+                            </li>
+                        }
+                        @if (!string.IsNullOrEmpty(Loc["header.phone2.value"]))
+                        {
+                            <li class="d-sm-flex d-md-none align-items-center">
+                                <h6 class="phone mb-0">@Loc["header.phone2.value"]</h6>
                             </li>
                         }
                     </ul>
-                </li>
+                </li>*@
             </ul>
             <ul class="navbar-nav top-header-items">
                 <li class="search-item">

@@ -1,0 +1,21 @@
+﻿@model Shipping.Europost.Configurable.Models.EuropostShippingPointModel
+@{
+    Layout = "";
+}
+<div class="form-horizontal">
+    <div class="form-body">
+        <div class="row">
+            <div class="col-md-12">@Model.WarehouseName</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">@Model.Info1</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 text-right"><label for="">@Loc["Plugins.Shipping.Europost.Configurable.ShippingPoint.Map"]</label></div>
+            <div class="col-md-10">
+                <a title="map" href="@Model.MapUrl" rel="noopener" target="_blank">
+                    @Model.MapUrl
+                </a></div>
+        </div>
+    </div>
+</div>

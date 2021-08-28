@@ -1,5 +1,6 @@
 ﻿@model MenuModel
 @await Component.InvokeAsync("Widget", new { widgetZone = "header_menu_before" })
+<li><hr class="dropdown-divider top"></li>
 @if (Model.DisplayHomePageMenu)
 {
     <li class="home-link">
@@ -79,27 +80,21 @@
         </li>
         <li class="w-100">
             <div class="d-flex justify-content-between">
+                @if (!string.IsNullOrEmpty(Loc["menu.contacts.viber.value"]))
+                {
+                    <div class="nav-item">
+                        <a title="viber" href="viber://chat?number=@Loc["menu.contacts.viber.value"]" rel="noopener" target="_blank">
+                            <img height="24" width="24" src="/theme/eshop/Content/images/viber.svg" alt="viber" />
+                            <span class="sr-only">Viber</span>
+                        </a>
+                    </div>
+                }
                 @if (!string.IsNullOrEmpty(Loc["menu.contacts.telegram.value"]))
                 {
                     <div class="nav-item">
                         <a title="telegram" href="tg://resolve?domain=@Loc["menu.contacts.telegram.value"]" rel="noopener" target="_blank">
-                            <img height="32" width="32" src="/theme/eshop/Content/images/telegram.svg" alt="viber" />
+                            <img height="24" width="24" src="/theme/eshop/Content/images/telegram.svg" alt="telegram" />
                             <span class="sr-only">Telegram</span>
-                        </a>
-                    </div>
-                }
-                @if (!string.IsNullOrEmpty(Loc["header.phone.value"]))
-                {
-                    <div class="nav-item">
-                        <a title="phone">
-                            <img height="32" width="32" src="/theme/eshop/Content/images/mts.svg#svgView(viewBox(0, 0, 258, 259))" alt="phone" />
-                            <span class="sr-only">Phone</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a title="viber" href="viber://chat?number=@Loc["menu.contacts.viber.value"]" rel="noopener" target="_blank">
-                            <img height="32" width="32" src="/theme/eshop/Content/images/viber.svg" alt="viber" />
-                            <span class="sr-only">Viber</span>
                         </a>
                     </div>
                 }
@@ -107,9 +102,8 @@
                 {
                     <div class="nav-item">
                         <a href="@Loc["menu.contacts.instagram.value"]" rel="noopener" target="_blank">
-                            <img height="32" width="32" src="/theme/eshop/Content/images/instagram.svg" alt="instagram" />
+                            <img height="24" width="24" src="/theme/eshop/Content/images/instagram.svg" alt="instagram" />
                             <span class="sr-only">instagram</span>
-                            @*<span class="text">@Loc["menu.contacts.instagram.value"]</span>*@
                         </a>
                     </div>
                 }
@@ -117,33 +111,30 @@
                 {
                     <div class="nav-item">
                         <a title="mail" href="mailto:@Loc["menu.contacts.email.value"]" rel="noopener" target="_blank">
-                            <img height="32" width="32" src="/theme/eshop/Content/images/mail.svg" alt="viber" />
+                            <img height="24" width="24" src="/theme/eshop/Content/images/mail.svg" alt="mail" />
                             <span class="sr-only">Mail</span>
                         </a>
                     </div>
                 }
             </div>
         </li>
-        <li class="w-100 d-flex justify-content-center">
-            <h4 class="phone">@Loc["menu.contacts.viber.value"]</h4>
+        <li class="w-100">
+            <div class="nav-item">
+                <a title="mts" href="tel:@Loc["header.phone.value"]" class="d-flex align-items-center">
+                    <img height="24" width="24" src="/theme/eshop/Content/images/mts.svg#svgView(viewBox(0, 0, 258, 259))" alt="mts" />
+                    <h5 class="phone mb-0 ml-2">@Loc["header.phone.value"]</h5>
+                </a>
+            </div>
+        </li>
+        <li class="w-100">
+            <div class="nav-item">
+                <a title="mts" href="tel:@Loc["header.phone2.value"]" class="d-flex align-items-center">
+                    <img height="24" width="24" src="/theme/eshop/Content/images/life.svg" alt="life" />
+                    <h5 class="phone ml-2">@Loc["header.phone2.value"]</h5>
+                </a>
+            </div>
         </li>
     </ul>
-    <!--<ul class="d-flex align-items-start">-->
-        @*<li class="">
-                <span class="">@Loc["menu.contacts"]</span>
-            </li>*@
-        @*<li class="mr-2 nav-item">
-                <div class="text nav-link">@Loc["header.worktime.value"]</div>
-            </li>*@
-        @*<li class="">
-                <a title="phone" href="viber://chat?number=@Loc["header.phone.value"]" rel="noopener" target="_blank">
-                    <img height="32" width="32" src="/theme/eshop/Content/images/mts.svg#svgView(viewBox(0, 0, 258, 259))" alt="phone" />
-                    <span class="sr-only">Phone</span>
-                    <span class="text">@Loc["header.phone.value"]</span>
-                </a>
-            </li>*@
-
-    <!--</ul>-->
 </li>
 
 @await Component.InvokeAsync("Widget", new { widgetZone = "header_menu_after" })
