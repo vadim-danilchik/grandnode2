@@ -1,7 +1,27 @@
 ﻿@model List<SelectListItem>
 <div class="script-tag">
     <script>
-        function renderShippingOptionInfo(param) {
+        function tooglePoints() {
+            document.getElementById("europostDropdown").classList.toggle("show");
+        }
+
+        function filterFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("europostInput");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("europostDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+
+        function selectEuropostPoint(param) {
             if (param != "") {
                 var _url = '/EuropostShippingPoint/Get?shippingOptionId=' + param;
                 var xhttp = new XMLHttpRequest();
@@ -16,16 +36,26 @@
             else {
                 document.getElementById("shippingOptionInfo").innerHTML = "";
             }
+
+            document.getElementById("selectedShippingOption").value = param;
+
+            vmorder.Checkout.saveShippingMethod();
+
+            document.getElementById("europostDropdown").classList.toggle("show");
         }
     </script>
 </div>
 
-<h6>@Loc["Plugins.Shipping.Europost.Configurable.ShippingPoint.ChooseShippingPoint"]</h6>
-<select class="form-control" name="selectedShippingOption" onchange="renderShippingOptionInfo(value)">
-    @foreach (var shippingOption in Model)
-    {
-        <option value="@shippingOption.Value">@shippingOption.Text</option>
-    }
-</select>
+<div class="dropdown w-100">
+    <input type="hidden" value="123" name="selectedShippingOption" id="selectedShippingOption" />
+    <button class="btn btn-secondary dropdown-toggle col-12" type="button" role="button" onclick="tooglePoints()">@Loc["Plugins.Shipping.Europost.Configurable.ShippingPoint.ChooseShippingPoint"]</button>
+    <div id="europostDropdown" class="dropdown-content dropdown-menu col-12 europostDropdown">
+        <input type="text" class="w-100" placeholder="@Loc["Plugins.Shipping.Europost.Configurable.ShippingPoint.SelectShippingPoint"]" id="europostInput" onkeyup="filterFunction()">        
+        @foreach (var shippingOption in Model)
+        {
+            <a value="@shippingOption.Value" class="dropdown-item" onclick="selectEuropostPoint(event.target.attributes['value'].nodeValue)">@shippingOption.Text</a>
+        }
+    </div>
+</div>
 
 <div id="shippingOptionInfo"></div>

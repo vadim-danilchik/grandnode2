@@ -179,7 +179,7 @@ namespace Shipping.Europost.Configurable.Services
             var query = from gp in _shippingPointRepository.Table
                         select gp;
 
-            var records = query.ToList();
+            var records = query.OrderBy(i => i.Address7Id).ToList();
 
             //paging
             return await Task.FromResult(new PagedList<EuropostShippingPointRecord>(records, pageIndex, pageSize));

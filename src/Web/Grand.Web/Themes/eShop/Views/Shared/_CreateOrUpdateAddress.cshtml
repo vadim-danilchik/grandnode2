@@ -1,10 +1,10 @@
 ﻿@model AddressModel
-@{ 
+@{
     var prefix = ViewData.TemplateInfo.HtmlFieldPrefix;
 }
 @if (Model.CountryEnabled && Model.StateProvinceEnabled)
 {
-<script asp-location="Footer">
+    <script asp-location="Footer">
         function @Html.IdFor(model => model.CountryId)_select_element(e) {
             var selectedItem = e.value;
             var ddlStates = document.getElementById("@Html.IdFor(model => model.StateProvinceId)");
@@ -42,17 +42,10 @@
             ddlStates.classList.add('is-invalid');
         }
     }
-</script>
+    </script>
 }
 <input asp-for="Id" type="hidden" />
 <div class="edit-address row">
-    <div class="form-group col-sm-12 col-md-6">
-        <label asp-for="FirstName" class="col-form-label">@Loc["Address.Fields.FirstName"]:</label>
-        <span class="required">*</span>
-        <input asp-for="FirstName" class="form-control" v-validate="'required'" />
-        <span class="field-validation-error">{{veeErrors.first('@(prefix).FirstName')}}</span>
-        <span asp-validation-for="FirstName"></span>
-    </div>
     <div class="form-group col-sm-12 col-md-6">
         <label asp-for="LastName" class="col-form-label">@Loc["Address.Fields.LastName"]:</label>
         <span class="required">*</span>
@@ -60,6 +53,30 @@
         <span class="field-validation-error">{{veeErrors.first('@(prefix).LastName')}}</span>
         <span asp-validation-for="LastName"></span>
     </div>
+    <div class="form-group col-sm-12 col-md-6">
+        <label asp-for="FirstName" class="col-form-label">@Loc["Address.Fields.FirstName"]:</label>
+        <span class="required">*</span>
+        <input asp-for="FirstName" class="form-control" v-validate="'required'" />
+        <span class="field-validation-error">{{veeErrors.first('@(prefix).FirstName')}}</span>
+        <span asp-validation-for="FirstName"></span>
+    </div>
+    @if (Model.PhoneEnabled)
+    {
+        <div class="form-group col-sm-12">
+            <label asp-for="PhoneNumber" class="col-form-label">@Loc["Address.Fields.PhoneNumber"]:</label>
+            @if (Model.PhoneRequired)
+            {
+                <span class="required">*</span>
+                <input asp-for="PhoneNumber" class="form-control" v-validate="'required'" />
+                <span class="field-validation-error">{{veeErrors.first('@(prefix).PhoneNumber')}}</span>
+            }
+            else
+            {
+                <input asp-for="PhoneNumber" class="form-control" />
+            }
+            <span asp-validation-for="PhoneNumber"></span>
+        </div>
+    }
     <div class="form-group col-sm-12">
         <label asp-for="Email" class="col-form-label">@Loc["Address.Fields.Email"]:</label>
         <span class="required">*</span>
@@ -117,6 +134,7 @@
     {
         <div class="form-group col-sm-12 col-md-6">
             <label asp-for="StateProvinceId" class="col-form-label">@Loc["Address.Fields.StateProvince"]:</label>
+            <span class="required">*</span>
             <select asp-for="StateProvinceId" data-val-required="@Loc["Address.Fields.StateProvince.Required"]" class="custom-select form-control" onchange="@Html.IdFor(model => model.StateProvinceId)_select_element(this)" asp-items="Model.AvailableStates" v-validate="'required'"></select>
             <span class="field-validation-error">{{veeErrors.first('@(prefix).StateProvinceId')}}</span>
             <span asp-validation-for="StateProvinceId"></span>
@@ -141,7 +159,7 @@
     }
     @if (Model.StreetAddressEnabled)
     {
-        <div class="form-group col-sm-12 col-md-6">
+        <div class="form-group col-sm-12">
             <label asp-for="Address1" class="col-form-label">@Loc["Address.Fields.Address1"]:</label>
             @if (Model.StreetAddressRequired)
             {
@@ -188,23 +206,6 @@
                 <input asp-for="ZipPostalCode" class="form-control" />
             }
             <span asp-validation-for="ZipPostalCode"></span>
-        </div>
-    }
-    @if (Model.PhoneEnabled)
-    {
-        <div class="form-group col-sm-12 col-md-6">
-            <label asp-for="PhoneNumber" class="col-form-label">@Loc["Address.Fields.PhoneNumber"]:</label>
-            @if (Model.PhoneRequired)
-            {
-                <span class="required">*</span>
-                <input asp-for="PhoneNumber" class="form-control" v-validate="'required'" />
-                <span class="field-validation-error">{{veeErrors.first('@(prefix).PhoneNumber')}}</span>
-            }
-            else
-            {
-                <input asp-for="PhoneNumber" class="form-control" />
-            }
-            <span asp-validation-for="PhoneNumber"></span>
         </div>
     }
     @if (Model.FaxEnabled)

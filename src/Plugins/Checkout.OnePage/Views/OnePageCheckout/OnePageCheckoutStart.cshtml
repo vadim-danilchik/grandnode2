@@ -38,7 +38,7 @@
                                     </div>
                                 }
                             </div>
-                            <div class="col-xl-4 col-6">
+                            <div class="col-xl-4 col-md-6 col-12">
                                 @if (Model.ShippingRequired)
                                 {
                                     <div class="card">
@@ -55,9 +55,8 @@
                                         </div>
                                     </div>
                                 }
-
                             </div>
-                            <div class="col-xl-4 col-6">
+                            <div class="col-xl-4 col-md-6 col-12">
                                 <div class="card">
                                     <div class="card-header" role="tab">
                                         <span block id="button-payment-method" class="">@Loc["Checkout.PaymentMethod"]</span>
@@ -74,8 +73,8 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-12 buttons my-3 d-flex" id="confirm-order-buttons-container">
-                                <input type="button" class="btn btn-info confirm-order-next-step-button ml-auto" @@click="validateBeforeClick($event); vmorder.setDisabled(event)" onclick="vmorder.Checkout.save()" value="@Loc["Common.Confirm"]" />
+                            <div class="col-xl-4 col-md-6 col-12 buttons my-3 d-flex" id="confirm-order-buttons-container">
+                                <input type="button" class="btn btn-info confirm-order-next-step-button col-12" @@click="validateBeforeClick($event); vmorder.setDisabled(event)" onclick="vmorder.Checkout.save()" value="@Loc["Common.Confirm"]" />
                             </div>
                         </div>
                     </form>

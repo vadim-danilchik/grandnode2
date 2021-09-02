@@ -54,7 +54,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="form-row">
-                    <div class="col-lg-6 col-md-6 col-12 order-info">
+                    <div class="col-lg-4 col-md-4 col-12 order-info">
                         <ul class="order-overview px-0">
                             <li class="title">
                                 <h5 class="order-number h4">
@@ -81,7 +81,7 @@
                     </div>
                     @if (Model.IsShippable)
                     {
-                        <div class="col-lg-6 col-md-6 col-12 shipping">
+                        <div class="col-lg-4 col-md-4 col-12 shipping">
                             <ul class="shipping-info px-0">
                                 <li class="title">
                                     <h5 class="generalTitle">@(Model.PickUpInStore ? Loc["Order.PickupAddress"] : Loc["Order.ShippingAddress"])</h5>
@@ -89,21 +89,21 @@
                                 @if (!Model.PickUpInStore)
                                 {
                                     <li class="name">
-                                        @Model.ShippingAddress.FirstName @Model.ShippingAddress.LastName
+                                        @Model.ShippingAddress.LastName @Model.ShippingAddress.FirstName
                                     </li>
                                     <li class="email">
-                                        @Loc["Order.Email"]: @Model.ShippingAddress.Email
+                                        @Model.ShippingAddress.Email
                                     </li>
                                     if (Model.ShippingAddress.PhoneEnabled)
                                     {
                                         <li class="phone">
-                                            @Loc["Order.Phone"]: @Model.ShippingAddress.PhoneNumber
+                                            @Model.ShippingAddress.PhoneNumber
                                         </li>
                                     }
                                     if (Model.ShippingAddress.FaxEnabled)
                                     {
                                         <li class="fax">
-                                            @Loc["Order.Fax"]: @Model.ShippingAddress.FaxNumber
+                                            @Model.ShippingAddress.FaxNumber
                                         </li>
                                     }
                                     if (Model.ShippingAddress.CompanyEnabled && !String.IsNullOrEmpty(Model.ShippingAddress.Company))
@@ -129,25 +129,25 @@
                                         Model.ShippingAddress.ZipPostalCodeEnabled)
                                     {
                                         <li class="city-state-zip">
-                                            @if (Model.ShippingAddress.CityEnabled)
+                                            @if (Model.ShippingAddress.CityEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.City))
                                             {
                                                 @Model.ShippingAddress.City
                                             }
-                                            @if (Model.ShippingAddress.CityEnabled && (Model.ShippingAddress.StateProvinceEnabled || Model.ShippingAddress.ZipPostalCodeEnabled))
+                                            @if (Model.ShippingAddress.CityEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.City) && (Model.ShippingAddress.StateProvinceEnabled || Model.ShippingAddress.ZipPostalCodeEnabled))
                                             {
                                                 <text>,</text>
                                             }
-                                            @if (Model.ShippingAddress.StateProvinceEnabled)
+                                            @if (Model.ShippingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.Address1) && !string.IsNullOrEmpty(Model.ShippingAddress.StateProvinceName))
                                             {
                                                 @Model.ShippingAddress.StateProvinceName
                                             }
-                                            @if (Model.ShippingAddress.ZipPostalCodeEnabled)
+                                            @if (Model.ShippingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.Address1) && !string.IsNullOrEmpty(Model.ShippingAddress.ZipPostalCode))
                                             {
                                                 @Model.ShippingAddress.ZipPostalCode
                                             }
                                         </li>
                                     }
-                                    if (Model.ShippingAddress.CountryEnabled && !String.IsNullOrEmpty(Model.ShippingAddress.CountryName))
+                                    if (Model.ShippingAddress.CountryEnabled && !String.IsNullOrEmpty(Model.ShippingAddress.CountryName) && !string.IsNullOrEmpty(Model.ShippingAddress.Address1))
                                     {
                                         <li class="country">
                                             @Model.ShippingAddress.CountryName
@@ -219,10 +219,66 @@
                             </ul>
                         </div>
                     }
-                </div>
+                    <div class="col-lg-4 col-md-4 col-12 billing">
+                        <ul class="billing-info px-0">
+                            @if (!String.IsNullOrEmpty(Model.PaymentMethod))
+                            {
+                                <li class="title">
+                                    <h5 class="generalTitle">@Loc["Order.Payment"]</h5>
+                                </li>
+                                <li class="payment-method">
+                                    <span class="label">
+                                        @Loc["Order.Payment.Method"]:
+                                    </span>
+                                    <span class="value">
+                                        @Model.PaymentMethod
+                                    </span>
+                                </li>
+                                if (!Model.PrintMode)
+                                {
+                                    <li class="payment-method-status">
+                                        <span class="label">
+                                            @Loc["Order.Payment.Status"]:
+                                        </span>
+                                        <span class="value">
+                                            @Model.PaymentMethodStatus
+                                        </span>
+                                    </li>
+                                }
+                                if (!Model.PrintMode && Model.CanRePostProcessPayment)
+                                {
+                                    <li class="repost">
+                                        <form asp-route="OrderDetails" method="post">
+                                            <input type="hidden" name="orderId" value="@Model.Id" />
+                                            <input type="submit" asp-action="RePostPayment" name="repost-payment" value="@Loc["Order.RetryPayment"]" class="btn btn-secondary re-order-button" />
+                                            <p class="hint">
+                                                <em>@Loc["Order.RetryPayment.Hint"]</em>
+                                            </p>
+                                        </form>
+                                    </li>
+                                }
+                            }
+                            @if (Model.CustomValues != null)
+                            {
+                                foreach (var item in Model.CustomValues)
+                                {
+                                    <li class="custom-value">
+                                        <span class="label">
+                                            @item.Key:
+                                        </span>
+                                        <span class="value">
+                                            @(item.Value != null ? item.Value.ToString() : "")
+                                        </span>
+                                    </li>
+                                }
+                            }
+                            
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
     @if (Model.Items.Any())
     {
@@ -481,7 +537,7 @@
                                                 @if (item.ShippedDate.HasValue)
                                                 {
                                                     <strong class="d-lg-none">@Loc["Order.Shipments.ShippedDate"]: </strong>
-                                                    <span>@item.ShippedDate.Value.ToString("D")</span>
+                                                    <span>@item.ShippedDate.Value.ToString("d")</span>
                                                 }
                                                 else
                                                 {
@@ -493,7 +549,7 @@
                                                 @if (item.DeliveryDate.HasValue)
                                                 {
                                                     <strong class="d-lg-none">@Loc["Order.Shipments.DeliveryDate"]: </strong>
-                                                    <span>@item.DeliveryDate.Value.ToString("D")</span>
+                                                    <span>@item.DeliveryDate.Value.ToString("d")</span>
                                                 }
                                                 else
                                                 {
@@ -543,7 +599,7 @@
                             {
                                 <tr class="row mx-0">
                                     <td class="created-on col-4">
-                                        @item.CreatedOn.ToString()
+                                        @item.CreatedOn.ToString("d")
                                     </td>
                                     <td class="note col-8">
                                         @Html.Raw(item.Note)

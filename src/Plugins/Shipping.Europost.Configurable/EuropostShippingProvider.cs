@@ -199,6 +199,8 @@ namespace Shipping.Europost.Configurable
             var rate = await GetRate(subTotal, weight);
 
             var shippingOption = new ShippingOption();
+            var maptranslate = _translationService.GetResource("Plugins.Shipping.Europost.Configurable.ShippingPoint.Map");
+            shippingOption.Description = $"<a title=\"map\" href=\"{_EuropostShippingSettings.MapUrl}\" rel=\"noopener\" target=\"_blank\">{maptranslate}</a>";
             shippingOption.Name = _translationService.GetResource("Shipping.Europost.Configurable.FriendlyName");
             shippingOption.Rate = await _currencyService.ConvertFromPrimaryStoreCurrency(rate.Value, _workContext.WorkingCurrency);
             response.ShippingOptions.Add(shippingOption);
@@ -251,7 +253,7 @@ namespace Shipping.Europost.Configurable
                 return new List<string>() { _translationService.GetResource("Plugins.Shipping.Europost.Configurable.SelectBeforeProceed") };
 
             var forCustomer =
-            string.Format("<strong>{0}</strong><br><strong>{1}</strong><br>", chosenShippingOption.WarehouseName, chosenShippingOption.Info1);
+            string.Format("{0}<br>{1}<br>", chosenShippingOption.WarehouseName, chosenShippingOption.Info1);
 
             await _userFieldService.SaveField(
                 _workContext.CurrentCustomer,

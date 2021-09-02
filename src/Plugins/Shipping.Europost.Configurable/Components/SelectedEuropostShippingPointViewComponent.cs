@@ -29,8 +29,6 @@ namespace Shipping.ShippingPoint.Components
                 var shippingPoints = await _shippingPointService.GetAllStoreShippingPoint();
 
                 var shippingPointsModel = new List<SelectListItem>();
-                shippingPointsModel.Add(new SelectListItem() { Value = "", Text = _translationService.GetResource("Plugins.Shipping.Europost.Configurable.ShippingPoint.SelectShippingPoint") });
-
                 foreach (var shippingPoint in shippingPoints)
                 {
                     shippingPointsModel.Add(new SelectListItem() { Value = shippingPoint.Id, Text = shippingPoint.WarehouseName });

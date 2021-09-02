@@ -460,22 +460,73 @@ button.close {
 }
 
     .btn.dropdown-toggle + .dropdown-menu {
-        background-color: #242424;
-        border: 1px solid #333;
+        background-color: var(--secondary-color);
+        border: 1px solid var(--secondary-border-color);
         border-radius: 0;
     }
 
         .btn.dropdown-toggle + .dropdown-menu .dropdown-item {
             padding: 3px 10px;
-            color: #aaa;
+            color: var(--secondary-text-color);
             background-color: transparent;
         }
 
         .btn.dropdown-toggle + .dropdown-menu li.active .dropdown-item {
             color: #efefef;
         }
-/* auctions */
 
+/* The search field */
+#europostInput {
+    box-sizing: border-box;
+    background-position: 14px 12px;
+    background-repeat: no-repeat;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+}
+
+    /* The search field when it gets focus/clicked on */
+    #europostInput:focus {
+        outline: 3px solid #ddd;
+    }
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f6f6f6;
+    min-width: 230px;
+    border: 1px solid #ddd;
+    z-index: 2;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+    /* Links inside the dropdown */
+    .dropdown-content .dropdown-item {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+        /* Change color of dropdown links on hover */
+.btn.dropdown-toggle + .dropdown-menu .dropdown-item:hover {
+    cursor: pointer;
+    background-color: var(--primary-color);
+}
+
+/* auctions */
 .countdown-box.alert-info {
     color: var(--secondary-text-color);
     font-weight: 500;

@@ -14,6 +14,7 @@ namespace Shipping.Europost.Configurable
         {
             services.AddScoped<IShippingEuropostService, ShippingEuropostService>();
             services.AddScoped<IShippingRateCalculationProvider, EuropostShippingProvider>();
+            services.AddHttpClient();
         }
 
         public int Priority => 10;

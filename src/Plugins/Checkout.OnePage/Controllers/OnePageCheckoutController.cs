@@ -129,18 +129,11 @@ namespace Checkout.OnePage.Controllers
                 if (sciWarnings.Any())
                     return RedirectToRoute("ShoppingCart", new { checkoutAttributes = true });
             }
-            var paymentMethodModel = await GetCheckoutPaymentMethodModel(cart);
+
             var requiresShipping = cart.RequiresShipping();
+
             var model = new OnePageCheckoutModel {
                 ShippingRequired = requiresShipping,
-                BillingAddress = await _mediator.Send(new GetBillingAddress() {
-                    Cart = cart,
-                    Currency = _workContext.WorkingCurrency,
-                    Customer = _workContext.CurrentCustomer,
-                    Language = _workContext.WorkingLanguage,
-                    Store = _workContext.CurrentStore,
-                    PrePopulateNewAddressWithCustomerFields = true
-                }),
                 ShippingAddress = await _mediator.Send(new GetShippingAddress() {
                     Currency = _workContext.WorkingCurrency,
                     Customer = _workContext.CurrentCustomer,
@@ -148,37 +141,15 @@ namespace Checkout.OnePage.Controllers
                     Store = _workContext.CurrentStore,
                     PrePopulateNewAddressWithCustomerFields = true
                 }),
-                HasSinglePaymentMethod = paymentMethodModel.PaymentMethods?.Count == 1
+                ShippingMethod = await _mediator.Send(new GetShippingMethod() {
+                    Cart = cart,
+                    Currency = _workContext.WorkingCurrency,
+                    Customer = _workContext.CurrentCustomer,
+                    Language = _workContext.WorkingLanguage,
+                    ShippingAddress = _workContext.CurrentCustomer.ShippingAddress,
+                    Store = _workContext.CurrentStore
+                })
             };
-            if (!requiresShipping && !model.BillingAddress.ExistingAddresses.Any())
-            {
-                model.BillingAddress.NewAddressPreselected = true;
-            }
-
-            //----------------------------------------------------------------------------
-            var shippingMethodModel = await _mediator.Send(new GetShippingMethod() {
-                Cart = cart,
-                Currency = _workContext.WorkingCurrency,
-                Customer = _workContext.CurrentCustomer,
-                Language = _workContext.WorkingLanguage,
-                ShippingAddress = _workContext.CurrentCustomer.ShippingAddress,
-                Store = _workContext.CurrentStore
-            });
-
-            var selectedPickupPoint = _workContext.CurrentCustomer.GetUserFieldFromEntity<string>(SystemCustomerFieldNames.SelectedPickupPoint, _workContext.CurrentStore.Id);
-
-            if ((_shippingSettings.SkipShippingMethodSelectionIfOnlyOne &&
-                shippingMethodModel.ShippingMethods.Count == 1) ||
-                (_shippingSettings.AllowPickUpInStore && !string.IsNullOrEmpty(selectedPickupPoint)))
-            {
-                if (!(_shippingSettings.AllowPickUpInStore && !string.IsNullOrEmpty(selectedPickupPoint)))
-                    await _userFieldService.SaveField(_workContext.CurrentCustomer,
-                        SystemCustomerFieldNames.SelectedShippingOption,
-                        shippingMethodModel.ShippingMethods.First().ShippingOption,
-                        _workContext.CurrentStore.Id);
-            }
-
-            model.ShippingMethod = shippingMethodModel;
 
             //-------------------------------------------------------------------------
             bool isPaymentWorkflowRequired = await _mediator.Send(new GetIsPaymentWorkflowRequired() { Cart = cart, UseLoyaltyPoints = false });
@@ -663,27 +634,6 @@ namespace Checkout.OnePage.Controllers
             foreach (var warning in warnings)
                 ModelState.AddModelError("", warning);
             return warnings;
-        }
-        private async Task<CheckoutPaymentMethodModel> GetCheckoutPaymentMethodModel(IList<ShoppingCartItem> cart)
-        {
-            var filterByCountryId = "";
-            if (_addressSettings.CountryEnabled &&
-                _workContext.CurrentCustomer.BillingAddress != null &&
-                !string.IsNullOrWhiteSpace(_workContext.CurrentCustomer.BillingAddress.CountryId))
-            {
-                filterByCountryId = _workContext.CurrentCustomer.BillingAddress.CountryId;
-            }
-
-            var paymentMethodModel = await _mediator.Send(new GetPaymentMethod() {
-                Cart = cart,
-                Currency = _workContext.WorkingCurrency,
-                Customer = _workContext.CurrentCustomer,
-                FilterByCountryId = filterByCountryId,
-                Language = _workContext.WorkingLanguage,
-                Store = _workContext.CurrentStore
-            });
-
-            return paymentMethodModel;
         }
 
         protected IList<string> SerializeModelState(ModelStateDictionary modelState)
