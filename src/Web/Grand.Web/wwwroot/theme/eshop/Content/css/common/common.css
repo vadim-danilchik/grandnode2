@@ -84,6 +84,17 @@ a:hover {
         max-height: 60px;
         backface-visibility: hidden;
     }
+.payments {
+    margin: 0 20px 0 0;
+}
+
+.payments img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 40px;
+    backface-visibility: hidden;
+}
 .cookie-bar-notification {
     position: fixed;
     bottom: 0;
@@ -1805,6 +1816,11 @@ input:checked ~ .color-container .color::before {
     visibility: visible;
 }
 
+.product-box .picture-container .img-container:hover .main-product-img {
+    opacity: 0;
+    visibility: hidden;
+}
+
 .product-box .hover-img.img-second {
     opacity: 1;
     visibility: visible;
@@ -2306,7 +2322,7 @@ input:checked ~ .color-container .color::before {
     }
 
     .footer .footer-bottom.section {
-        padding: 10px 0;
+        padding: 0;
         font-size: 12px;
     }
 
@@ -2605,10 +2621,7 @@ input:checked ~ .color-container .color::before {
     }
 
     .footer .footer-bottom.section {
-        padding: 0 0 115px 0;
-    }
-    .footer .footer-top.section {
-        padding: 0 0 115px 0;
+        padding: 0 0 100px 0;
     }
     .footer-registration {
         margin-top: 10px;

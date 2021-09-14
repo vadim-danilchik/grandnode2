@@ -11,115 +11,153 @@
  - картой онлайн(плагин как paypal, redirect to page)
 
 
-перевод пэйджинга
+mongodb database: elfikshop
+
 попробовать сделать самовывоз встроенный(перепроверить pdf, orderdetails)
 плагины оплат
-email templates translate
 верхние ссылки в скырваемое меню перенести
 коллекции на будущее
 
 https://biz.mail.ru/
 236x60 logo
 
-sudo apt update
-sudo apt install nginx
-sudo apt-get install –y libgdiplus && sudo ln -s /lib/x86_64-linux-gnu/libdl.so.2 /lib/x86_64-linux-gnu/libdl.so
-wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
-echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
-sudo apt-get update
-sudo apt-get install -y mongodb-org=5.0.2 mongodb-org-database=5.0.2 mongodb-org-server=5.0.2 mongodb-org-shell=5.0.2 mongodb-org-mongos=5.0.2 mongodb-org-tools=5.0.2
-sudo systemctl start mongod
-sudo systemctl status mongod
-sudo systemctl enable mongod
-wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-sudo add-apt-repository universe
-sudo apt-get update
-sudo apt-get install apt-transport-https
-sudo apt-get install aspnetcore-runtime-5.0
-wget https://github.com/vadim-danilchik/grandnode2/releases/download/v1.0.0/eshop-v1.0.0.zip
-sudo apt-get install unzip
-mkdir /var/webapps
-unzip eshop-v1.0.0.zip -d /var/webapps/grandnode
-sudo rm eshop-v1.0.0.zip
-sudo chown -R www-data:www-data /var/webapps/grandnode
-sudo vi /etc/systemd/system/grandnode.service
-sudo systemctl enable grandnode.service
-sudo systemctl start grandnode.service
-
-sudo vi /etc/nginx/sites-available/default
-
-insert in file(esc -> :wq)
-server {
-    listen        80;
-    server_name   example.com *.example.com;
-    location / {
-        proxy_pass         http://127.0.0.1:5000;
-        proxy_http_version 1.1;
-        proxy_set_header   Upgrade $http_upgrade;
-        proxy_set_header   Connection keep-alive;
-        proxy_set_header   Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
-
-sudo vi /etc/nginx/proxy.conf
-
-proxy_redirect off;
-proxy_set_header Host $host;
-proxy_set_header X-Real-IP $remote_addr;
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_set_header X-Forwarded-Proto $scheme;
-client_max_body_size 10m;
-client_body_buffer_size 128k;
-proxy_connect_timeout 90;
-proxy_send_timeout 90;
-proxy_read_timeout 90;
-proxy_buffers 32 4k;
-
-sudo vi /etc/nginx/nginx.conf
-uncomment gzip
-
-sudo nginx -t
-sudo systemctl reload nginx.service
-
-sudo apt-get install ufw
-
-sudo ufw allow 22/tcp
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-
-sudo ufw enable
+сетевая статистика
+sudo iftop
+sudo nethogs
+конект к mongodb
+mongosh --port 27017
+mongodump --host="localhost" --port=27017
 
 
 
+sudo systemctl stop nginx.service
 sudo systemctl reload nginx.service
 sudo journalctl -fu grandnode.service
 sudo systemctl start grandnode.service
 sudo systemctl stop grandnode.service && sudo systemctl start grandnode.service
 sudo systemctl status grandnode.service
 
-sudo vi /etc/nginx/sites-available/default
-sudo vi /var/webapps/grandnode/App_Data/appsettings.json
-
-
-cd ~/source/grandnode2
-git clone -b feature/my-theme-implemented https://github.com/vadim-danilchik/grandnode2.git
-dotnet restore GrandNode.sln
-sudo dotnet build src/Plugins/Authentication.Facebook && sudo dotnet build src/Plugins/Authentication.Google && sudo dotnet build src/Plugins/DiscountRules.Standard && sudo dotnet build src/Plugins/ExchangeRate.McExchange && sudo dotnet build src/Plugins/Payments.BrainTree && sudo dotnet build src/Plugins/Payments.CashOnDelivery && sudo dotnet build src/Plugins/Payments.PayPalStandard && sudo dotnet build src/Plugins/Shipping.ByWeight && sudo dotnet build src/Plugins/Shipping.FixedRateShipping && sudo dotnet build src/Plugins/Shipping.ShippingPoint && sudo dotnet build src/Plugins/Tax.CountryStateZip && sudo dotnet build src/Plugins/Tax.FixedRate && sudo dotnet build src/Plugins/Widgets.FacebookPixel && sudo dotnet build src/Plugins/Widgets.GoogleAnalytics && sudo dotnet build src/Plugins/Widgets.Slider && sudo dotnet build src/Plugins/Shipping.Belpost.Configurable && sudo dotnet build src/Plugins/Checkout.OnePage && sudo dotnet publish src/Web/Grand.Web -c Release -o /var/webapps/grandnode
-
-
-
 
 85.209.148.26
 
-cp -r /var/webapps/grandnode/App_Data /var/webapps/
-rm -rf /var/webapps/grandnode
-wget https://github.com/vadim-danilchik/grandnode2/releases/download/v1.0.0/eshop-v1.0.0.zip
-unzip eshop-v1.0.0.zip -d /var/webapps/grandnode
-sudo rm eshop-v1.0.0.zip
-rm -rf /var/webapps/grandnode/App_Data
-cp -r /var/webapps/App_Data /var/webapps/grandnode/
-sudo chown -R www-data:www-data /var/webapps/grandnode
+
+CENTOS 8
+##create user, change login method
+https://www.cyberciti.biz/faq/how-to-disable-ssh-password-login-on-linux/
+useradd -m -s /bin/bash vdanilchik
+passwd vdanilchik
+usermod -aG wheel vdanilchik
+su - vdanilchik
+id vdanilchik
+
+##copy ssh key
+type C:\Users\vdanilchik\.ssh\id_rsa.pub | ssh vdanilchik@85.209.148.26 'cat >> .ssh/authorized_keys'
+
+##Set permissions on the .ssh folder and authorized_keys file:
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+
+## .NET5 SDK
+sudo dnf install dotnet-sdk-5.0
+
+## mongodb  https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-centos-8
+sudo touch /etc/yum.repos.d/mongodb-org-5.0.repo
+##put inside
+[mongodb-org-5.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/5.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-5.0.asc
+##install
+sudo yum install -y mongodb-org
+sudo systemctl start mongod
+sudo systemctl status mongod
+sudo systemctl enable mongod
+##configure mongo user https://www.digitalocean.com/community/tutorials/how-to-secure-mongodb-on-centos-8
+##u:elfikiAdmin, p:1qaz@WSX
+use admin
+db.createUser({ user: "elfikiAdmin", pwd: passwordPrompt(), roles: [ "root" ]})
+exit
+sudo nano /etc/mongod.conf
+
+##backup, restore mongodb
+https://www.digitalocean.com/community/tutorials/how-to-back-up-restore-and-migrate-a-mongodb-database-on-centos-8
+
+##Configure Remote Access for MongoDB
+https://www.digitalocean.com/community/tutorials/how-to-configure-remote-access-for-mongodb-on-centos-8
+
+
+##nginx | help https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-centos-8-ru
+sudo dnf install nginx
+sudo systemctl enable nginx
+sudo systemctl start nginx
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --permanent --list-all
+sudo firewall-cmd --reload
+
+##setup domain server
+sudo mkdir -p /var/www/elfiki
+sudo chown -R $USER:$USER /var/www/elfiki
+sudo dnf install nano
+nano /var/www/elfiki/index.html
+sudo nano /etc/nginx/conf.d/elfiki.conf
+sudo nginx -t
+sudo systemctl restart nginx
+chcon -vR system_u:object_r:httpd_sys_content_t:s0 /var/www/elfiki/
+
+##setup letsencrypt sertificate https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-centos-8
+sudo dnf install epel-release
+sudo dnf install certbot python3-certbot-nginx
+sudo firewall-cmd --permanent --add-service=https
+sudo firewall-cmd --reload
+sudo certbot --nginx -d elfiki.by -d www.elfiki.by
+sudo crontab -e
+##add line
+0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew --quiet
+
+##use sftp on filezila for publish
+
+##setup asp.net service
+sudo vi /etc/systemd/system/grandnode.service
+##insert into
+[Unit]
+Description=GrandNode 2.0
+
+[Service]
+WorkingDirectory=/var/www/elfiki
+ExecStart=/usr/bin/dotnet /var/www/elfiki/Grand.Web.dll
+Restart=always
+RestartSec=10
+SyslogIdentifier=dotnet-grandnode
+User=vdanilchik
+Environment=ASPNETCORE_ENVIRONMENT=Production
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl enable grandnode.service
+sudo systemctl start grandnode.service
+
+##update nginx
+sudo nano /etc/nginx/conf.d/elfiki.conf
+sudo nano /etc/nginx/proxy.conf
+sudo nano /etc/nginx/nginx.conf
+
+##nginx commands
+sudo systemctl stop nginx
+sudo systemctl start nginx
+sudo systemctl restart nginx
+sudo systemctl reload nginx
+sudo systemctl disable nginx
+sudo systemctl enable nginx
+
+
+##see failed logins
+egrep "Failed|Failure" /var/log/secure
+
+sudo mongodump --uri="mongodb://85.209.148.26:27017/elfikshop" --out="/var/backups/mongobackups/" --username="elfikiAdmin" --password="1qaz@WSX" --authenticationDatabase="admin"
+sudo mongorestore --uri="mongodb://85.209.148.26:27017/elfikshop" --username="elfikiAdmin" --password="1qaz@WSX" --authenticationDatabase="admin" --drop /var/backups/mongobackups/elfikshop
+
 sudo systemctl stop grandnode.service
 sudo systemctl start grandnode.service

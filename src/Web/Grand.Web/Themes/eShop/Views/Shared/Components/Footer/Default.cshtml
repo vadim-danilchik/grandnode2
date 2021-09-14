@@ -43,9 +43,9 @@
                         <li>
                             <span class="text">@Loc["Footer.Payments.Postondelivery"]</span>
                         </li>
-                        @*<li>
-                    <span class="text">@Loc["Footer.Payments.Cardonline"]</span>
-                </li>*@
+                        <li>
+                            <span class="text">@Loc["Footer.Payments.Cardonline"]</span>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-md-12 col-lg-3 col-xl-3">
@@ -104,17 +104,20 @@
             </div>
         </div>
     </div>
-    @*<div class="footer-bottom section">
-            <div class="container">
-                <div class="item-row">
-                    <div class="pb-1 pt-1 flex-column text-lg-left text-center copyright col-12">
-                        <span class="footer-disclaimer text-black-50">@Html.Raw(Loc["Content.CopyrightNotice", Model.StoreName, DateTime.Now.Year])</span>
-                    </div>
-                    <div class="pb-1 pt-1 text-center text-lg-right col-md-6 col-12">
-                        <span>Shopping cart software by </span><a class="pr-1 text-success" href="https://grandnode.com/">GrandNode</a>™
-                    </div>
+    <div class="footer-bottom section">
+        <div class="container">
+            <div class="item-row justify-content-center">
+                <div>
+                    <a target="_self" href="/payment" class="payments">
+                        <img src="/payments.png" alt="webpay.by">
+                        <span class="sr-only">payments</span>
+                    </a>
                 </div>
+                @*<div class="pb-1 pt-1 text-center text-lg-right col-md-6 col-12">
+                        <span>Shopping cart software by </span><a class="pr-1 text-success" href="https://grandnode.com/">GrandNode</a>™
+                    </div>*@
             </div>
-        </div>*@
+        </div>
+    </div>
     @await Component.InvokeAsync("Widget", new { widgetZone = "footer" })
 </footer>

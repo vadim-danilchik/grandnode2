@@ -1,7 +1,7 @@
 ﻿@model CheckoutShippingAddressModel
 <div class="checkout-data">
     @await Component.InvokeAsync("Widget", new { widgetZone = "checkout_shipping_address_top" })
-
+    <input type="hidden" asp-for="BillToTheSameAddress" />
     @if (Model.ExistingAddresses.Any())
     {
         <div class="select-shipping-address">

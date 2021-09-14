@@ -175,11 +175,11 @@ namespace Shipping.Europost.Configurable
                 response.AddError("No shipment items");
                 return response;
             }
-            if (getShippingOptionRequest.ShippingAddress == null)
-            {
-                response.AddError("Shipping address is not set");
-                return response;
-            }
+            //if (getShippingOptionRequest.ShippingAddress == null)
+            //{
+            //    response.AddError("Shipping address is not set");
+            //    return response;
+            //}
 
             double subTotal = 0;
             var priceCalculationService = _serviceProvider.GetRequiredService<IPricingService>();

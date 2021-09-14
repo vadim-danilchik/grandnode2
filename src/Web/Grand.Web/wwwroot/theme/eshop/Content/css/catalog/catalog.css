@@ -48,7 +48,7 @@
 
 #TwoColumns {
     position: relative;
-    height: calc(100% - 57px);
+    /*height: calc(100% - 57px);*/
 }
 
 .generalLeftSide:not(.show) {
