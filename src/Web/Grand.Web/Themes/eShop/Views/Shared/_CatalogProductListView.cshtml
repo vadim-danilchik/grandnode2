@@ -4,6 +4,7 @@
     string addtocartlink = "";
     string addtowishlistlink = "";
     string quickviewurl = Url.RouteUrl("QuickView-Product", new { productId = Model.Id });
+    string hoveredClass = !string.IsNullOrEmpty(Model.SecondPictureModel.ImageUrl) ? "hovered" : "";
 
     var shoppingCartTypeId = (int)ShoppingCartType.ShoppingCart;
     var quantity = 1;
@@ -38,7 +39,7 @@
 <article class="card product-box list product-provider mb-3" v-bind:class="{ mobile: isMobile()}">
     <div class="picture-container">
         <a class="img-container" href="@Url.RouteUrl("Product", new { SeName = Model.SeName })" title="@Model.DefaultPictureModel.Title">
-            <b-card-img-lazy alt="@Model.DefaultPictureModel.AlternateText" class="main-product-img" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title"></b-card-img-lazy>
+            <b-card-img-lazy alt="@Model.DefaultPictureModel.AlternateText" class="main-product-img @hoveredClass" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title"></b-card-img-lazy>
             @if (!string.IsNullOrEmpty(Model.SecondPictureModel.ImageUrl))
             {
                 <b-card-img-lazy class="hover-img" alt="@Model.SecondPictureModel.AlternateText" src="@Model.SecondPictureModel.ImageUrl"></b-card-img-lazy>

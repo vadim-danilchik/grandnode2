@@ -1,7 +1,7 @@
 ﻿<article v-bind:class="{ mobile: isMobile()}" class="card product-box list product-provider mb-3">
     <div class="picture-container">
         <a class="img-container" :href="Model.Url" :title="Model.DefaultPictureModel.Title">
-            <b-card-img-lazy :alt="Model.DefaultPictureModel.AlternateText" class="main-product-img" :src="Model.DefaultPictureModel.ImageUrl" :title="Model.DefaultPictureModel.Title"></b-card-img-lazy>
+            <b-card-img-lazy :alt="Model.DefaultPictureModel.AlternateText" class="main-product-img" v-bind:class="{ hovered: Model.SecondPictureModel.ImageUrl !== null }" :src="Model.DefaultPictureModel.ImageUrl" :title="Model.DefaultPictureModel.Title"></b-card-img-lazy>
             <template v-if="Model.SecondPictureModel.ImageUrl !== null">
                 <b-card-img-lazy class="hover-img" :alt="Model.SecondPictureModel.AlternateText" :src="Model.SecondPictureModel.ImageUrl"></b-card-img-lazy>
             </template>

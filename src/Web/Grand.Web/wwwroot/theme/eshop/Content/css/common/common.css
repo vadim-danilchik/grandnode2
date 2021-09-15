@@ -1816,7 +1816,7 @@ input:checked ~ .color-container .color::before {
     visibility: visible;
 }
 
-.product-box .picture-container .img-container:hover .main-product-img {
+.product-box .picture-container .img-container:hover .main-product-img.hovered {
     opacity: 0;
     visibility: hidden;
 }

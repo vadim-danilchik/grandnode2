@@ -80,13 +80,16 @@ namespace Payments.WebpayCard.Controllers
                 !processor.IsPaymentMethodActive(_paymentSettings))
                 throw new GrandException("Webpay Card module cannot be loaded");
 
-            Order order = await _orderService.GetOrderByNumber(int.Parse(orderNumber));
-            if (order != null)
+            if (orderNumber != null)
             {
-                return RedirectToRoute("CheckoutCompleted", new { orderId = order.Id });
+                Order order = await _orderService.GetOrderByNumber(int.Parse(orderNumber));
+                if (order != null)
+                {
+                    return RedirectToRoute("CheckoutCompleted", new { orderId = order.Id });
+                }
             }
-            else
-                return RedirectToAction("Index", "Home", new { area = "" });
+            
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
 
         [HttpPost]
