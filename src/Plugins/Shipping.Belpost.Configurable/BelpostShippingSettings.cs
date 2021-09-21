@@ -4,7 +4,7 @@ namespace Shipping.Belpost.Configurable
 {
     public class BelpostShippingSettings : ISettings
     {
-        public int DisplayOrder => 1;
+        public int DisplayOrder => 2;
 
     }
 }

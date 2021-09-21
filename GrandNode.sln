@@ -120,6 +120,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payments.PostOnDelivery", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payments.WebpayCard", "src\Plugins\Payments.WebpayCard\Payments.WebpayCard.csproj", "{F8913BD7-4CBA-43A8-B790-76E714C33479}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shipping.Courier.Configurable", "src\Plugins\Shipping.Courier.Configurable\Shipping.Courier.Configurable.csproj", "{52A17622-024E-4059-87B0-DC227519D141}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -325,6 +327,10 @@ Global
 		{F8913BD7-4CBA-43A8-B790-76E714C33479}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8913BD7-4CBA-43A8-B790-76E714C33479}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8913BD7-4CBA-43A8-B790-76E714C33479}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52A17622-024E-4059-87B0-DC227519D141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52A17622-024E-4059-87B0-DC227519D141}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52A17622-024E-4059-87B0-DC227519D141}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52A17622-024E-4059-87B0-DC227519D141}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -379,6 +385,7 @@ Global
 		{79A78ADB-F2C4-4F0D-A81B-C4FC277E6958} = {F6F48227-B3C5-4A51-B33F-FF9AD96352DB}
 		{1C3B4504-8072-46AA-A5CF-97D562530846} = {F6F48227-B3C5-4A51-B33F-FF9AD96352DB}
 		{F8913BD7-4CBA-43A8-B790-76E714C33479} = {F6F48227-B3C5-4A51-B33F-FF9AD96352DB}
+		{52A17622-024E-4059-87B0-DC227519D141} = {F6F48227-B3C5-4A51-B33F-FF9AD96352DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88B478F4-FD3B-4C24-9E84-4FAAF0254397}

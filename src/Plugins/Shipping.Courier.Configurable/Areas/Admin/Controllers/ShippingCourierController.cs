@@ -1,0 +1,278 @@
+﻿using Grand.Business.Checkout.Interfaces.Shipping;
+using Grand.Business.Common.Interfaces.Configuration;
+using Grand.Business.Common.Interfaces.Directory;
+using Grand.Business.Common.Interfaces.Localization;
+using Grand.Business.Common.Interfaces.Stores;
+using Grand.Business.Common.Services.Security;
+using Grand.Web.Common.Controllers;
+using Grand.Web.Common.DataSource;
+using Grand.Web.Common.Filters;
+using Grand.Web.Common.Security.Authorization;
+using Grand.Domain.Directory;
+using Microsoft.AspNetCore.Mvc;
+using Shipping.Courier.Configurable.Domain;
+using Shipping.Courier.Configurable.Models;
+using Shipping.Courier.Configurable.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Shipping.Courier.Configurable.Controllers
+{
+    [AuthorizeAdmin]
+    [Area("Admin")]
+    [PermissionAuthorize(PermissionSystemName.ShippingSettings)]
+    public class ShippingCourierController : BaseShippingController
+    {
+        private readonly IWarehouseService _warehouseService;
+        private readonly IShippingMethodService _shippingMethodService;
+        private readonly IStoreService _storeService;
+        private readonly ICountryService _countryService;
+        private readonly IShippingCourierService _shippingService;
+        private readonly ISettingService _settingService;
+        private readonly ITranslationService _translationService;
+        private readonly ICurrencyService _currencyService;
+        private readonly CurrencySettings _currencySettings;
+        private readonly IMeasureService _measureService;
+        private readonly MeasureSettings _measureSettings;
+
+        public ShippingCourierController(
+            IWarehouseService warehouseService,
+            IShippingMethodService shippingMethodService,
+            IStoreService storeService,
+            ICountryService countryService,
+            IShippingCourierService shippingService,
+            ISettingService settingService,
+            ITranslationService translationService,
+            ICurrencyService currencyService,
+            CurrencySettings currencySettings,
+            IMeasureService measureService,
+            MeasureSettings measureSettings)
+        {
+            _warehouseService = warehouseService;
+            _shippingMethodService = shippingMethodService;
+            _storeService = storeService;
+            _countryService = countryService;
+            _shippingService = shippingService;
+            _settingService = settingService;
+            _translationService = translationService;
+            _currencyService = currencyService;
+            _currencySettings = currencySettings;
+            _measureService = measureService;
+            _measureSettings = measureSettings;
+        }
+        public IActionResult Configure()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> RatesByWeightList(DataSourceRequest command)
+        {
+            var records = await _shippingService.GetAllShippingByWeightRecords(command.Page - 1, command.PageSize);
+
+            var sbwModel = new List<ShippingCourierByWeightModel>();
+
+            foreach (var x in records)
+            {
+                var m = new ShippingCourierByWeightModel
+                {
+                    Id = x.Id,
+                    WeightFrom = x.WeightFrom,
+                    WeightTo = x.WeightTo,
+                    WeightRate = x.WeightRate
+                };
+
+                sbwModel.Add(m);
+            }
+            var gridModel = new DataSourceResult
+            {
+                Data = sbwModel,
+                Total = records.TotalCount
+            };
+
+            return Json(gridModel);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> RateByWeightDelete(string id)
+        {
+            var sbw = await _shippingService.GetShippingByWeightRecordById(id);
+            if (sbw != null)
+                await _shippingService.DeleteShippingByWeightRecord(sbw);
+
+            return new JsonResult("");
+        }
+
+        public async Task<IActionResult> AddByWeightPopup()
+        {
+            var model = new ShippingCourierByWeightModel();
+            model.PrimaryStoreCurrencyCode = (await _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId)).CurrencyCode;
+            model.BaseWeightIn = (await _measureService.GetMeasureWeightById(_measureSettings.BaseWeightId)).Name;
+            model.WeightTo = 1000000;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> AddByWeightPopup(ShippingCourierByWeightModel model)
+        {
+            var sbw = new ShippingCourierByWeightRecord
+            {
+                WeightFrom = model.WeightFrom,
+                WeightTo = model.WeightTo,
+                WeightRate = model.WeightRate
+            };
+            await _shippingService.InsertShippingByWeightRecord(sbw);
+
+            ViewBag.RefreshPage = true;
+
+            return View(model);
+        }
+
+        //edit
+        public async Task<IActionResult> EditByWeightPopup(string id)
+        {
+            var sbw = await _shippingService.GetShippingByWeightRecordById(id);
+            if (sbw == null)
+                //No record found with the specified id
+                return RedirectToAction("Configure");
+
+            var model = new ShippingCourierByWeightModel
+            {
+                Id = sbw.Id,
+                WeightFrom = sbw.WeightFrom,
+                WeightTo = sbw.WeightTo,
+                WeightRate = sbw.WeightRate,
+                PrimaryStoreCurrencyCode = (await _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId)).CurrencyCode,
+                BaseWeightIn = (await _measureService.GetMeasureWeightById(_measureSettings.BaseWeightId)).Name
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> EditByWeightPopup(ShippingCourierByWeightModel model)
+        {
+            var sbw = await _shippingService.GetShippingByWeightRecordById(model.Id);
+            if (sbw == null)
+                //No record found with the specified id
+                return RedirectToAction("Configure");
+
+            sbw.WeightFrom = model.WeightFrom;
+            sbw.WeightTo = model.WeightTo;
+            sbw.WeightRate = model.WeightRate;
+
+            await _shippingService.UpdateShippingByWeightRecord(sbw);
+
+            ViewBag.RefreshPage = true;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> RatesByTotalList(DataSourceRequest command)
+        {
+            var records = await _shippingService.GetAllShippingByTotalRecords(command.Page - 1, command.PageSize);
+
+            var sbtModel = new List<ShippingCourierByTotalModel>();
+
+            foreach (var x in records)
+            {
+                var m = new ShippingCourierByTotalModel {
+                    Id = x.Id,
+                    TotalFrom = x.TotalFrom,
+                    TotalTo = x.TotalTo,
+                    TotalRate = x.TotalRate
+                };
+
+                sbtModel.Add(m);
+            }
+            var gridModel = new DataSourceResult {
+                Data = sbtModel,
+                Total = records.TotalCount
+            };
+
+            return Json(gridModel);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> RateByTotalDelete(string id)
+        {
+            var sbt = await _shippingService.GetShippingByTotalRecordById(id);
+            if (sbt != null)
+                await _shippingService.DeleteShippingByTotalRecord(sbt);
+
+            return new JsonResult("");
+        }
+
+        public async Task<IActionResult> AddByTotalPopup()
+        {
+            var model = new ShippingCourierByTotalModel();
+            model.PrimaryStoreCurrencyCode = (await _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId)).CurrencyCode;
+            model.TotalTo = 1000000;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> AddByTotalPopup(ShippingCourierByTotalModel model)
+        {
+            var sbt = new ShippingCourierByTotalRecord {
+                TotalFrom = model.TotalFrom,
+                TotalTo = model.TotalTo,
+                TotalRate = model.TotalRate
+            };
+            await _shippingService.InsertShippingByTotalRecord(sbt);
+
+            ViewBag.RefreshPage = true;
+
+            return View(model);
+        }
+
+        //edit
+        public async Task<IActionResult> EditByTotalPopup(string id)
+        {
+            var sbt = await _shippingService.GetShippingByTotalRecordById(id);
+            if (sbt == null)
+                //No record found with the specified id
+                return RedirectToAction("Configure");
+
+            var model = new ShippingCourierByTotalModel {
+                Id = sbt.Id,
+                TotalFrom = sbt.TotalFrom,
+                TotalTo = sbt.TotalTo,
+                TotalRate = sbt.TotalRate,
+                PrimaryStoreCurrencyCode = (await _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId)).CurrencyCode
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> EditByTotalPopup(ShippingCourierByTotalModel model)
+        {
+            var sbt = await _shippingService.GetShippingByTotalRecordById(model.Id);
+            if (sbt == null)
+                //No record found with the specified id
+                return RedirectToAction("Configure");
+
+            sbt.TotalFrom = model.TotalFrom;
+            sbt.TotalTo = model.TotalTo;
+            sbt.TotalRate = model.TotalRate;
+
+            await _shippingService.UpdateShippingByTotalRecord(sbt);
+
+            ViewBag.RefreshPage = true;
+
+            return View(model);
+        }
+    }
+}

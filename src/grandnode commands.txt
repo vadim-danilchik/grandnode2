@@ -1,22 +1,11 @@
-Способы доставки:
- - самовывоз(fixedrate)
- - курьер (fixedrate)
- - почта (postshipping) сумма от цены
- - европочта(plugin - selectpoint) сумма от веса
- 
-Способы оплаты:
- - наложенный платеж
- - наличные при получении (cashondelivery)
- - картой при получении (cashondelivery)
- - картой онлайн(плагин как paypal, redirect to page)
+SEO info
+попробовать сделать самовывоз встроенный(перепроверить pdf, orderdetails)
+
+
 
 
 mongodb database: elfikshop
 
-попробовать сделать самовывоз встроенный(перепроверить pdf, orderdetails)
-плагины оплат
-верхние ссылки в скырваемое меню перенести
-коллекции на будущее
 
 https://biz.mail.ru/
 236x60 logo

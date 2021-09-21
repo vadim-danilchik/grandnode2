@@ -14,15 +14,15 @@ using Grand.Domain.Shipping;
 using Grand.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Shipping.Belpost.Configurable.Services;
+using Shipping.Courier.Configurable.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Shipping.Belpost.Configurable
+namespace Shipping.Courier.Configurable
 {
-    public class BelpostShippingProvider : IShippingRateCalculationProvider
+    public class CourierShippingProvider : IShippingRateCalculationProvider
     {
         #region Fields
 
@@ -33,12 +33,12 @@ namespace Shipping.Belpost.Configurable
         private readonly IProductAttributeParser _productAttributeParser;
         private readonly ICheckoutAttributeParser _checkoutAttributeParser;
         private readonly ICurrencyService _currencyService;
-        private readonly BelpostShippingSettings _belpostShippingSettings;
+        private readonly CourierShippingSettings _courierShippingSettings;
 
         #endregion
 
         #region Ctor
-        public BelpostShippingProvider(
+        public CourierShippingProvider(
             IWorkContext workContext,
             ITranslationService translationService,
             IProductService productService,
@@ -46,7 +46,7 @@ namespace Shipping.Belpost.Configurable
             IProductAttributeParser productAttributeParser,
             ICheckoutAttributeParser checkoutAttributeParser,
             ICurrencyService currencyService,
-            BelpostShippingSettings belpostShippingSettings)
+            CourierShippingSettings courierShippingSettings)
         {
             _workContext = workContext;
             _translationService = translationService;
@@ -55,7 +55,7 @@ namespace Shipping.Belpost.Configurable
             _productAttributeParser = productAttributeParser;
             _checkoutAttributeParser = checkoutAttributeParser;
             _currencyService = currencyService;
-            _belpostShippingSettings = belpostShippingSettings;
+            _courierShippingSettings = courierShippingSettings;
         }
         #endregion
 
@@ -64,7 +64,7 @@ namespace Shipping.Belpost.Configurable
         private async Task<double?> GetRate(double subTotal, double weight)
         {
 
-            var shippingService = _serviceProvider.GetRequiredService<IShippingBelpostService>();
+            var shippingService = _serviceProvider.GetRequiredService<IShippingCourierService>();
 
             var shippingByWeightRecord = await shippingService.FindShippingByWeightRecord(weight);
             var shippingByToalRecord = await shippingService.FindShippingByTotalRecord(subTotal);
@@ -204,7 +204,7 @@ namespace Shipping.Belpost.Configurable
             var rate = await GetRate(subTotal, weight);
 
             var shippingOption = new ShippingOption();
-            shippingOption.Name = _translationService.GetResource("Shipping.Belpost.Configurable.FriendlyName");
+            shippingOption.Name = _translationService.GetResource("Shipping.Courier.Configurable.FriendlyName");
             shippingOption.Rate = await _currencyService.ConvertFromPrimaryStoreCurrency(rate.Value, _workContext.WorkingCurrency);
             response.ShippingOptions.Add(shippingOption);
 
@@ -228,13 +228,13 @@ namespace Shipping.Belpost.Configurable
 
         public ShippingRateCalculationType ShippingRateCalculationType => ShippingRateCalculationType.Off;
 
-        public string ConfigurationUrl => BelpostShippingDefaults.ConfigurationUrl;
+        public string ConfigurationUrl => CourierShippingDefaults.ConfigurationUrl;
 
-        public string SystemName => BelpostShippingDefaults.ProviderSystemName;
+        public string SystemName => CourierShippingDefaults.ProviderSystemName;
 
-        public string FriendlyName => _translationService.GetResource(BelpostShippingDefaults.FriendlyName);
+        public string FriendlyName => _translationService.GetResource(CourierShippingDefaults.FriendlyName);
 
-        public int Priority => _belpostShippingSettings.DisplayOrder;
+        public int Priority => _courierShippingSettings.DisplayOrder;
 
         public IList<string> LimitedToStores => new List<string>();
 

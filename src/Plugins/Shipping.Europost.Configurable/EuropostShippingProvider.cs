@@ -80,10 +80,26 @@ namespace Shipping.Europost.Configurable
             var shippingByWeightRecord = await shippingService.FindShippingByWeightRecord(weight);
             var shippingByToalRecord = await shippingService.FindShippingByTotalRecord(subTotal);
 
-            var shippingByWeight = shippingByWeightRecord?.WeightRate ?? 0;
-            var shippingByToal = shippingByToalRecord?.TotalRate ?? 0;
+            var shippingByWeight = shippingByWeightRecord?.WeightRate;
+            var shippingByTotal = shippingByToalRecord?.TotalRate;
 
-            double shippingTotal = shippingByWeight < shippingByToal ? shippingByWeight : shippingByToal;
+            double shippingTotal = 0;
+            if (shippingByWeight.HasValue && shippingByTotal.HasValue && shippingByWeight < shippingByTotal)
+            {
+                shippingTotal = (double)shippingByWeight;
+            }
+            if (shippingByWeight.HasValue && shippingByTotal.HasValue && shippingByWeight > shippingByTotal)
+            {
+                shippingTotal = (double)shippingByTotal;
+            }
+            if (shippingByWeight.HasValue && !shippingByTotal.HasValue)
+            {
+                shippingTotal = (double)shippingByWeight;
+            }
+            if (!shippingByWeight.HasValue && shippingByTotal.HasValue)
+            {
+                shippingTotal = (double)shippingByTotal;
+            }
 
             if (shippingTotal < 0)
             {
