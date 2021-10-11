@@ -185,14 +185,11 @@
                     vmorder.ShippingMethodWarnings = vmorder.Model.ShippingMethod.Warnings;
                     vmorder.selectedShippingMethod = vmorder.ShippingMethods.findIndex(currentValue => currentValue.Selected);
                     if (vmorder.ShippingMethods.length > 0) {
-                        var index;
-                        if (vmorder.selectedShippingMethod !== undefined) {
-                            index = vmorder.selectedShippingMethod;
-                        } else {
-                            index = 0;
+                        if (vmorder.selectedShippingMethod !== -1) {
+                            var index = vmorder.selectedShippingMethod;
+                            var elem = vmorder.ShippingMethods[index].Name + '___' + vmorder.ShippingMethods[index].ShippingRateProviderSystemName;
+                            vmorder.loadPartialView(elem);
                         }
-                        var elem = vmorder.ShippingMethods[index].Name + '___' + vmorder.ShippingMethods[index].ShippingRateProviderSystemName;
-                        vmorder.loadPartialView(elem);
                     }
 
                     vmorder.DisplayLoyaltyPoints = vmorder.Model.PaymentMethod.DisplayLoyaltyPoints;

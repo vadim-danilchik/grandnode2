@@ -132,23 +132,41 @@ namespace Checkout.OnePage.Controllers
 
             var requiresShipping = cart.RequiresShipping();
 
+            var shippingAddress = await _mediator.Send(new GetShippingAddress() {
+                Currency = _workContext.WorkingCurrency,
+                Customer = _workContext.CurrentCustomer,
+                Language = _workContext.WorkingLanguage,
+                Store = _workContext.CurrentStore,
+                PrePopulateNewAddressWithCustomerFields = true
+            });
+
+            var shippingMethod = await _mediator.Send(new GetShippingMethod() {
+                Cart = cart,
+                Currency = _workContext.WorkingCurrency,
+                Customer = _workContext.CurrentCustomer,
+                Language = _workContext.WorkingLanguage,
+                ShippingAddress = _workContext.CurrentCustomer.ShippingAddress,
+                Store = _workContext.CurrentStore
+            });
+
+            if (requiresShipping)
+            {
+                var pickupPoint = _workContext.CurrentCustomer.GetUserFieldFromEntity<string>(SystemCustomerFieldNames.SelectedPickupPoint, _workContext.CurrentStore.Id);
+                if (!string.IsNullOrEmpty(pickupPoint))
+                {
+                    shippingAddress.PickUpInStore = true;
+
+                    foreach (var shipping in shippingMethod.ShippingMethods)
+                    {
+                        shipping.Selected = false;
+                    }
+                }
+            }
+
             var model = new OnePageCheckoutModel {
                 ShippingRequired = requiresShipping,
-                ShippingAddress = await _mediator.Send(new GetShippingAddress() {
-                    Currency = _workContext.WorkingCurrency,
-                    Customer = _workContext.CurrentCustomer,
-                    Language = _workContext.WorkingLanguage,
-                    Store = _workContext.CurrentStore,
-                    PrePopulateNewAddressWithCustomerFields = true
-                }),
-                ShippingMethod = await _mediator.Send(new GetShippingMethod() {
-                    Cart = cart,
-                    Currency = _workContext.WorkingCurrency,
-                    Customer = _workContext.CurrentCustomer,
-                    Language = _workContext.WorkingLanguage,
-                    ShippingAddress = _workContext.CurrentCustomer.ShippingAddress,
-                    Store = _workContext.CurrentStore
-                })
+                ShippingAddress = shippingAddress,
+                ShippingMethod = shippingMethod
             };
 
             //-------------------------------------------------------------------------

@@ -23,8 +23,8 @@
             </button>
         </div>
     </div>
-    <div id="adv_search" class="advanced-search-results" v-if="searchitems" onclick="StopPropagation(event)">
-        <div class="col-12">
+    <div id="adv_search" class="ml-auto col-md-6 col-12 advanced-search-results" v-if="searchitems" onclick="StopPropagation(event)" v-cloak>
+        <div>
             <div class="form-row">
                 @*<div class="col-md-6 col-12">
                     <h5 class="title">@Loc["search.category"]</h5>
@@ -67,7 +67,7 @@
                         </ul>
                     }
                 </div>*@
-                <div class="col-md-6 col-12 products">
+                <div class="products">
                     <h5 class="title">@Loc["search.products"]</h5>
                     <div v-if="searchproducts.length">
                         <ul class="list px-0">

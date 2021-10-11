@@ -59,6 +59,15 @@
                                         {{PopupQuickViewVueModal.ShortDescription}}
                                     </div>
                                 </template>
+                                <template v-if="PopupQuickViewVueModal.Sku !== null">
+                                    <div class="sku">
+                                        <span class="label">@Loc["Products.Sku"]:</span>
+                                        <span class="value" itemprop="sku">{{PopupQuickViewVueModal.Sku}}</span>
+                                    </div>
+                                    @*<span class="sku-number">
+                                        {{PopupQuickViewVueModal.Sku}}
+                                    </span>*@
+                                </template>
                                 <div class="overview-buttons generalMarginSupporter">
                                     <div class="col-lg-12 px-0">
                                         <partial name="_PricesQV" />

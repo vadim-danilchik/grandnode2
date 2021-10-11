@@ -10,6 +10,7 @@
                                name="shippingoption"
                                class="custom-control-input"
                                :value="vmorder.ShippingPickUpInStore"
+                               :checked="vmorder.ShippingPickUpInStore"
                                onchange="vmorder.Checkout.savePickUpInSore()" />
                         <span class="custom-control-label"></span>
                         <span class="custom-control-description" for="PickUpInStore">
