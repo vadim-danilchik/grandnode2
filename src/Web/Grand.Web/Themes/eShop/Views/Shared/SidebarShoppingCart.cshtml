@@ -59,14 +59,14 @@
                                             <a class="btn btn-info cart-button w-100 h-100 d-flex align-items-center justify-content-center text-uppercase" onclick="location='@Url.RouteUrl("ShoppingCart")'">@Loc["ShoppingCart.Mini.ViewCart"]</a>
                                         </div>
                                     </div>
-                                    <div v-if="flycart.DisplayCheckoutButton" class="p-1">
+                                    @*<div v-if="flycart.DisplayCheckoutButton" class="p-1">
                                         <div v-if="flycart.CurrentCustomerIsGuest && flycart.CurrentCustomerIsGuest">
                                             <a class="btn btn-info checkout-button w-100 h-100 d-flex align-items-center justify-content-center text-uppercase" onclick="location='@Url.RouteUrl("LoginCheckoutAsGuest", new { returnUrl = Url.RouteUrl("ShoppingCart") })'">@Loc["Checkout.Button"]</a>
                                         </div>
                                         <div v-else>
                                             <a class="btn btn-info checkout-button w-100 h-100 d-flex align-items-center justify-content-center text-uppercase" onclick="location='@Url.RouteUrl("Checkout")'">@Loc["Checkout.Button"]</a>
                                         </div>
-                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                         </div>

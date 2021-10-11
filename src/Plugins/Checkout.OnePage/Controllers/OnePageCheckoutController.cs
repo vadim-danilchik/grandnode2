@@ -179,7 +179,7 @@ namespace Checkout.OnePage.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> SaveShippingMethod(IFormCollection form)
+        public async Task<IActionResult> SavePickUpInSore(IFormCollection form)
         {
             try
             {
@@ -193,6 +193,77 @@ namespace Checkout.OnePage.Controllers
                 if (!cart.RequiresShipping())
                     throw new Exception("Shipping is not required");
 
+                if (_shippingSettings.AllowPickUpInStore)
+                {
+                        //customer decided to pick up in store
+                        //no shipping address selected
+                        _workContext.CurrentCustomer.ShippingAddress = null;
+                        await _customerService.RemoveShippingAddress(_workContext.CurrentCustomer.Id);
+
+                        //clear shipping option XML/Description
+                        await _userFieldService.SaveField(_workContext.CurrentCustomer, SystemCustomerFieldNames.ShippingOptionAttribute, "", _workContext.CurrentStore.Id);
+                        await _userFieldService.SaveField(_workContext.CurrentCustomer, SystemCustomerFieldNames.ShippingOptionAttributeDescription, "", _workContext.CurrentStore.Id);
+
+                        var pickupPoint = form["pickup-point-id"];
+                        var pickupPoints = await _pickupPointService.LoadActivePickupPoints(_workContext.CurrentStore.Id);
+                        var selectedPoint = pickupPoints.FirstOrDefault(x => x.Id.Equals(pickupPoint));
+                        if (selectedPoint == null)
+                            throw new Exception("Pickup point is not allowed");
+
+                        //save "pick up in store" shipping method
+                        var pickUpInStoreShippingOption = new ShippingOption {
+                            Name = string.Format(_translationService.GetResource("Checkout.PickupPoints.Name"), selectedPoint.Name),
+                            Rate = selectedPoint.PickupFee,
+                            Description = selectedPoint.Description,
+                            ShippingRateProviderSystemName = string.Format("PickupPoint_{0}", selectedPoint.Id)
+                        };
+
+                        await _userFieldService.SaveField(_workContext.CurrentCustomer,
+                        SystemCustomerFieldNames.SelectedShippingOption,
+                        pickUpInStoreShippingOption,
+                        _workContext.CurrentStore.Id);
+
+                        await _userFieldService.SaveField(_workContext.CurrentCustomer,
+                        SystemCustomerFieldNames.SelectedPickupPoint,
+                        selectedPoint.Id,
+                        _workContext.CurrentStore.Id);
+                }
+                                
+                if (ModelState.IsValid)
+                {
+                    return Json(new
+                    {
+                        update_section = new UpdateSectionJsonModel {
+                            name = "shipping-method"
+                        },
+                        goto_section = "shipping_method"
+                    });
+                }
+
+                var message = "Something went wrong";
+                return Json(new { error = 1, message = message });
+            }
+            catch (Exception exc)
+            {
+                _logger.Warning(exc.Message, exc, _workContext.CurrentCustomer);
+                return Json(new { error = 1, message = exc.Message });
+            }
+        }
+
+        public async Task<IActionResult> SaveShippingMethod(IFormCollection form)
+        {
+            try
+            {
+                //validation
+                var customer = _workContext.CurrentCustomer;
+                var store = _workContext.CurrentStore;
+
+                var cart = _shoppingCartService.GetShoppingCart(_workContext.CurrentStore.Id, ShoppingCartType.ShoppingCart, ShoppingCartType.Auctions);
+                await CartValidate(cart);
+
+                if (!cart.RequiresShipping())
+                    throw new Exception("Shipping is not required");
+                                
                 //parse selected method 
                 string shippingoption = form["shippingoption"];
                 if (String.IsNullOrEmpty(shippingoption))
@@ -236,6 +307,9 @@ namespace Checkout.OnePage.Controllers
                 //save
                 await _userFieldService.SaveField(customer, SystemCustomerFieldNames.SelectedShippingOption, shippingOption, store.Id);
 
+                //set value indicating that "pick up in store" option has not been chosen
+                await _userFieldService.SaveField(_workContext.CurrentCustomer, SystemCustomerFieldNames.SelectedPickupPoint, "", _workContext.CurrentStore.Id);
+
                 if (ModelState.IsValid)
                 {
                     return Json(new
@@ -270,12 +344,11 @@ namespace Checkout.OnePage.Controllers
                     throw new Exception("Shipping is not required");
 
                 //Pick up in store?
-                var pickupInstore = false;
-                if (_shippingSettings.AllowPickUpInStore)
-                {
-                    //set value indicating that "pick up in store" option has not been chosen
-                    await _userFieldService.SaveField(_workContext.CurrentCustomer, SystemCustomerFieldNames.SelectedPickupPoint, "", _workContext.CurrentStore.Id);
-                }
+                var pickupInstoreField = await _userFieldService.GetFieldsForEntity<string>(_workContext.CurrentCustomer,
+                        SystemCustomerFieldNames.SelectedPickupPoint,
+                        _workContext.CurrentStore.Id);
+
+                var pickupInstore = pickupInstoreField != null;
 
                 string shippingAddressId = form["shipping_address_id"];
 
@@ -365,62 +438,6 @@ namespace Checkout.OnePage.Controllers
                     await _userFieldService.SaveField<ShippingOption>(_workContext.CurrentCustomer, SystemCustomerFieldNames.SelectedShippingOption, null, _workContext.CurrentStore.Id);
                     //return await LoadStepAfterBillingAddress(cart);
                 }
-                #endregion
-
-                #region ShippingMethod
-                //validation
-                var customer = _workContext.CurrentCustomer;
-                var store = _workContext.CurrentStore;
-
-                //parse selected method 
-                string shippingoption = form["shippingoption"];
-                if (String.IsNullOrEmpty(shippingoption))
-                    throw new Exception("Selected shipping method can't be parsed");
-                var splittedOption = shippingoption.Split(new[] { "___" }, StringSplitOptions.RemoveEmptyEntries);
-                if (splittedOption.Length != 2)
-                    throw new Exception("Selected shipping method can't be parsed");
-                string selectedName = splittedOption[0];
-                string shippingRateProviderSystemName = splittedOption[1];
-
-                //clear shipping option XML/Description
-                await _userFieldService.SaveField(customer, SystemCustomerFieldNames.ShippingOptionAttribute, "", store.Id);
-                await _userFieldService.SaveField(customer, SystemCustomerFieldNames.ShippingOptionAttributeDescription, "", store.Id);
-
-                //validate customer's input
-                var warnings = (await ValidateShippingForm(form)).ToList();
-
-                //find it
-                //performance optimization. try cache first
-                var shippingOptions = await customer.GetUserField<List<ShippingOption>>(_userFieldService, SystemCustomerFieldNames.OfferedShippingOptions, store.Id);
-                if (shippingOptions == null || shippingOptions.Count == 0)
-                {
-                    //not found? load them using shipping service
-                    shippingOptions = (await _shippingService
-                        .GetShippingOptions(customer, cart, customer.ShippingAddress, shippingRateProviderSystemName, store))
-                        .ShippingOptions
-                        .ToList();
-                }
-                else
-                {
-                    //loaded cached results. filter result by a chosen Shipping rate  method
-                    shippingOptions = shippingOptions.Where(so => so.ShippingRateProviderSystemName.Equals(shippingRateProviderSystemName, StringComparison.OrdinalIgnoreCase))
-                        .ToList();
-                }
-
-                var shippingOption = shippingOptions
-                    .Find(so => !String.IsNullOrEmpty(so.Name) && so.Name.Equals(selectedName, StringComparison.OrdinalIgnoreCase));
-                if (shippingOption == null)
-                    throw new Exception("Selected shipping method can't be loaded");
-
-                //save
-                await _userFieldService.SaveField(customer, SystemCustomerFieldNames.SelectedShippingOption, shippingOption, store.Id);
-
-                if (warnings.Count > 0)
-                {
-                    var message = String.Join(", ", warnings.ToArray());
-                    return Json(new { error = 1, message = message });
-                }
-
                 #endregion
 
                 #region PaymentMethod

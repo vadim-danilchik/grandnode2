@@ -161,6 +161,7 @@
                 isSuccess: false,
                 checkoutForm: false,
                 saveShippingMethodUrl: false,
+                savePickUpInSoreUrl: false,
 
                 init: function () {
                     this.loadWaiting = false;
@@ -169,6 +170,7 @@
                     this.successUrl = '/checkout/completed/';
                     this.checkoutForm = '#checkout-form';
                     this.saveShippingMethodUrl = '/onepagecheckout/SaveShippingMethod/';
+                    this.savePickUpInSoreUrl = '/onepagecheckout/SavePickUpInSore/';
 
                     vmorder.ShippingAllowPickUpInStore = vmorder.Model.ShippingAddress.AllowPickUpInStore;
                     vmorder.ShippingExistingAddresses = vmorder.Model.ShippingAddress.ExistingAddresses;
@@ -314,6 +316,29 @@
                     });
                 },
 
+                savePickUpInSore: function () {
+                    if (vmorder.Checkout.loadWaiting != false) return;
+                    vmorder.Checkout.setLoadWaiting('confirm-order');
+
+                    if (this.validateShippingMethods()) {
+                        var checkoutEl = document.querySelector(this.checkoutForm);
+                        var data = new FormData(checkoutEl);
+
+                        axios({
+                            url: this.savePickUpInSoreUrl,
+                            method: 'post',
+                            data: data,
+                        }).then(function (response) {
+                            vmorder.Checkout.nextStep(response);
+                        }).catch(function (error) {
+                            error.axiosFailure;
+                        }).then(function () {
+                            vmorder.updateTotals();
+                            vmorder.Checkout.setLoadWaiting(false);
+                        });
+                    }
+                },
+
                 saveShippingMethod: function () {
                     if (vmorder.Checkout.loadWaiting != false) return;
                     vmorder.Checkout.setLoadWaiting('confirm-order');
@@ -421,7 +446,7 @@
                     else {
                         document.querySelector('#payment-method-block').style.display = 'block';
                     }
-                },
+                }
             };
         },
         cartView() {

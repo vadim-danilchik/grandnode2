@@ -3,6 +3,43 @@
         @await Component.InvokeAsync("Widget", new { widgetZone = "checkout_shipping_method_top" })
         <template v-if="vmorder.ShippingMethodWarnings.length < 1">
             <ul class="method-list px-0">
+                <li v-if="vmorder.ShippingAllowPickUpInStore && !vmorder.ShippingPickUpInStoreOnly && vmorder.ShippingPickupPoints.length > 0">
+                    <label class="custom-control custom-checkbox">
+                        <input id="PickUpInStore"
+                               type="radio"
+                               name="shippingoption"
+                               class="custom-control-input"
+                               :value="vmorder.ShippingPickUpInStore"
+                               onchange="vmorder.Checkout.savePickUpInSore()" />
+                        <span class="custom-control-label"></span>
+                        <span class="custom-control-description" for="PickUpInStore">
+                            @Loc["Checkout.PickupPoints"]
+                        </span>
+                    </label>
+                    <span v-if="vmorder.ShippingAllowPickUpInStore" class="custom-control pickup-points" id="pickup-points-form">
+                        <span v-if="vmorder.ShippingPickupPoints.length > 0">
+                            <span class="section select-pickup-points">
+                                <template v-if="vmorder.ShippingPickupPoints.length == 1">
+                                    <input type="hidden" name="pickup-point-id" id="pickup-point-id" class="form-control" :value="vmorder.ShippingPickupPoints[0].Id">
+                                    <div class="section single-pickup-point">
+                                        <span class="single-pickup-point address">{{vmorder.ShippingPickupPoints[0].Address.City}}, {{vmorder.ShippingPickupPoints[0].Address.Address1}}</span>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <label for="pickup-points-select">@Loc["Checkout.PickupPoints.SelectPickupPoint"]</label>
+                                    <select name="pickup-point-id" id="pickup-points-select" class="custom-select address-select" title="">
+                                        <option v-for="(point, index) in vmorder.ShippingPickupPoints" :value="point.Id">{{point.Address.City}}, {{point.Address.Address1}}</option>
+                                    </select>
+                                </template>
+                            </span>
+                        </span>
+                        <span class="section message-error">
+                            <ul>
+                                <li v-for="(warning, index) in vmorder.ShippingWarnings">{{warning}}</li>
+                            </ul>
+                        </span>
+                    </span>
+                </li>
                 <li v-for="(shippingMethod, index) in vmorder.ShippingMethods">
                     <label class="custom-control custom-checkbox">
                         <input :id="'shippingoption_' + index" type="radio"
@@ -33,7 +70,9 @@
                     <b-spinner variant="info" label="Loading..."></b-spinner>
                 </div>
             </template>
+
             <div id="shipping_form"></div>
+
         </template>
         <template v-else>
             <div class="message-error">
@@ -42,6 +81,6 @@
                 </ul>
             </div>
         </template>
-        @await Component.InvokeAsync("Widget", new { widgetZone = "checkout_shipping_method_bottom" })        
+        @await Component.InvokeAsync("Widget", new { widgetZone = "checkout_shipping_method_bottom" })
     </div>
 </div>
