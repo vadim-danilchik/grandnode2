@@ -679,7 +679,7 @@ namespace Grand.Web.Admin.Controllers
             }
             if (order.OrderStatusId == (int)OrderStatusSystem.Cancelled)
             {
-                Error("You can't edit position when order is canceled", true);
+                Error("You can't edit position when order is canceled");
                 return RedirectToAction("Edit", "Order", new { id = id });
             }
 
@@ -687,7 +687,7 @@ namespace Grand.Web.Admin.Controllers
             string orderItemId = "";
             foreach (var formValue in form.Keys)
                 if (formValue.StartsWith("btnSaveOrderItem", StringComparison.OrdinalIgnoreCase))
-                    orderItemId = formValue.Substring("btnSaveOrderItem".Length);
+                    orderItemId = formValue["btnSaveOrderItem".Length..];
 
             var orderItem = order.OrderItems.FirstOrDefault(x => x.Id == orderItemId);
             if (orderItem == null)
@@ -700,13 +700,13 @@ namespace Grand.Web.Admin.Controllers
 
             if (quantity == 0 || (orderItem.OpenQty != orderItem.Quantity && orderItem.IsShipEnabled))
             {
-                Error("You can't change quantity", true);
+                Error("You can't change quantity");
                 return RedirectToAction("Edit", "Order", new { id = id });
             }
 
             if (orderItem.Quantity == quantity && orderItem.UnitPriceExclTax == unitPriceExclTax)
             {
-                Error("Nothing has been changed", true);
+                Error("Nothing has been changed");
                 return RedirectToAction("Edit", "Order", new { id = id });
             }
 
@@ -761,7 +761,7 @@ namespace Grand.Web.Admin.Controllers
             string orderItemId = "";
             foreach (var formValue in form.Keys)
                 if (formValue.StartsWith("btnDeleteOrderItem", StringComparison.OrdinalIgnoreCase))
-                    orderItemId = formValue.Substring("btnDeleteOrderItem".Length);
+                    orderItemId = formValue["btnDeleteOrderItem".Length..];
 
             var orderItem = order.OrderItems.FirstOrDefault(x => x.Id == orderItemId);
             if (orderItem == null)
@@ -769,7 +769,7 @@ namespace Grand.Web.Admin.Controllers
 
             var result = await _mediator.Send(new DeleteOrderItemCommand() { Order = order, OrderItem = orderItem });
             if (result.error)
-                Error(result.message, true);
+                Error(result.message);
 
             //selected tab
             await SaveSelectedTabIndex(persistForTheNextRequest: true);
@@ -799,7 +799,7 @@ namespace Grand.Web.Admin.Controllers
             string orderItemId = "";
             foreach (var formValue in form.Keys)
                 if (formValue.StartsWith("btnCancelOrderItem", StringComparison.OrdinalIgnoreCase))
-                    orderItemId = formValue.Substring("btnCancelOrderItem".Length);
+                    orderItemId = formValue["btnCancelOrderItem".Length..];
 
             var orderItem = order.OrderItems.FirstOrDefault(x => x.Id == orderItemId);
             if (orderItem == null)
@@ -808,7 +808,7 @@ namespace Grand.Web.Admin.Controllers
 
             var result = await _mediator.Send(new CancelOrderItemCommand() { Order = order, OrderItem = orderItem });
             if (result.error)
-                Error(result.message, false);
+                Error(result.message);
             else
                 Success("The order item was successfully canceled", true);
 
@@ -836,7 +836,7 @@ namespace Grand.Web.Admin.Controllers
             string orderItemId = "";
             foreach (var formValue in form.Keys)
                 if (formValue.StartsWith("btnResetDownloadCount", StringComparison.OrdinalIgnoreCase))
-                    orderItemId = formValue.Substring("btnResetDownloadCount".Length);
+                    orderItemId = formValue["btnResetDownloadCount".Length..];
 
             var orderItem = order.OrderItems.FirstOrDefault(x => x.Id == orderItemId);
             if (orderItem == null)
@@ -877,7 +877,7 @@ namespace Grand.Web.Admin.Controllers
             string orderItemId = "";
             foreach (var formValue in form.Keys)
                 if (formValue.StartsWith("btnPvActivateDownload", StringComparison.OrdinalIgnoreCase))
-                    orderItemId = formValue.Substring("btnPvActivateDownload".Length);
+                    orderItemId = formValue["btnPvActivateDownload".Length..];
 
             var orderItem = order.OrderItems.FirstOrDefault(x => x.Id == orderItemId);
             if (orderItem == null)

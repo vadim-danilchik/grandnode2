@@ -44,6 +44,9 @@ namespace Grand.Web.Admin.Models.Settings
         [GrandResourceDisplayName("Admin.Settings.Media.MaximumImageSize")]
         public int MaximumImageSize { get; set; }
 
+        [GrandResourceDisplayName("Admin.Settings.Media.ImageQuality")]
+        public int ImageQuality { get; set; }
+
         [GrandResourceDisplayName("Admin.Settings.Media.DefaultPictureZoomEnabled")]
         public bool DefaultPictureZoomEnabled { get; set; }
 
@@ -76,6 +79,15 @@ namespace Grand.Web.Admin.Models.Settings
 
         [GrandResourceDisplayName("Admin.Settings.Media.AllowedFileTypes")]
         public string AllowedFileTypes { get; set; }
+
+        [GrandResourceDisplayName("Admin.Settings.Media.FileManagerEnabledCommands")]
+        public string FileManagerEnabledCommands { get; set; }
+
+        [GrandResourceDisplayName("Admin.Settings.Media.FileManagerDisabledUICommands")]
+        public string FileManagerDisabledUICommands { get; set; }
+
+        [GrandResourceDisplayName("Admin.Settings.Media.StoreLocation")]
+        public string StoreLocation { get; set; }
 
         [GrandResourceDisplayName("Admin.Settings.Media.DefaultImageName")]
         public string DefaultImageName { get; set; } = "no-image.png";

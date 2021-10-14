@@ -59,7 +59,11 @@
         {
             @await Component.InvokeAsync("Widget", new { widgetZone = "bloglist_page_before_post", additionalData = item.Id })
             <div class="col-xl-6 col-12">
-                <div class="card" @if (!string.IsNullOrEmpty(item.PictureModel.ImageUrl)) { <text>img-src="@item.PictureModel.ImageUrl" img-alt="@item.PictureModel.AlternateText"</text> }>
+                <div class="card">
+                    @if (!string.IsNullOrEmpty(item.PictureModel.ImageUrl))
+                    {
+                        <b-img-lazy class="img-fluid card-img-top" src="@item.PictureModel.ImageUrl" alt="@item.PictureModel.AlternateText"></b-img-lazy>
+                    }
                     <div class="card-header">
                         <h3 class="h5 mb-0">
                             <a href="@Url.RouteUrl("BlogPost", new { SeName = item.SeName })">
@@ -84,9 +88,9 @@
                         <div class="buttons mt-3">
                             @if (item.AllowComments)
                             {
-                                <a href="@Url.RouteUrl("BlogPost", new {SeName = item.SeName})#comments" class="btn btn-secondary read-comments">@string.Format(Loc["Blog.CommentsLink"], item.NumberOfComments)</a>
+                                <a href="@Url.RouteUrl("BlogPost", new {SeName = item.SeName})#comments" class="btn btn-outline-secondary read-comments">@string.Format(Loc["Blog.CommentsLink"], item.NumberOfComments)</a>
                             }
-                            <a href="@Url.RouteUrl("BlogPost", new {SeName = item.SeName})" class="btn btn-secondary read-more">@Loc["Blog.MoreInfo"]</a>
+                            <a href="@Url.RouteUrl("BlogPost", new {SeName = item.SeName})" class="btn btn-outline-info read-more">@Loc["Blog.MoreInfo"]</a>
                         </div>
                     </div>
                     <div class="card-footer">

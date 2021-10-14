@@ -8,8 +8,12 @@ using Grand.Business.Common.Interfaces.Security;
 using Grand.Business.Common.Interfaces.Stores;
 using Grand.Business.Common.Services.Security;
 using Grand.Business.Customers.Interfaces;
+using Grand.Business.Storage.Extensions;
+using Grand.Business.Storage.Interfaces;
 using Grand.Business.System.Interfaces.ExportImport;
 using Grand.Domain.Catalog;
+using Grand.Domain.Common;
+using Grand.Domain.Media;
 using Grand.Infrastructure;
 using Grand.Web.Admin.Extensions;
 using Grand.Web.Admin.Interfaces;
@@ -22,8 +26,10 @@ using Grand.Web.Common.Security.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -133,8 +139,7 @@ namespace Grand.Web.Admin.Controllers
         public async Task<IActionResult> ProductList(DataSourceRequest command, ProductListModel model)
         {
             var (productModels, totalCount) = await _productViewModelService.PrepareProductsModel(model, command.Page, command.PageSize);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = productModels.ToList(),
                 Total = totalCount
             };
@@ -399,8 +404,7 @@ namespace Grand.Web.Admin.Controllers
         public async Task<IActionResult> RequiredProductAddPopupList(DataSourceRequest command, ProductModel.AddRequiredProductModel model)
         {
             var (products, totalCount) = await _productViewModelService.PrepareProductModel(model, command.Page, command.PageSize);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = products.ToList(),
                 Total = totalCount
             };
@@ -422,8 +426,7 @@ namespace Grand.Web.Admin.Controllers
                 return ErrorForKendoGridJson(permission.message);
 
             var productCategoriesModel = await _productViewModelService.PrepareProductCategoryModel(product);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = productCategoriesModel,
                 Total = productCategoriesModel.Count
             };
@@ -496,8 +499,7 @@ namespace Grand.Web.Admin.Controllers
                 return ErrorForKendoGridJson(permission.message);
 
             var productCollectionsModel = await _productViewModelService.PrepareProductCollectionModel(product);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = productCollectionsModel,
                 Total = productCollectionsModel.Count
             };
@@ -573,8 +575,7 @@ namespace Grand.Web.Admin.Controllers
             var relatedProductsModel = new List<ProductModel.RelatedProductModel>();
             foreach (var x in relatedProducts)
             {
-                relatedProductsModel.Add(new ProductModel.RelatedProductModel
-                {
+                relatedProductsModel.Add(new ProductModel.RelatedProductModel {
                     Id = x.Id,
                     ProductId1 = productId,
                     ProductId2 = x.ProductId2,
@@ -583,8 +584,7 @@ namespace Grand.Web.Admin.Controllers
                 });
             }
 
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = relatedProductsModel,
                 Total = relatedProductsModel.Count
             };
@@ -629,8 +629,7 @@ namespace Grand.Web.Admin.Controllers
         public async Task<IActionResult> RelatedProductAddPopupList(DataSourceRequest command, ProductModel.AddRelatedProductModel model)
         {
             var (products, totalCount) = await _productViewModelService.PrepareProductModel(model, command.Page, command.PageSize);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = products.ToList(),
                 Total = totalCount
             };
@@ -651,15 +650,15 @@ namespace Grand.Web.Admin.Controllers
 
                 //a vendor should have access only to his products
                 model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
-                ViewBag.RefreshPage = true;
+                return Content("");
             }
             else
             {
                 Error(ModelState);
                 model = await _productViewModelService.PrepareRelatedProductModel();
                 model.ProductId = model.ProductId;
+                return View(model);
             }
-            return View(model);
         }
 
         #endregion
@@ -680,8 +679,7 @@ namespace Grand.Web.Admin.Controllers
             var similarProductsModel = new List<ProductModel.SimilarProductModel>();
             foreach (var x in similarProducts)
             {
-                similarProductsModel.Add(new ProductModel.SimilarProductModel
-                {
+                similarProductsModel.Add(new ProductModel.SimilarProductModel {
                     Id = x.Id,
                     ProductId1 = productId,
                     ProductId2 = x.ProductId2,
@@ -690,8 +688,7 @@ namespace Grand.Web.Admin.Controllers
                 });
             }
 
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = similarProductsModel,
                 Total = similarProductsModel.Count
             };
@@ -736,8 +733,7 @@ namespace Grand.Web.Admin.Controllers
         public async Task<IActionResult> SimilarProductAddPopupList(DataSourceRequest command, ProductModel.AddSimilarProductModel model)
         {
             var (products, totalCount) = await _productViewModelService.PrepareProductModel(model, command.Page, command.PageSize);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = products.ToList(),
                 Total = totalCount
             };
@@ -757,15 +753,15 @@ namespace Grand.Web.Admin.Controllers
                 }
                 //a vendor should have access only to his products
                 model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
-                ViewBag.RefreshPage = true;
+                return Content("");
             }
             else
             {
                 Error(ModelState);
                 model = await _productViewModelService.PrepareSimilarProductModel();
                 model.ProductId = model.ProductId;
+                return View(model);
             }
-            return View(model);
         }
 
         #endregion
@@ -786,8 +782,7 @@ namespace Grand.Web.Admin.Controllers
             var bundleProductsModel = new List<ProductModel.BundleProductModel>();
             foreach (var x in bundleProducts)
             {
-                bundleProductsModel.Add(new ProductModel.BundleProductModel
-                {
+                bundleProductsModel.Add(new ProductModel.BundleProductModel {
                     Id = x.Id,
                     ProductBundleId = productId,
                     ProductId = x.ProductId,
@@ -796,8 +791,7 @@ namespace Grand.Web.Admin.Controllers
                     Quantity = x.Quantity
                 });
             }
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = bundleProductsModel,
                 Total = bundleProductsModel.Count
             };
@@ -842,8 +836,7 @@ namespace Grand.Web.Admin.Controllers
         public async Task<IActionResult> BundleProductAddPopupList(DataSourceRequest command, ProductModel.AddBundleProductModel model)
         {
             var (products, totalCount) = await _productViewModelService.PrepareProductModel(model, command.Page, command.PageSize);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = products.ToList(),
                 Total = totalCount
             };
@@ -864,15 +857,15 @@ namespace Grand.Web.Admin.Controllers
 
                 //a vendor should have access only to his products
                 model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
-                ViewBag.RefreshPage = true;
+                return Content("");
             }
             else
             {
                 Error(ModelState);
                 model = await _productViewModelService.PrepareBundleProductModel();
                 model.ProductId = model.ProductId;
+                return View(model);
             }
-            return View(model);
         }
 
         #endregion
@@ -893,15 +886,13 @@ namespace Grand.Web.Admin.Controllers
             var crossSellProductsModel = new List<ProductModel.CrossSellProductModel>();
             foreach (var x in crossSellProducts)
             {
-                crossSellProductsModel.Add(new ProductModel.CrossSellProductModel
-                {
+                crossSellProductsModel.Add(new ProductModel.CrossSellProductModel {
                     Id = x,
                     ProductId = product.Id,
                     Product2Name = (await _productService.GetProductById(x))?.Name,
                 });
             }
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = crossSellProductsModel,
                 Total = crossSellProductsModel.Count
             };
@@ -943,8 +934,7 @@ namespace Grand.Web.Admin.Controllers
         public async Task<IActionResult> CrossSellProductAddPopupList(DataSourceRequest command, ProductModel.AddCrossSellProductModel model)
         {
             var (products, totalCount) = await _productViewModelService.PrepareProductModel(model, command.Page, command.PageSize);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = products.ToList(),
                 Total = totalCount
             };
@@ -962,17 +952,15 @@ namespace Grand.Web.Admin.Controllers
                 {
                     await _productViewModelService.InsertCrossSellProductModel(model);
                 }
-                //a vendor should have access only to his products
-                model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
-                ViewBag.RefreshPage = true;
+                return Content("");
             }
             else
             {
                 Error(ModelState);
                 model = await _productViewModelService.PrepareCrossSellProductModel();
                 model.ProductId = model.ProductId;
+                return View(model);
             }
-            return View(model);
         }
 
         #endregion
@@ -1058,17 +1046,15 @@ namespace Grand.Web.Admin.Controllers
                 {
                     await _productViewModelService.InsertRecommendedProductModel(model);
                 }
-                //a vendor should have access only to his products
-                model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
-                ViewBag.RefreshPage = true;
+                return Content("");
             }
             else
             {
                 Error(ModelState);
                 model = await _productViewModelService.PrepareRecommendedProductModel();
                 model.ProductId = model.ProductId;
+                return View(model);
             }
-            return View(model);
         }
 
         #endregion
@@ -1095,8 +1081,7 @@ namespace Grand.Web.Admin.Controllers
                 vendorId: vendorId,
                 showHidden: true);
             var associatedProductsModel = associatedProducts
-                .Select(x => new ProductModel.AssociatedProductModel
-                {
+                .Select(x => new ProductModel.AssociatedProductModel {
                     Id = x.Id,
                     ProductId = productId,
                     ProductName = x.Name,
@@ -1104,8 +1089,7 @@ namespace Grand.Web.Admin.Controllers
                 })
                 .ToList();
 
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = associatedProductsModel,
                 Total = associatedProductsModel.Count
             };
@@ -1160,8 +1144,7 @@ namespace Grand.Web.Admin.Controllers
         public async Task<IActionResult> AssociatedProductAddPopupList(DataSourceRequest command, ProductModel.AddAssociatedProductModel model)
         {
             var (products, totalCount) = await _productViewModelService.PrepareProductModel(model, command.Page, command.PageSize);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = products.ToList(),
                 Total = totalCount
             };
@@ -1178,43 +1161,140 @@ namespace Grand.Web.Admin.Controllers
                 {
                     await _productViewModelService.InsertAssociatedProductModel(model);
                 }
-                //a vendor should have access only to his products
-                model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
-                ViewBag.RefreshPage = true;
+                return Content("");
             }
             else
             {
                 Error(ModelState);
                 model = await _productViewModelService.PrepareAssociatedProductModel();
                 model.ProductId = model.ProductId;
+                return View(model);
             }
-            return View(model);
         }
 
         #endregion
 
         #region Product pictures
-        public async Task<IActionResult> ProductPictureAdd(string pictureId, int displayOrder,
-            string overrideAltAttribute, string overrideTitleAttribute,
-            string productId)
-        {
-            if (string.IsNullOrEmpty(pictureId))
-                throw new ArgumentException();
 
-            var product = await _productService.GetProductById(productId);
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> ProductPictureAdd(Reference reference, string objectId,
+            [FromServices] IPictureService pictureService,
+            [FromServices] MediaSettings mediaSettings)
+        {
+            if (!await _permissionService.Authorize(PermissionSystemName.Pictures))
+                return Json(new
+                {
+                    success = false,
+                    message = "Access denied - picture permissions",
+                });
+
+            if (reference != Reference.Product || string.IsNullOrEmpty(objectId))
+                return Json(new
+                {
+                    success = false,
+                    message = "Please save form before upload new pictures",
+                });
+
+            var form = await HttpContext.Request.ReadFormAsync();
+            var httpPostedFiles = form.Files.ToList();
+            if (!httpPostedFiles.Any())
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "No files uploaded",
+                });
+            }
+
+            var product = await _productService.GetProductById(objectId);
 
             //a vendor should have access only to his products
             if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id && !await _groupService.IsStaff(_workContext.CurrentCustomer))
-                return Json(new { Result = false });
+                return Json(new
+                {
+                    success = false,
+                    message = "Access denied - vendor permissions",
+                });
+
 
             if (await _groupService.IsStaff(_workContext.CurrentCustomer))
                 if (!product.AccessToEntityByStore(_workContext.CurrentCustomer.StaffStoreId))
-                    return Json(new { Result = false });
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Access denied - staff permissions",
+                    });
 
-            await _productViewModelService.InsertProductPicture(product, pictureId, displayOrder, overrideAltAttribute, overrideTitleAttribute);
+            var values = new List<(string pictureUrl, string pictureId)>();
 
-            return Json(new { Result = true });
+            foreach (var file in httpPostedFiles)
+            {
+                var qqFileNameParameter = "qqfilename";
+                var fileName = file.FileName;
+                if (String.IsNullOrEmpty(fileName) && form.ContainsKey(qqFileNameParameter))
+                    fileName = form[qqFileNameParameter].ToString();
+
+                fileName = Path.GetFileName(fileName);
+
+                var contentType = file.ContentType;
+                var fileExtension = Path.GetExtension(fileName);
+                if (!string.IsNullOrEmpty(fileExtension))
+                    fileExtension = fileExtension.ToLowerInvariant();
+
+                if (string.IsNullOrEmpty(contentType))
+                {
+                    contentType = GetContentType(fileExtension);
+                }
+
+                if (GetAllowedFileTypes(mediaSettings).Contains(fileExtension))
+                {
+                    var fileBinary = file.GetDownloadBits();
+                    //insert picture
+                    var picture = await pictureService.InsertPicture(fileBinary, contentType, null, reference: reference, objectId: objectId);
+                    var pictureUrl = await pictureService.GetPictureUrl(picture);
+
+                    values.Add((pictureUrl, picture.Id));
+                    //assign picture to the product
+                    await _productViewModelService.InsertProductPicture(product, picture, 0);
+                }
+            }
+
+            return Json(new { success = true, data = values });
         }
+
+        protected virtual IList<string> GetAllowedFileTypes(MediaSettings mediaSettings)
+        {
+            if (string.IsNullOrEmpty(mediaSettings.AllowedFileTypes))
+                return new List<string> { ".gif", ".jpg", ".jpeg", ".png", ".bmp", ".webp" };
+            else
+                return mediaSettings.AllowedFileTypes.Split(',');
+        }
+        protected virtual string GetContentType(string fileExtension)
+        {
+            switch (fileExtension)
+            {
+                case ".bmp":
+                    return "image/bmp";
+                case ".gif":
+                    return "image/gif";
+                case ".jpeg":
+                case ".jpg":
+                case ".jpe":
+                case ".jfif":
+                case ".pjpeg":
+                case ".pjp":
+                    return "image/jpeg";
+                case ".png":
+                    return "image/png";
+                case ".tiff":
+                case ".tif":
+                    return "image/tiff";
+                default:
+                    return "";
+            }
+        }
+
 
         [PermissionAuthorizeAction(PermissionActionName.Preview)]
         [HttpPost]
@@ -1226,9 +1306,8 @@ namespace Grand.Web.Admin.Controllers
             if (!permission.allow)
                 return ErrorForKendoGridJson(permission.message);
 
-            var productPicturesModel = await _productViewModelService.PrepareProductPictureModel(product);
-            var gridModel = new DataSourceResult
-            {
+            var productPicturesModel = await _productViewModelService.PrepareProductPicturesModel(product);
+            var gridModel = new DataSourceResult {
                 Data = productPicturesModel,
                 Total = productPicturesModel.Count
             };
@@ -1236,16 +1315,53 @@ namespace Grand.Web.Admin.Controllers
             return Json(gridModel);
         }
 
+        [PermissionAuthorizeAction(PermissionActionName.Preview)]
+        public async Task<IActionResult> ProductPicturePopup(string productId, string id)
+        {
+            var product = await _productService.GetProductById(productId);
+            if (product == null)
+                return Content("Product not exist");
+
+            var permission = await CheckAccessToProduct(product);
+            if (!permission.allow)
+                return Content(permission.message);
+
+            var pp = product.ProductPictures.FirstOrDefault(x => x.Id == id);
+            if (pp == null)
+                return Content("Product picture not exist");
+
+            var (model, picture) = await _productViewModelService.PrepareProductPictureModel(product, pp);
+            //locales
+            await AddLocales(_languageService, model.Locales, (locale, languageId) =>
+            {
+                locale.AltAttribute = picture?.GetTranslation(x => x.AltAttribute, languageId, false);
+                locale.TitleAttribute = picture?.GetTranslation(x => x.TitleAttribute, languageId, false);
+            });
+
+            return View(model);
+        }
+
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
         [HttpPost]
-        public async Task<IActionResult> ProductPictureUpdate(ProductModel.ProductPictureModel model)
+        public async Task<IActionResult> ProductPicturePopup(ProductModel.ProductPictureModel model)
         {
             if (ModelState.IsValid)
             {
+                var product = await _productService.GetProductById(model.ProductId);
+                if (product == null)
+                    throw new ArgumentException("No product found with the specified id");
+
+                if (product.ProductPictures.FirstOrDefault(x => x.Id == model.Id) == null)
+                    throw new ArgumentException("No product picture found with the specified id");
+
                 await _productViewModelService.UpdateProductPicture(model);
-                return new JsonResult("");
+
+                return Content("");
             }
-            return ErrorForKendoGridJson(ModelState);
+
+            Error(ModelState);
+
+            return View(model);
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
@@ -1266,29 +1382,13 @@ namespace Grand.Web.Admin.Controllers
         [AcceptVerbs("GET")]
         public async Task<IActionResult> GetOptionsByAttributeId(string attributeId, [FromServices] ISpecificationAttributeService specificationAttributeService)
         {
-            if (String.IsNullOrEmpty(attributeId))
-                throw new ArgumentNullException("attributeId");
+            if (string.IsNullOrEmpty(attributeId))
+                return Json("");
 
             var options = (await specificationAttributeService.GetSpecificationAttributeById(attributeId)).SpecificationAttributeOptions.OrderBy(x => x.DisplayOrder);
             var result = (from o in options
                           select new { id = o.Id, name = o.Name }).ToList();
             return Json(result);
-        }
-
-        [PermissionAuthorizeAction(PermissionActionName.Edit)]
-        public async Task<IActionResult> ProductSpecificationAttributeAdd(ProductModel.AddProductSpecificationAttributeModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var product = await _productService.GetProductById(model.ProductId);
-                if (product == null)
-                    return Content("Product not exists");
-
-                await _productViewModelService.InsertProductSpecificationAttributeModel(model, product);
-
-                return Json(new { Result = true });
-            }
-            return Json(new { Result = false });
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Preview)]
@@ -1302,8 +1402,7 @@ namespace Grand.Web.Admin.Controllers
                 return ErrorForKendoGridJson(permission.message);
 
             var productrSpecsModel = await _productViewModelService.PrepareProductSpecificationAttributeModel(product);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = productrSpecsModel,
                 Total = productrSpecsModel.Count
             };
@@ -1311,8 +1410,39 @@ namespace Grand.Web.Admin.Controllers
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
+        public async Task<IActionResult> ProductSpecAttrPopup(
+            [FromServices] ISpecificationAttributeService specificationAttributeService,
+            string productId, string id)
+        {
+            var product = await _productService.GetProductById(productId);
+
+            var permission = await CheckAccessToProduct(product);
+            if (!permission.allow)
+                return Content(permission.message);
+
+            var model = new ProductModel.AddProductSpecificationAttributeModel {
+                //default specs values
+                ShowOnProductPage = true
+            };
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                var specification = product.ProductSpecificationAttributes.FirstOrDefault(x => x.Id == id);
+                if (specification != null)
+                {
+                    model = specification.ToModel();
+                }
+            }
+            model.AvailableAttributes = await PrepareAvailableAttributes(specificationAttributeService);
+
+            return View(model);
+        }
+
+        [PermissionAuthorizeAction(PermissionActionName.Edit)]
         [HttpPost]
-        public async Task<IActionResult> ProductSpecAttrUpdate(ProductSpecificationAttributeModel model)
+        public async Task<IActionResult> ProductSpecAttrPopup(
+            [FromServices] ISpecificationAttributeService specificationAttributeService,
+            ProductModel.AddProductSpecificationAttributeModel model)
         {
             if (ModelState.IsValid)
             {
@@ -1320,14 +1450,31 @@ namespace Grand.Web.Admin.Controllers
                 if (product == null)
                     return Content("Product not exists");
 
-                var psa = product.ProductSpecificationAttributes.Where(x => x.SpecificationAttributeId == model.ProductSpecificationId).Where(x => x.Id == model.Id).FirstOrDefault();
+                var psa = product.ProductSpecificationAttributes.Where(x => x.Id == model.Id).FirstOrDefault();
                 if (psa == null)
-                    return Content("No product specification attribute found with the specified id");
+                    await _productViewModelService.InsertProductSpecificationAttributeModel(model, product);
+                else
+                    await _productViewModelService.UpdateProductSpecificationAttributeModel(product, psa, model);
 
-                await _productViewModelService.UpdateProductSpecificationAttributeModel(product, psa, model);
                 return new JsonResult("");
             }
-            return ErrorForKendoGridJson(ModelState);
+
+            Error(ModelState);
+            model.AvailableAttributes = await PrepareAvailableAttributes(specificationAttributeService);
+            
+            return View(model);
+        }
+        private async Task<List<SelectListItem>> PrepareAvailableAttributes(ISpecificationAttributeService specificationAttributeService)
+        {
+            var availableSpecificationAttributes = new List<SelectListItem>();
+            foreach (var sa in await specificationAttributeService.GetSpecificationAttributes())
+            {
+                availableSpecificationAttributes.Add(new SelectListItem {
+                    Text = sa.Name,
+                    Value = sa.Id.ToString()
+                });
+            }
+            return availableSpecificationAttributes;
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
@@ -1340,7 +1487,7 @@ namespace Grand.Web.Admin.Controllers
                 if (product == null)
                     return Content("Product not exists");
 
-                var psa = product.ProductSpecificationAttributes.Where(x => x.Id == model.Id && x.SpecificationAttributeId == model.ProductSpecificationId).FirstOrDefault();
+                var psa = product.ProductSpecificationAttributes.Where(x => x.Id == model.Id).FirstOrDefault();
                 if (psa == null)
                     throw new ArgumentException("No specification attribute found with the specified id");
 
@@ -1360,8 +1507,7 @@ namespace Grand.Web.Admin.Controllers
             [FromServices] IOrderViewModelService orderViewModelService)
         {
             if (!await _permissionService.Authorize(StandardPermission.ManageOrders))
-                return Json(new DataSourceResult
-                {
+                return Json(new DataSourceResult {
                     Data = null,
                     Total = 0
                 });
@@ -1372,8 +1518,7 @@ namespace Grand.Web.Admin.Controllers
             if (!permission.allow)
                 return ErrorForKendoGridJson(permission.message);
 
-            var model = new OrderListModel
-            {
+            var model = new OrderListModel {
                 ProductId = productId
             };
 
@@ -1383,8 +1528,7 @@ namespace Grand.Web.Admin.Controllers
                 model.VendorId = _workContext.CurrentVendor.Id;
 
             var (orderModels, totalCount) = await orderViewModelService.PrepareOrderModel(model, command.Page, command.PageSize);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = orderModels.ToList(),
                 Total = totalCount
             };
@@ -1420,8 +1564,7 @@ namespace Grand.Web.Admin.Controllers
                 await _productViewModelService.PrepareProductReviewModel(m, item, false, true);
                 items.Add(m);
             }
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = items,
                 Total = productReviews.Count,
             };
@@ -1519,8 +1662,7 @@ namespace Grand.Web.Admin.Controllers
         public async Task<IActionResult> BulkEditSelect(DataSourceRequest command, BulkEditListModel model)
         {
             var (bulkEditProductModels, totalCount) = await _productViewModelService.PrepareBulkEditProductModel(model, command.Page, command.PageSize);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = bulkEditProductModels.ToList(),
                 Total = totalCount
             };
@@ -1566,16 +1708,14 @@ namespace Grand.Web.Admin.Controllers
             var items = new List<ProductModel.ProductPriceModel>();
             foreach (var item in product.ProductPrices)
             {
-                items.Add(new ProductModel.ProductPriceModel()
-                {
+                items.Add(new ProductModel.ProductPriceModel() {
                     Id = item.Id,
                     CurrencyCode = item.CurrencyCode,
                     Price = item.Price
                 });
             }
 
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = items,
                 Total = items.Count
             };
@@ -1598,8 +1738,7 @@ namespace Grand.Web.Admin.Controllers
             {
                 try
                 {
-                    await _productService.InsertProductPrice(new ProductPrice()
-                    {
+                    await _productService.InsertProductPrice(new ProductPrice() {
                         ProductId = product.Id,
                         CurrencyCode = model.CurrencyCode,
                         Price = model.Price,
@@ -1686,8 +1825,7 @@ namespace Grand.Web.Admin.Controllers
                 return ErrorForKendoGridJson(permission.message);
 
             var tierPricesModel = await _productViewModelService.PrepareTierPriceModel(product);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = tierPricesModel,
                 Total = tierPricesModel.Count
             };
@@ -1697,8 +1835,7 @@ namespace Grand.Web.Admin.Controllers
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
         public async Task<IActionResult> TierPriceCreatePopup(string productId)
         {
-            var model = new ProductModel.TierPriceModel
-            {
+            var model = new ProductModel.TierPriceModel {
                 ProductId = productId
             };
             await _productViewModelService.PrepareTierPriceModel(model);
@@ -1717,16 +1854,16 @@ namespace Grand.Web.Admin.Controllers
 
                 var tierPrice = model.ToEntity(_dateTimeService);
                 await _productService.InsertTierPrice(tierPrice, product.Id);
-                ViewBag.RefreshPage = true;
-                return View(model);
+
+                return Content("");
             }
             else
             {
                 Error(ModelState);
+                //If we got this far, something failed, redisplay form
+                await _productViewModelService.PrepareTierPriceModel(model);
+                return View(model);
             }
-            //If we got this far, something failed, redisplay form
-            await _productViewModelService.PrepareTierPriceModel(model);
-            return View(model);
         }
 
         [PermissionAuthorizeAction(PermissionActionName.Edit)]
@@ -1767,8 +1904,7 @@ namespace Grand.Web.Admin.Controllers
                 tierPrice = model.ToEntity(tierPrice, _dateTimeService);
                 await _productService.UpdateTierPrice(tierPrice, product.Id);
 
-                ViewBag.RefreshPage = true;
-                return View(model);
+                return Content("");
             }
             Error(ModelState);
             //stores
@@ -1811,8 +1947,7 @@ namespace Grand.Web.Admin.Controllers
                 return ErrorForKendoGridJson(permission.message);
 
             var attributesModel = await _productViewModelService.PrepareProductAttributeMappingModels(product);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = attributesModel,
                 Total = attributesModel.Count
             };
@@ -1857,8 +1992,7 @@ namespace Grand.Web.Admin.Controllers
                 else
                     await _productViewModelService.UpdateProductAttributeMappingModel(model);
 
-                ViewBag.RefreshPage = true;
-                return View(model);
+                return Content("");
             }
             Error(ModelState);
             model = await _productViewModelService.PrepareProductAttributeMappingModel(model);
@@ -1923,8 +2057,7 @@ namespace Grand.Web.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await _productViewModelService.UpdateProductAttributeValidationRulesModel(productAttributeMapping, model);
-                ViewBag.RefreshPage = true;
-                return View(model);
+                return Content("");
             }
             Error(ModelState);
             model = await _productViewModelService.PrepareProductAttributeMappingModel(productAttributeMapping);
@@ -1979,8 +2112,7 @@ namespace Grand.Web.Admin.Controllers
                 formcollection.Add(item.Key, item.Value);
             }
             await _productViewModelService.UpdateProductAttributeConditionModel(product, productAttributeMapping, model, formcollection);
-            ViewBag.RefreshPage = true;
-            return View(model);
+            return Content("");
         }
 
         #endregion
@@ -2009,8 +2141,7 @@ namespace Grand.Web.Admin.Controllers
                     return Content("This is not your product");
             }
             var productAttribute = await productAttributeService.GetProductAttributeById(productAttributeMapping.ProductAttributeId);
-            var model = new ProductModel.ProductAttributeValueListModel
-            {
+            var model = new ProductModel.ProductAttributeValueListModel {
                 ProductName = product.Name,
                 ProductId = product.Id,
                 ProductAttributeName = productAttribute.Name,
@@ -2035,8 +2166,7 @@ namespace Grand.Web.Admin.Controllers
                 throw new ArgumentException("No product attribute mapping found with the specified id");
 
             var values = await _productViewModelService.PrepareProductAttributeValueModels(product, productAttributeMapping);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = values,
                 Total = values.Count()
             };
@@ -2093,8 +2223,8 @@ namespace Grand.Web.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await _productViewModelService.InsertProductAttributeValueModel(model);
-                ViewBag.RefreshPage = true;
-                return View(model);
+
+                return Content("");
             }
             //If we got this far, something failed, redisplay form
             await _productViewModelService.PrepareProductAttributeValueModel(product, model);
@@ -2161,8 +2291,7 @@ namespace Grand.Web.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await _productViewModelService.UpdateProductAttributeValueModel(pav, model);
-                ViewBag.RefreshPage = true;
-                return View(model);
+                return Content("");
             }
             //If we got this far, something failed, redisplay form
             await _productViewModelService.PrepareProductAttributeValueModel(product, model);
@@ -2210,8 +2339,7 @@ namespace Grand.Web.Admin.Controllers
             ProductModel.ProductAttributeValueModel.AssociateProductToAttributeValueModel model)
         {
             var (products, totalCount) = await _productViewModelService.PrepareProductModel(model, command.Page, command.PageSize);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = products.ToList(),
                 Total = totalCount
             };
@@ -2230,11 +2358,7 @@ namespace Grand.Web.Admin.Controllers
             if (_workContext.CurrentVendor != null && associatedProduct.VendorId != _workContext.CurrentVendor.Id && !await _groupService.IsStaff(_workContext.CurrentCustomer))
                 return Content("This is not your product");
 
-            model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
-            ViewBag.RefreshPage = true;
-            ViewBag.productId = associatedProduct.Id;
-            ViewBag.productName = associatedProduct.Name;
-            return View(model);
+            return Content("");
         }
 
         #endregion
@@ -2252,8 +2376,7 @@ namespace Grand.Web.Admin.Controllers
                 return ErrorForKendoGridJson(permission.message);
 
             var combinationsModel = await _productViewModelService.PrepareProductAttributeCombinationModel(product);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = combinationsModel,
                 Total = combinationsModel.Count
             };
@@ -2333,8 +2456,7 @@ namespace Grand.Web.Admin.Controllers
             var warnings = await _productViewModelService.InsertOrUpdateProductAttributeCombinationPopup(product, model, formcollection);
             if (!warnings.Any())
             {
-                ViewBag.RefreshPage = true;
-                return View(model);
+                return Content("");
             }
             //If we got this far, something failed, redisplay form
             await _productViewModelService.PrepareAddProductAttributeCombinationModel(model, product);
@@ -2407,8 +2529,7 @@ namespace Grand.Web.Admin.Controllers
                 return ErrorForKendoGridJson(permission.message);
 
             var tierPriceModel = await _productViewModelService.PrepareProductAttributeCombinationTierPricesModel(product, productAttributeCombinationId);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = tierPriceModel,
                 Total = tierPriceModel.Count
             };
@@ -2506,8 +2627,7 @@ namespace Grand.Web.Admin.Controllers
                 return ErrorForKendoGridJson(permission.message);
 
             var (activityLogModels, totalCount) = await _productViewModelService.PrepareActivityLogModel(productId, command.Page, command.PageSize);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = activityLogModels.ToList(),
                 Total = totalCount
             };
@@ -2530,8 +2650,7 @@ namespace Grand.Web.Admin.Controllers
 
             var reservations = await _productReservationService.GetProductReservationsByProductId(productId, null, null, command.Page - 1, command.PageSize);
             var reservationModel = reservations
-                .Select(x => new ProductModel.ReservationModel
-                {
+                .Select(x => new ProductModel.ReservationModel {
                     ReservationId = x.Id,
                     Date = x.Date,
                     OrderId = x.OrderId,
@@ -2541,8 +2660,7 @@ namespace Grand.Web.Admin.Controllers
                     Duration = x.Duration
                 }).ToList();
 
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = reservationModel,
                 Total = reservations.TotalCount
             };
@@ -2680,8 +2798,7 @@ namespace Grand.Web.Admin.Controllers
                             if (counter++ > 1000)
                                 break;
 
-                            await _productReservationService.InsertProductReservation(new ProductReservation
-                            {
+                            await _productReservationService.InsertProductReservation(new ProductReservation {
                                 OrderId = "",
                                 Date = iterator,
                                 ProductId = productId,
@@ -2795,8 +2912,7 @@ namespace Grand.Web.Admin.Controllers
                     return Json(new { errors = _translationService.GetResource("Admin.Catalog.Products.Permisions") });
 
             var (bidModels, totalCount) = await _productViewModelService.PrepareBidMode(productId, command.Page, command.PageSize);
-            var gridModel = new DataSourceResult
-            {
+            var gridModel = new DataSourceResult {
                 Data = bidModels.ToList(),
                 Total = totalCount
             };

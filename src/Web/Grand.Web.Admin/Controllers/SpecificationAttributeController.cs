@@ -256,9 +256,7 @@ namespace Grand.Web.Admin.Controllers
 
                 specificationAttribute.SpecificationAttributeOptions.Add(sao);
                 await _specificationAttributeService.UpdateSpecificationAttribute(specificationAttribute);
-
-                ViewBag.RefreshPage = true;
-                return View(model);
+                return Content("");
             }
 
             //If we got this far, something failed, redisplay form
@@ -305,9 +303,7 @@ namespace Grand.Web.Admin.Controllers
                     sao.ColorSquaresRgb = null;
 
                 await _specificationAttributeService.UpdateSpecificationAttribute(specificationAttribute);
-
-                ViewBag.RefreshPage = true;
-                return View(model);
+                return Content("");
             }
 
             //If we got this far, something failed, redisplay form

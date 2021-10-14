@@ -2490,6 +2490,15 @@
   <Resource Name="Admin.Catalog.Collections.Updated">
     <Value>The collection has been updated successfully.</Value>
   </Resource>
+  <Resource Name="Admin.Catalog.Picture">
+    <Value>Picture</Value>
+  </Resource>
+  <Resource Name="Admin.Catalog.Picture.Fields.AltAttribute">
+    <Value>Picture alternate text</Value>
+  </Resource>
+  <Resource Name="Admin.Catalog.Picture.Fields.TitleAttribute">
+    <Value>Picture title</Value>
+  </Resource>
   <Resource Name="Admin.Catalog.ProductReservations.CantDeleteWithOrder">
     <Value>You can't delete reservation with the order</Value>
   </Resource>
@@ -3336,6 +3345,9 @@
   <Resource Name="Admin.Catalog.Products.Pictures.AddNew">
     <Value>Add a new picture</Value>
   </Resource>
+  <Resource Name="Admin.Catalog.Products.Pictures.Details">
+    <Value>Picture details</Value>
+  </Resource>
   <Resource Name="Admin.Catalog.Products.Pictures.Fields.DisplayOrder">
     <Value>Display order</Value>
   </Resource>
@@ -3456,9 +3468,6 @@
   <Resource Name="Admin.Catalog.Products.ProductAttributes.Attributes.Condition.EnableCondition">
     <Value>Enable condition</Value>
   </Resource>
-  <Resource Name="Admin.Catalog.Products.ProductAttributes.Attributes.Condition.ViewLink">
-    <Value>View/Edit condition</Value>
-  </Resource>
   <Resource Name="Admin.Catalog.Products.ProductAttributes.Attributes.Fields.Attribute">
     <Value>Attribute</Value>
   </Resource>
@@ -3498,8 +3507,8 @@
   <Resource Name="Admin.Catalog.Products.ProductAttributes.Attributes.ValidationRules.MinLength">
     <Value>Minimum length</Value>
   </Resource>
-  <Resource Name="Admin.Catalog.Products.ProductAttributes.Attributes.ValidationRules.ViewLink">
-    <Value>View/Edit rules</Value>
+  <Resource Name="Admin.Catalog.Products.ProductAttributes.Attributes.ValidationRules.Link">
+    <Value>Edit rules</Value>
   </Resource>
   <Resource Name="Admin.Catalog.Products.ProductAttributes.Attributes.Values">
     <Value>Values</Value>
@@ -3667,10 +3676,16 @@
     <Value>Specification attributes</Value>
   </Resource>
   <Resource Name="Admin.Catalog.Products.SpecificationAttributes.AddButton">
-    <Value>Add attribute</Value>
+    <Value>Add product specification</Value>
   </Resource>
   <Resource Name="Admin.Catalog.Products.SpecificationAttributes.AddNew">
     <Value>Add a new product specification attribute</Value>
+  </Resource>
+  <Resource Name="Admin.Catalog.Products.SpecificationAttributes.Edit">
+    <Value>Edit a product specification attribute</Value>
+  </Resource>
+  <Resource Name="Admin.Catalog.Products.SpecificationAttributes.Validate">
+    <Value>A product specification attribute is not valid</Value>
   </Resource>
   <Resource Name="Admin.Catalog.Products.SpecificationAttributes.Fields.AllowFiltering">
     <Value>Allow filtering</Value>
@@ -3698,9 +3713,6 @@
   </Resource>
   <Resource Name="Admin.Catalog.Products.SpecificationAttributes.Fields.Value">
     <Value>Value</Value>
-  </Resource>
-  <Resource Name="Admin.Catalog.Products.SpecificationAttributes.NoAttributes">
-    <Value>No specification attributes defined.</Value>
   </Resource>
   <Resource Name="Admin.Catalog.Products.SpecificationAttributes.SaveBeforeEdit">
     <Value>You need to save the product before you can add product specification attributes for this product page.</Value>
@@ -3903,6 +3915,9 @@
   <Resource Name="Admin.Common.NoCancel">
     <Value>No, cancel</Value>
   </Resource>
+  <Resource Name="Admin.Common.Picture.Attributes">
+    <Value>Picture attributes</Value>
+  </Resource>
   <Resource Name="Admin.Common.Preview">
     <Value>Show in the shop page</Value>
   </Resource>
@@ -4053,8 +4068,8 @@
   <Resource Name="Admin.Configuration.Countries.EditCountryDetails">
     <Value>Edit country details</Value>
   </Resource>
-  <Resource Name="Admin.Configuration.Countries.ExportToCsv">
-    <Value>Export states to CSV</Value>
+  <Resource Name="Admin.Configuration.Countries.ExportStatesToExcel">
+    <Value>Export states to Excel</Value>
   </Resource>
   <Resource Name="Admin.Configuration.Countries.Fields.AllowsBilling">
     <Value>Allows billing</Value>
@@ -4104,11 +4119,11 @@
   <Resource Name="Admin.Configuration.Countries.Fields.TwoLetterIsoCode.Required">
     <Value>Two letter ISO code is required.</Value>
   </Resource>
-  <Resource Name="Admin.Configuration.Countries.ImportFromCsv">
-    <Value>Import states from CSV</Value>
+  <Resource Name="Admin.Configuration.Countries.ImportStatesFromExcel">
+    <Value>Import states from Excel</Value>
   </Resource>
   <Resource Name="Admin.Configuration.Countries.ImportSuccess">
-    <Value>{0} states have been successfully imported</Value>
+    <Value>The states have been successfully imported</Value>
   </Resource>
   <Resource Name="Admin.Configuration.Countries.Info">
     <Value>Country info</Value>
@@ -4917,9 +4932,6 @@
   <Resource Name="Admin.Configuration.Shipping.Providers.Fields.IsActive">
     <Value>Is active</Value>
   </Resource>
-  <Resource Name="Admin.Configuration.Shipping.Providers.Fields.Logo">
-    <Value>Logo</Value>
-  </Resource>
   <Resource Name="Admin.Configuration.Shipping.Providers.Fields.SystemName">
     <Value>System name</Value>
   </Resource>
@@ -5055,6 +5067,24 @@
   <Resource Name="Admin.Configuration.Stores.Deleted">
     <Value>The store has been deleted successfully.</Value>
   </Resource>
+    <Resource Name="Admin.Configuration.Stores.Domains.Fields.HostName">
+    <Value>Host name</Value>
+  </Resource>
+  <Resource Name="Admin.Configuration.Stores.Domains.Fields.Primary">
+    <Value>Primary URL</Value>
+  </Resource>
+  <Resource Name="Admin.Configuration.Stores.Domains.Fields.Url">
+    <Value>URL address</Value>
+  </Resource>
+  <Resource Name="Admin.Configuration.Stores.Domains.Fields.Url.Required">
+    <Value>URL address is required</Value>
+  </Resource>
+  <Resource Name="Admin.Configuration.Stores.Domains.Fields.Url.WrongFormat">
+    <Value>Wrong format for URL address</Value>
+  </Resource>
+  <Resource Name="Admin.Configuration.Stores.Domains.SaveBeforeEdit">
+    <Value>You need to save the store before you can add values for domains.</Value>
+  </Resource>
   <Resource Name="Admin.Configuration.Stores.EditStoreDetails">
     <Value>Edit store details</Value>
   </Resource>
@@ -5094,9 +5124,6 @@
   <Resource Name="Admin.Configuration.Stores.Fields.DisplayOrder">
     <Value>Display order</Value>
   </Resource>
-  <Resource Name="Admin.Configuration.Stores.Fields.Hosts">
-    <Value>HOST values</Value>
-  </Resource>
   <Resource Name="Admin.Configuration.Stores.Fields.Name">
     <Value>Store name</Value>
   </Resource>
@@ -5105,6 +5132,9 @@
   </Resource>
   <Resource Name="Admin.Configuration.Stores.Fields.SecureUrl">
     <Value>Secure URL</Value>
+  </Resource>
+  <Resource Name="Admin.Configuration.Stores.Fields.SecureUrl.WrongFormat">
+    <Value>Wrong format of the secure URL (e.g. https://google.com) </Value>
   </Resource>
   <Resource Name="Admin.Configuration.Stores.Fields.Shortcut">
     <Value>Shortcut</Value>
@@ -5123,6 +5153,9 @@
   </Resource>
   <Resource Name="Admin.Configuration.Stores.Fields.Url.Required">
     <Value>URL of the store is required</Value>
+  </Resource>
+  <Resource Name="Admin.Configuration.Stores.Fields.Url.WrongFormat">
+    <Value>Wrong format of the URL (e.g. http://google.com) </Value>
   </Resource>
   <Resource Name="Admin.Configuration.Stores.Updated">
     <Value>The store has been updated successfully.</Value>
@@ -7840,6 +7873,9 @@
   <Resource Name="Admin.Download.UseDownloadURL">
     <Value>Use download URL</Value>
   </Resource>
+  <Resource Name="Admin.FileManager.Picture">
+    <Value>Manage pictures</Value>
+  </Resource>
   <Resource Name="Admin.GiftVouchers">
     <Value>Gift vouchers</Value>
   </Resource>
@@ -9271,6 +9307,9 @@
   <Resource Name="Admin.Orders.MerchandiseReturns.View">
     <Value>View</Value>
   </Resource>
+  <Resource Name="Admin.Orders.Notifications">
+    <Value>Notifications</Value>
+  </Resource>
   <Resource Name="Admin.Orders.OrderNotes">
     <Value>Order notes</Value>
   </Resource>
@@ -9342,6 +9381,9 @@
   </Resource>
   <Resource Name="Admin.Orders.PaymentTransaction.BackToList">
     <Value>back to the payment transactions list</Value>
+  </Resource>
+  <Resource Name="Admin.Orders.PaymentTransaction.Deleted">
+    <Value>The payment transaction has been deleted successfully.</Value>
   </Resource>
   <Resource Name="Admin.Orders.PaymentTransaction.Details">
     <Value>Payment Transaction Details</Value>
@@ -11442,8 +11484,17 @@
   <Resource Name="Admin.Settings.Media.DefaultPictureZoomEnabled">
     <Value>Default picture zoom enabled</Value>
   </Resource>
+  <Resource Name="Admin.Settings.Media.FileManagerEnabledCommands">
+    <Value>File manager - enabled commands</Value>
+  </Resource>
+  <Resource Name="Admin.Settings.Media.FileManagerDisabledUICommands">
+    <Value>File manager - disabled UI commands</Value>
+  </Resource>
   <Resource Name="Admin.Settings.Media.ImageSquarePictureSize">
     <Value>Image square attribute picture size</Value>
+  </Resource>
+  <Resource Name="Admin.Settings.Media.ImageQuality">
+    <Value>Image quality</Value>
   </Resource>
   <Resource Name="Admin.Settings.Media.LessonThumbPictureSize">
     <Value>Lesson thumb picture size</Value>
@@ -11486,6 +11537,12 @@
   </Resource>
   <Resource Name="Admin.Settings.Media.ProductThumbPictureSizeOnProductDetailsPage">
     <Value>Product thumbnail image size (product page)</Value>
+  </Resource>
+  <Resource Name="Admin.Settings.Media.StoreLocation">
+    <Value>Image location (url)</Value>
+  </Resource>
+  <Resource Name="Admin.Settings.Media.StoreLocation.hint">
+    <Value>This settings is only for advanced user</Value>
   </Resource>
   <Resource Name="Admin.Settings.Media.VendorThumbPictureSize">
     <Value>Vendor thumbnail image size</Value>
@@ -11823,6 +11880,9 @@
   <Resource Name="Admin.Settings.System.GridPageSizes">
     <Value>Grid Page Sizes</Value>
   </Resource>
+  <Resource Name="Admin.Settings.System.HideStoreColumn">
+    <Value>Hide column The Store on the grid</Value>
+  </Resource>
   <Resource Name="Admin.Settings.System.IgnoreRtlPropertyForAdminArea">
     <Value>Ignore RTL language property for admin area</Value>
   </Resource>
@@ -11943,6 +12003,12 @@
   <Resource Name="Admin.Settings.Vendor.VendorSettings">
     <Value>Vendor settings</Value>
   </Resource>
+  <Resource Name="Admin.Stores.Domains">
+    <Value>Domains</Value>
+  </Resource>
+  <Resource Name="Admin.Stores.Info">
+    <Value>Store info</Value>
+  </Resource>
   <Resource Name="Admin.System">
     <Value>System</Value>
   </Resource>
@@ -12041,6 +12107,9 @@
   </Resource>
   <Resource Name="Admin.System.Log.ClearLog">
     <Value>Clear log</Value>
+  </Resource>
+  <Resource Name="Admin.System.Log.Deleted">
+    <Value>Log was successfully deleted</Value>
   </Resource>
   <Resource Name="Admin.System.Log.DeleteSelected">
     <Value>Delete selected</Value>
@@ -12213,8 +12282,11 @@
   <Resource Name="Admin.System.QueuedEmails.Fields.ReadOn.notread">
     <Value>Not read</Value>
   </Resource>
-  <Resource Name="Admin.System.QueuedEmails.Fields.ReplyTo">
-    <Value>ReplyTo</Value>
+  <Resource Name="Admin.System.QueuedEmails.Fields.ReadOn.notread">
+    <Value>Not read</Value>
+  </Resource>
+  <Resource Name="Admin.System.QueuedEmails.Fields.Reference">
+    <Value>Reference to the object</Value>
   </Resource>
   <Resource Name="Admin.System.QueuedEmails.Fields.ReplyToName">
     <Value>ReplyTo name</Value>
@@ -12737,6 +12809,9 @@
   </Resource>
   <Resource Name="Api.Catalog.Product.Fields.BackorderMode.Required">
     <Value>Backorder mode is required</Value>
+  </Resource>
+  <Resource Name="Api.Catalog.Product.Fields.BrandId.Notexists">
+    <Value>Brand ident not exist</Value>
   </Resource>
   <Resource Name="Api.Catalog.Product.Fields.DownloadActivationType.Required">
     <Value>Download activation type is required</Value>
@@ -13352,6 +13427,9 @@
   </Resource>
   <Resource Name="Common.Show">
     <Value>Show</Value>
+  </Resource>
+  <Resource Name="Common.Success">
+    <Value>Success</Value>
   </Resource>
   <Resource Name="Common.Upload">
     <Value>Upload</Value>
@@ -14141,6 +14219,9 @@
   </Resource>
   <Resource Name="Media.Brand.ImageAlternateTextFormat">
     <Value>Picture for brand {0}</Value>
+  </Resource>
+  <Resource Name="Media.Brand.ImageLinkTitleFormat">
+    <Value>Show brand for {0}</Value>
   </Resource>
   <Resource Name="Media.Category.ImageAlternateTextFormat">
     <Value>Picture for category {0}</Value>
@@ -15205,7 +15286,7 @@
     <Value>Attribute combinations not exists.</Value>
   </Resource>
   <Resource Name="Products.Availability.Attributes.Backordering">
-    <Value>Out of Stock - on backorder and will be dispatched once in stock.</Value>
+    <Value>Out of Stock - on backorder and will be dispatched once back in stock.</Value>
   </Resource>
   <Resource Name="Products.Availability.Attributes.InStock">
     <Value>In stock</Value>
@@ -15214,7 +15295,7 @@
     <Value>Out of stock</Value>
   </Resource>
   <Resource Name="Products.Availability.Backordering">
-    <Value>Out of Stock - on backorder and will be dispatched once in stock.</Value>
+    <Value>Out of Stock - on backorder and will be dispatched once back in stock.</Value>
   </Resource>
   <Resource Name="Products.Availability.InStock">
     <Value>In stock</Value>
@@ -16457,6 +16538,9 @@
   </Resource>
   <Resource Name="Wishlist">
     <Value>Wishlist</Value>
+  </Resource>
+  <Resource Name="Wishlist.AddedToCart">
+    <Value>Added to the cart</Value>
   </Resource>
   <Resource Name="Wishlist.AddToCart.Error">
     <Value>Some product(s) from wishlist could not be moved to the cart for some reasons.</Value>

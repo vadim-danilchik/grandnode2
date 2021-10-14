@@ -411,8 +411,6 @@ namespace Grand.Business.Messages.Interfaces
         /// <summary>
         /// Sends a blog comment notification message to a store owner
         /// </summary>
-        /// <param name="blogComment">Blog comment</param>
-        /// <param name="languageId">Message language identifier</param>
         /// <returns>Queued email identifier</returns>
         Task<int> SendBlogCommentMessage(BlogPost blogPost, BlogComment blogComment, string languageId);
 
@@ -565,6 +563,8 @@ namespace Grand.Business.Messages.Interfaces
         /// <param name="fromEmail">Sender email. If specified, then it overrides passed "emailAccount" details</param>
         /// <param name="fromName">Sender name. If specified, then it overrides passed "emailAccount" details</param>
         /// <param name="subject">Subject. If specified, then it overrides subject of a message template</param>
+        /// <param name="reference">Reference object</param>
+        /// <param name="objectId">Reference object ident</param>
         /// <returns>Queued email identifier</returns>
         Task<int> SendNotification(MessageTemplate messageTemplate,
             EmailAccount emailAccount, string languageId, LiquidObject liquidObject,
@@ -572,7 +572,8 @@ namespace Grand.Business.Messages.Interfaces
             string attachmentFilePath = null, string attachmentFileName = null,
             IEnumerable<string> attachedDownloads = null,
             string replyToEmailAddress = null, string replyToName = null,
-            string fromEmail = null, string fromName = null, string subject = null);
+            string fromEmail = null, string fromName = null, string subject = null,
+            Reference reference = Reference.None, string objectId = "");
 
         #endregion
     }

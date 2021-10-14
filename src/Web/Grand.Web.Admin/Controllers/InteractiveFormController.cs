@@ -392,10 +392,7 @@ namespace Grand.Web.Admin.Controllers
                 await _interactiveFormService.UpdateForm(fo);
                 await _customerActivityService.InsertActivity("InteractiveFormEdit", vaf.Id, _translationService.GetResource("ActivityLog.InteractiveFormAddAttributeValue"), vaf.Name);
 
-                ViewBag.RefreshPage = true;
-                ViewBag.btnId = btnId;
-                ViewBag.formId = formId;
-                return View(model);
+                return Content("");
             }
 
             return View(model);
@@ -449,10 +446,7 @@ namespace Grand.Web.Admin.Controllers
                 vaf = model.ToEntity();
                 await _interactiveFormService.UpdateForm(fo);
                 await _customerActivityService.InsertActivity("InteractiveFormEdit", vaf.Id, _translationService.GetResource("ActivityLog.InteractiveFormUpdateAttributeValue"), vaf.Name);
-                ViewBag.RefreshPage = true;
-                ViewBag.btnId = btnId;
-                ViewBag.formId = formId;
-                return View(model);
+                return Content("");
             }
 
             return View(model);

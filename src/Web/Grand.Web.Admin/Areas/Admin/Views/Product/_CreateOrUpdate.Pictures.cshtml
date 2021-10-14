@@ -9,9 +9,23 @@
     </div>
     <vc:admin-widget widget-zone="product_details_pictures_bottom" additional-data="Model" />
 </div>
-        <script>
+<script>
             $(document).ready(function () {
                 $("#productpictures-grid").kendoGrid({
+                    dataBound: function () {
+                        $('.editpicture').magnificPopup({
+                            type: 'ajax',
+                            settings: { cache: false, async: false },
+                            callbacks: {
+                                parseAjax: function (mfpResponse) {
+                                    mfpResponse.data = $('<div></div>').html(mfpResponse.data);
+                                },
+                                ajaxContentAdded: function () {
+                                    $('.mfp-wrap').removeAttr('tabindex');
+                                }
+                            }
+                        });
+                    },
                     dataSource: {
                         transport: {
                             read: {
@@ -42,8 +56,8 @@
                                 fields: {
                                     PictureUrl: {editable: false, type: "string" },
                                     DisplayOrder: {editable: true, type: "number" },
-                                    OverrideAltAttribute: {editable: true, type: "string" },
-                                    OverrideTitleAttribute: {editable: true, type: "string" }
+                                    AltAttribute: {editable: true, type: "string" },
+                                    TitleAttribute: {editable: true, type: "string" }
                                 }
                             }
                         },
@@ -61,6 +75,7 @@
                         serverFiltering: true,
                         serverSorting: true
                     },
+                    autoBind: false,
                     pageable: {
                         refresh: true,
                         numeric: false,
@@ -75,7 +90,7 @@
                     columns: [{
                         field: "PictureUrl",
                         title: "@Loc["Admin.Catalog.Products.Pictures.Fields.Picture"]",
-                        template: '<a href="#=PictureUrl#" target="_blank"><img alt="#=PictureId#" src="#=PictureUrl#" width="150" /></a>',
+                        template: "<a class='k-link editpicture' href=\"@Url.Action("ProductPicturePopup", "Product", new { area = Constants.AreaAdmin })/?productId=@(Model.Id)&Id=#=Id#&btnId=btnRefreshProductPictures&formId=product-form\"><img alt='#=PictureId#' src='#=PictureUrl#' width='150' /></a>",
                         width: 165
                     }, {
                         field: "DisplayOrder",
@@ -86,22 +101,15 @@
                         attributes: { style: "text-align:center" },
                         format: "{0:0}",
                     }, {
-                        field: "OverrideAltAttribute",
+                        field: "AltAttribute",
                         minScreenWidth: 500,
                         title: "@Loc["Admin.Catalog.Products.Pictures.Fields.OverrideAltAttribute"]",
                     }, {
-                        field: "OverrideTitleAttribute",
+                        field: "TitleAttribute",
                         title: "@Loc["Admin.Catalog.Products.Pictures.Fields.OverrideTitleAttribute"]",
                         minScreenWidth: 500,
                     }, {
                         command: [{
-                            name: "edit",
-                            text: {
-                                edit: "@Loc["Admin.Common.Edit"]",
-                                update: "@Loc["Admin.Common.Update"]",
-                                cancel: "@Loc["Admin.Common.Cancel"]"
-                            }
-                        }, {
                             name: "destroy",
                             text: "@Loc["Admin.Common.Delete"]"
                         }],
@@ -109,93 +117,37 @@
                     }]
                 });
             });
-        </script>
+</script>
 
     <p>
         <strong>@Loc["Admin.Catalog.Products.Pictures.AddNew"]</strong>
     </p>
-    <script>
-
-        $(document).ready(function () {
-            $('#addProductPicture').click(function () {
-                var pictureId = $("#@Html.IdFor(model => model.AddPictureModel.PictureId)").val();
-                var overrideAltAttribute = $("#@Html.IdFor(model => model.AddPictureModel.OverrideAltAttribute)").val();
-                var overrideTitleAttribute = $("#@Html.IdFor(model => model.AddPictureModel.OverrideTitleAttribute)").val();
-                var displayOrder = $("#@Html.IdFor(model => model.AddPictureModel.DisplayOrder)").val();
-
-                if (pictureId == 0) {
-                    alert('Upload picture first');
-                    return;
-                }
-
-                $('#addProductPicture').attr('disabled', true);
-
-                var postData = {
-                    pictureId: pictureId,
-                    displayOrder: displayOrder,
-                    overrideAltAttribute: overrideAltAttribute,
-                    overrideTitleAttribute: overrideTitleAttribute,
-                    productId: '@Model.Id'
-                };
-                addAntiForgeryToken(postData);
-
-                $.ajax({
-                    cache: false,
-                    type: "POST",
-                    url: "@(Url.Action("ProductPictureAdd", "Product", new { area = Constants.AreaAdmin }))",
-                    data: postData,
-                    success: function(data) {
-                        var grid = $("#productpictures-grid");
-                        grid.data('kendoGrid').dataSource.read();
-                        $('#addProductPicture').attr('disabled', false);
-                    },
-                    error: function (xhr) {
-                        alert(xhr.responseJSON.Errors);
-                        $('#addProductPicture').attr('disabled', false);
-                    }
-                });
-                $('#addProductPicture').attr('disabled', false);
-            });
-        });
-    </script>
     <div class="form-horizontal">
         <div class="form-body">
             <div class="form-group">
                 @{
                     ViewData["Reference"] = "Product";
                     ViewData["ObjectId"] = Model.Id;
+                    ViewData["Endpoint"] = this.Url.Action("ProductPictureAdd", "Product", new { area = Constants.AreaAdmin });
+                    ViewData["Click"] = "btnRefreshProductPictures";
                 }
-                <admin-label asp-for="AddPictureModel.PictureId" />
                 <div class="col-md-9 col-sm-9">
                     <admin-input asp-for="AddPictureModel.PictureId" />
                     <span asp-validation-for="AddPictureModel.PictureId"></span>
                 </div>
-            </div>
-            <div class="form-group">
-                <admin-label asp-for="AddPictureModel.OverrideAltAttribute" />
-                <div class="col-md-9 col-sm-9">
-                    <admin-input asp-for="AddPictureModel.OverrideAltAttribute" />
-                    <span asp-validation-for="AddPictureModel.OverrideAltAttribute"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <admin-label asp-for="AddPictureModel.OverrideTitleAttribute" />
-                <div class="col-md-9 col-sm-9">
-                    <admin-input asp-for="AddPictureModel.OverrideTitleAttribute" />
-                    <span asp-validation-for="AddPictureModel.OverrideTitleAttribute"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <admin-label asp-for="AddPictureModel.DisplayOrder" />
-                <div class="col-md-9 col-sm-9">
-                    <admin-input asp-for="AddPictureModel.DisplayOrder" />
-                    <span asp-validation-for="AddPictureModel.DisplayOrder"></span>
-                </div>
-            </div>
-            <div class="form-actions">
-                    <div class="offset-md-3 col-md-9 col-sm-9">
-                        <input type="button" id="addProductPicture" class="k-button" value="@Loc["Admin.Catalog.Products.Pictures.AddButton"]" />
-                    </div>
+                <input type="submit" id="btnRefreshProductPictures" style="display: none" />
+                <script>
+                    $(document).ready(function () {
+                        $('#btnRefreshProductPictures').click(function () {
+                            //refresh grid
+                            var grid = $("#productpictures-grid").data('kendoGrid');
+                            grid.dataSource.read();
+
+                            //return false to don't reload a page
+                            return false;
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>

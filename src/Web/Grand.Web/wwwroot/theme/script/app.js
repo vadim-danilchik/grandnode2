@@ -17,6 +17,7 @@
             flycartfirstload: true,
             PopupAddToCartVueModal: null,
             PopupQuickViewVueModal: null,
+            PopupProductReviewVueModal: null,
             index: null,
             RelatedProducts: null,
         }
@@ -28,6 +29,7 @@
         flywish: null,
         wishlistitems: null,
         wishindicator: undefined,
+        UpdatedShoppingCartItemId: null
     },
     mounted: function () {
         if (localStorage.fluid == "true") this.fluid = "fluid";
@@ -157,47 +159,69 @@
         isMobile: function () {
             return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
         },
-        attrchange: function (productId, hasCondition, loadPicture) {
+        attrchange: function (productId, loadPicture) {
             var form = document.getElementById('product-details-form');
             var data = new FormData(form);
+            var pId;
+
+            if (vm.PopupQuickViewVueModal.ProductBundleModels.length > 0) {
+                pId = vm.PopupQuickViewVueModal.Id;
+            } else {
+                pId = productId;
+            }
+
             axios({
-                url: '/product/productdetails_attributechange?productId=' + productId + '&validateAttributeConditions=' + hasCondition + '&loadPicture=' + loadPicture,
+                url: '/product/productdetails_attributechange?productId=' + pId + '&loadPicture=' + loadPicture,
                 data: data,
                 method: 'post',
-                params: { product: productId },
+                params: { product: pId },
             }).then(function (response) {
-                if (response.data.price) {
-                    vm.PopupQuickViewVueModal.ProductPrice.Price = response.data.price;
-                }
-                if (response.data.sku) {
-                    vm.PopupQuickViewVueModal.Sku = response.data.sku;
-                }
-                if (response.data.mpn) {
-                    vm.PopupQuickViewVueModal.Mpn = response.data.mpn;
-                }
-                if (response.data.gtin) {
-                    vm.PopupQuickViewVueModal.Gtin = response.data.gtin;
-                }
-                if (response.data.stockAvailability) {
-                    vm.PopupQuickViewVueModal.StockAvailability = response.data.stockAvailability;
-                }
-                if (response.data.buttonTextOutOfStockSubscription) {
-                    PopupQuickViewVueModal.StockAvailability = response.data.stockAvailability;
-                }
-                if (response.data.enabledattributemappingids) {
-                    for (var i = 0; i < response.data.enabledattributemappingids.length; i++) {
-                        document.querySelector('#product_attribute_label_' + response.data.enabledattributemappingids[i]).style.display = "table-cell";
-                        document.querySelector('#product_attribute_input_' + response.data.enabledattributemappingids[i]).style.display = "table-cell";
+                if (vm.PopupQuickViewVueModal.ProductBundleModels.length > 0) {
+                    if (response.data.price) {
+                        vm.PopupQuickViewVueModal.ProductPrice.Price = response.data.price;
                     }
-                }
-                if (response.data.disabledattributemappingids) {
-                    for (var i = 0; i < response.data.disabledattributemappingids.length; i++) {
-                        document.querySelector('#product_attribute_label_' + response.data.disabledattributemappingids[i]).style.display = "none";
-                        document.querySelector('#product_attribute_input_' + response.data.disabledattributemappingids[i]).style.display = "none";
+                } else {
+                    if (response.data.price) {
+                        vm.PopupQuickViewVueModal.ProductPrice.Price = response.data.price;
                     }
-                }
-                if (response.data.pictureDefaultSizeUrl !== null) {
-                    vm.PopupQuickViewVueModal.DefaultPictureModel.ImageUrl = response.data.pictureDefaultSizeUrl;
+                    if (response.data.sku) {
+                        vm.PopupQuickViewVueModal.Sku = response.data.sku;
+                    }
+                    if (response.data.mpn) {
+                        vm.PopupQuickViewVueModal.Mpn = response.data.mpn;
+                    }
+                    if (response.data.gtin) {
+                        vm.PopupQuickViewVueModal.Gtin = response.data.gtin;
+                    }
+                    if (response.data.stockAvailability) {
+                        vm.PopupQuickViewVueModal.StockAvailability = response.data.stockAvailability;
+                    }
+                    if (response.data.buttonTextOutOfStockSubscription) {
+                        PopupQuickViewVueModal.StockAvailability = response.data.stockAvailability;
+                    }
+                    if (response.data.enabledattributemappingids) {
+                        for (var i = 0; i < response.data.enabledattributemappingids.length; i++) {
+                            document.querySelector('#product_attribute_label_' + response.data.enabledattributemappingids[i]).style.display = "table-cell";
+                            document.querySelector('#product_attribute_input_' + response.data.enabledattributemappingids[i]).style.display = "table-cell";
+                        }
+                    }
+                    if (response.data.disabledattributemappingids) {
+                        for (var i = 0; i < response.data.disabledattributemappingids.length; i++) {
+                            document.querySelector('#product_attribute_label_' + response.data.disabledattributemappingids[i]).style.display = "none";
+                            document.querySelector('#product_attribute_input_' + response.data.disabledattributemappingids[i]).style.display = "none";
+                        }
+                    }
+                    if (response.data.notAvailableAttributeMappingids) {
+                        document.querySelectorAll('[data-disable]').forEach((element) => element.disabled = false);
+                        for (var i = 0; i < response.data.notAvailableAttributeMappingids.length; i++) {
+                            if (document.querySelectorAll("[data-disable='" + response.data.notAvailableAttributeMappingids[i] + "']").length > 0) {
+                                document.querySelectorAll("[data-disable='" + response.data.notAvailableAttributeMappingids[i] + "']")[0].disabled = true;
+                            }
+                        }
+                    }
+                    if (response.data.pictureDefaultSizeUrl !== null) {
+                        vm.PopupQuickViewVueModal.DefaultPictureModel.ImageUrl = response.data.pictureDefaultSizeUrl;
+                    }
                 }
             });
         },
@@ -245,7 +269,7 @@
                 var fullDate = vm.PopupQuickViewVueModal.ReservationFullDate;
                 var year = vm.PopupQuickViewVueModal.ReservationYear;
                 var month = vm.PopupQuickViewVueModal.ReservationMonth;
-                Reservation.init(fullDate, year, month, "No available reservations", "/Product/GetDatesForMonth", productId, "/product/productdetails_attributechange?productId=" + productId + "&validateAttributeConditions=False");
+                Reservation.init(fullDate, year, month, "No available reservations", "/Product/GetDatesForMonth", productId, "/product/productdetails_attributechange?productId=" + productId);
             }
         },
         getLinkedProductsQV: function (id) {
@@ -283,10 +307,126 @@
                 }
             })
         },
+        formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+
+            return [month, day, year].join('/');
+        },
         QuickViewShown: function () {
             if (vm.PopupQuickViewVueModal.ProductAttributes.length > 0) {
-                vm.attrchange(vm.PopupQuickViewVueModal.Id, vm.PopupQuickViewVueModal.HasCondition, true)
+                vm.attrchange(vm.PopupQuickViewVueModal.Id, true)
+            } else {
+                var bundleProducts = vm.PopupQuickViewVueModal.ProductBundleModels;
+                if (bundleProducts.length > 0) {
+                    vm.attrchange(vm.PopupQuickViewVueModal.Id, true)
+                }
             }
+            if (vm.PopupQuickViewVueModal.ProductType == 20) {
+                var StartDate;
+                var EndDate;
+                if (vm.PopupQuickViewVueModal.IntervalUnit == 10) {
+                    if (vm.PopupQuickViewVueModal.RentalStartDateUtc !== null) {
+                        StartDate = this.formatDate(vm.PopupQuickViewVueModal.RentalStartDateUtc);
+                        vm.PopupQuickViewVueModal.RentalStartDateUtc = StartDate;
+                    }
+                    if (vm.PopupQuickViewVueModal.RentalEndDateUtc !== null) {
+                        EndDate = this.formatDate(vm.PopupQuickViewVueModal.RentalEndDateUtc);
+                        vm.PopupQuickViewVueModal.RentalEndDateUtc = EndDate;
+                    }
+                } else {
+                    if (vm.PopupQuickViewVueModal.RentalStartDateUtc !== null) {
+                        vm.PopupQuickViewVueModal.RentalStartDateUtc = this.formatDate(vm.PopupQuickViewVueModal.RentalStartDateUtc);
+                    } else {
+                        vm.PopupQuickViewVueModal.RentalStartDateUtc = null;
+                    }
+                }
+            }
+        },
+        addProductReview: function (url) {
+            axios({
+                url: url,
+                method: 'get',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Response-View': 'Json'
+                }
+            }).then(function (response) {
+                vm.PopupProductReviewVueModal = response.data;
+                vm.$refs['ModalProductReview'].show();
+            });
+        },
+        modalReviewShown: function () {
+            if (vm.PopupProductReviewVueModal.AddProductReview.DisplayCaptcha && document.querySelector("#ModalProductReview .captcha-box") == null) {
+                var html = document.getElementById("captcha-box");
+                document.getElementById("captcha-popup").prepend(html);
+            }
+        },
+        modalReviewClose: function () {
+            if (vm.PopupProductReviewVueModal.AddProductReview.DisplayCaptcha && document.querySelector("#ModalProductReview .captcha-box") !== null) {
+                var html = document.getElementById("captcha-box");
+                document.getElementById("captcha-container").prepend(html);
+            }
+        },
+        submitProductReview: function (id) {
+            this.$validator.validateAll(['AddProductReview.Title', 'AddProductReview.ReviewText', 'AddProductReview_Rating']).then((result) => {
+                if (result) {
+                    var form = document.getElementById(id);
+                    var url = form.getAttribute("action");
+                    var resultTitle = form.getAttribute("data-title");
+                    var bodyFormData = new FormData(form);
+                    axios({
+                        method: "post",
+                        url: url,
+                        data: bodyFormData,
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                            'X-Response-View': 'Json'
+                        },
+                    }).then(function (response) {
+                        vm.PopupProductReviewVueModal = response.data;
+                        productreviews.Model = response.data.Items;
+
+                        var result = response.data.AddProductReview.Result;
+                        var variant = "";
+
+                        if (response.data.AddProductReview.SuccessfullyAdded) {
+
+                            variant = "info";
+                            vm.$refs['ModalProductReview'].hide();
+
+                        } else {
+                            variant = "danger";
+                        }
+
+                        new Vue({
+                            el: ".modal-place",
+                            methods: {
+                                toast() {
+                                    this.$bvToast.toast(result, {
+                                        title: resultTitle,
+                                        variant: variant,
+                                        autoHideDelay: 3000,
+                                        solid: true
+                                    })
+                                }
+                            },
+                            mounted: function () {
+                                this.toast();
+                            }
+                        });
+                    });
+                    return
+                }
+            });
         }
     },
 });

@@ -922,6 +922,7 @@ namespace Grand.Web.Admin.Services
             model.Address.FaxEnabled = _addressSettings.FaxEnabled;
             model.Address.FaxRequired = _addressSettings.FaxRequired;
             model.Address.NoteEnabled = _addressSettings.NoteEnabled;
+            model.Address.AddressTypeEnabled = _addressSettings.AddressTypeEnabled;
 
             //countries
             model.Address.AvailableCountries.Add(new SelectListItem { Text = _translationService.GetResource("Admin.Address.SelectCountry"), Value = "" });
@@ -992,6 +993,14 @@ namespace Grand.Web.Admin.Services
 
             orderNote.OrderId = order.Id;
             await _orderService.DeleteOrderNote(orderNote);
+
+            //delete an old "attachment" file
+            if (!string.IsNullOrEmpty(orderNote.DownloadId))
+            {
+                var attachment = await _downloadService.GetDownloadById(orderNote.DownloadId);
+                if (attachment != null)
+                    await _downloadService.DeleteDownload(attachment);
+            }
         }
 
         public virtual async Task LogEditOrder(string orderId)

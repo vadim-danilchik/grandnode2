@@ -1,4 +1,5 @@
 ﻿using Grand.Domain.Catalog;
+using Grand.Domain.Media;
 using Grand.Web.Admin.Models.Catalog;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -23,14 +24,7 @@ namespace Grand.Web.Admin.Interfaces
         Task DeleteProduct(Product product);
         Task DeleteSelected(IList<string> selectedIds);
         Task<ProductModel.AddRequiredProductModel> PrepareAddRequiredProductModel();
-        Task<(IList<ProductModel> products, int totalCount)> PrepareProductModel(ProductModel.AddRequiredProductModel model, int pageIndex, int pageSize);
-        Task<(IList<ProductModel> products, int totalCount)> PrepareProductModel(ProductModel.AddRelatedProductModel model, int pageIndex, int pageSize);
-        Task<(IList<ProductModel> products, int totalCount)> PrepareProductModel(ProductModel.AddSimilarProductModel model, int pageIndex, int pageSize);
-        Task<(IList<ProductModel> products, int totalCount)> PrepareProductModel(ProductModel.AddBundleProductModel model, int pageIndex, int pageSize);
-        Task<(IList<ProductModel> products, int totalCount)> PrepareProductModel(ProductModel.AddCrossSellProductModel model, int pageIndex, int pageSize);
-        Task<(IList<ProductModel> products, int totalCount)> PrepareProductModel(ProductModel.AddRecommendedProductModel model, int pageIndex, int pageSize);
-        Task<(IList<ProductModel> products, int totalCount)> PrepareProductModel(ProductModel.AddAssociatedProductModel model, int pageIndex, int pageSize);
-        Task<(IList<ProductModel> products, int totalCount)> PrepareProductModel(ProductModel.ProductAttributeValueModel.AssociateProductToAttributeValueModel model, int pageIndex, int pageSize);
+        Task<(IList<ProductModel> products, int totalCount)> PrepareProductModel(ProductModel.AddProductModel model, int pageIndex, int pageSize);
         Task<IList<ProductModel.ProductCategoryModel>> PrepareProductCategoryModel(Product product);
         Task InsertProductCategoryModel(ProductModel.ProductCategoryModel model);
         Task UpdateProductCategoryModel(ProductModel.ProductCategoryModel model);
@@ -98,15 +92,16 @@ namespace Grand.Web.Admin.Interfaces
         Task DeleteProductAttributeCombinationTierPrices(Product product, ProductAttributeCombination productAttributeCombination, ProductCombinationTierPrices tierPrice);
 
         //Pictures
-        Task<IList<ProductModel.ProductPictureModel>> PrepareProductPictureModel(Product product);
-        Task InsertProductPicture(Product product, string pictureId, int displayOrder, string overrideAltAttribute, string overrideTitleAttribute);
+        Task<IList<ProductModel.ProductPictureModel>> PrepareProductPicturesModel(Product product);
+        Task<(ProductModel.ProductPictureModel model, Picture Picture)> PrepareProductPictureModel(Product product, ProductPicture productPicture);
+        Task InsertProductPicture(Product product, Picture picture, int displayOrder);
         Task UpdateProductPicture(ProductModel.ProductPictureModel model);
         Task DeleteProductPicture(ProductModel.ProductPictureModel model);
 
         //Product specification
         Task<IList<ProductSpecificationAttributeModel>> PrepareProductSpecificationAttributeModel(Product product);
         Task InsertProductSpecificationAttributeModel(ProductModel.AddProductSpecificationAttributeModel model, Product product);
-        Task UpdateProductSpecificationAttributeModel(Product product, ProductSpecificationAttribute psa, ProductSpecificationAttributeModel model);
+        Task UpdateProductSpecificationAttributeModel(Product product, ProductSpecificationAttribute psa, ProductModel.AddProductSpecificationAttributeModel model);
         Task DeleteProductSpecificationAttribute(Product product, ProductSpecificationAttribute psa);
     }
 }

@@ -86,6 +86,7 @@ namespace Grand.Business.System.Services.Installation
                 AutoCompleteSearchThumbPictureSize = 50,
                 ImageSquarePictureSize = 32,
                 MaximumImageSize = 1980,
+                ImageQuality = 100,
                 DefaultPictureZoomEnabled = true,
                 StoreLocation = "/",
                 StoreInDb = true
@@ -163,6 +164,7 @@ namespace Grand.Business.System.Services.Installation
                 DefaultGridPageSize = 15,
                 GridPageSizes = "10, 15, 20, 50, 100",
                 UseIsoDateTimeConverterInJson = true,
+                HideStoreColumn = true,
             });
 
             await _settingService.SaveSetting(new CatalogSettings {

@@ -157,17 +157,7 @@ namespace Grand.Web.Admin.Controllers
             foreach (var shippingProvider in shippingProviders)
             {
                 var tmp1 = shippingProvider.ToModel();
-                tmp1.IsActive = shippingProvider.IsShippingRateMethodActive(_shippingProviderSettings);
-                var pluginInfo = PluginManager.ReferencedPlugins.FirstOrDefault(x => x.SystemName == shippingProvider.SystemName);
-                if (pluginInfo != null)
-                {
-                    var plugin = pluginInfo.Instance<IPlugin>(_serviceProvider);
-                    if (plugin != null)
-                    {
-                        tmp1.ConfigurationUrl = plugin.ConfigurationUrl();
-                        tmp1.LogoUrl = pluginInfo.GetLogoUrl(_workContext);
-                    }
-                }
+                tmp1.IsActive = shippingProvider.IsShippingRateMethodActive(_shippingProviderSettings);            
                 shippingProvidersModel.Add(tmp1);
             }
             shippingProvidersModel = shippingProvidersModel.ToList();
@@ -205,32 +195,6 @@ namespace Grand.Web.Admin.Controllers
                 }
             }
             return new JsonResult("");
-        }
-
-        public IActionResult ConfigureProvider(string systemName)
-        {
-            var _shippingProviderSettings = _settingService.LoadSetting<ShippingProviderSettings>();
-
-            var srcm = _shippingService.LoadShippingRateCalculationProviderBySystemName(systemName);
-            if (srcm == null)
-                //No Shipping rate  method found with the specified id
-                return RedirectToAction("Providers");
-
-            var model = srcm.ToModel();
-            model.IsActive = srcm.IsShippingRateMethodActive(_shippingProviderSettings);
-
-            var pluginInfo = PluginManager.ReferencedPlugins.FirstOrDefault(x => x.SystemName == srcm.SystemName);
-            if (pluginInfo != null)
-            {
-                var plugin = pluginInfo.Instance<IPlugin>(_serviceProvider);
-                if (plugin != null)
-                {
-                    model.ConfigurationUrl = plugin.ConfigurationUrl();
-                    model.LogoUrl = pluginInfo.GetLogoUrl(_workContext);
-                }
-            }
-
-            return View(model);
         }
 
         #endregion
@@ -338,7 +302,7 @@ namespace Grand.Web.Admin.Controllers
         public async Task<IActionResult> Settings()
         {
             //load settings for a chosen store scope
-            var storeScope = await GetActiveStore(_storeService, _workContext);
+            var storeScope = await GetActiveStore();
             var shippingSettings = _settingService.LoadSetting<ShippingSettings>(storeScope);
             var model = shippingSettings.ToModel();
             model.ActiveStore = storeScope;
@@ -369,6 +333,7 @@ namespace Grand.Web.Admin.Controllers
             model.ShippingOriginAddress.StreetAddressEnabled = true;
             model.ShippingOriginAddress.ZipPostalCodeEnabled = true;
             model.ShippingOriginAddress.ZipPostalCodeRequired = true;
+            model.ShippingOriginAddress.AddressTypeEnabled = false;
 
             return View(model);
         }
@@ -377,7 +342,7 @@ namespace Grand.Web.Admin.Controllers
             [FromServices] ICustomerActivityService customerActivityService)
         {
             //load settings for a chosen store scope
-            var storeScope = await GetActiveStore(_storeService, _workContext);
+            var storeScope = await GetActiveStore();
             var shippingSettings = _settingService.LoadSetting<ShippingSettings>(storeScope);
             shippingSettings = model.ToEntity(shippingSettings);
 

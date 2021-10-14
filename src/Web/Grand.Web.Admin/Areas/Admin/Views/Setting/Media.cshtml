@@ -148,6 +148,15 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-8 col-md-4 col-sm-4 text-right">
+                                    <admin-label asp-for="ImageQuality" class="control-label" />
+                                </div>
+                                <div class="col-4 col-md-8 col-sm-8">
+                                    <admin-input asp-for="ImageQuality" />
+                                    <span asp-validation-for="ImageQuality"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-8 col-md-4 col-sm-4 text-right">
                                     <admin-label asp-for="DefaultPictureZoomEnabled" class="control-label" />
                                 </div>
                                 <div class="col-4 col-md-8 col-sm-8">
@@ -250,11 +259,38 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-8 col-md-4 col-sm-4 text-right">
+                                    <admin-label asp-for="FileManagerEnabledCommands" class="control-label" />
+                                </div>
+                                <div class="col-4 col-md-8 col-sm-8">
+                                    <admin-input asp-for="FileManagerEnabledCommands" />
+                                    <span asp-validation-for="FileManagerEnabledCommands"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-8 col-md-4 col-sm-4 text-right">
+                                    <admin-label asp-for="FileManagerDisabledUICommands" class="control-label" />
+                                </div>
+                                <div class="col-4 col-md-8 col-sm-8">
+                                    <admin-input asp-for="FileManagerDisabledUICommands" />
+                                    <span asp-validation-for="FileManagerDisabledUICommands"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-8 col-md-4 col-sm-4 text-right">
                                     <admin-label asp-for="DefaultImageName" class="control-label" />
                                 </div>
                                 <div class="col-4 col-md-8 col-sm-8">
                                     <admin-input asp-for="DefaultImageName" />
                                     <span asp-validation-for="DefaultImageName"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-8 col-md-4 col-sm-4 text-right">
+                                    <admin-label asp-for="StoreLocation" class="control-label" />
+                                </div>
+                                <div class="col-4 col-md-8 col-sm-8">
+                                    <admin-input asp-for="StoreLocation" />
+                                    <span asp-validation-for="StoreLocation"></span>
                                 </div>
                             </div>
                         </div>

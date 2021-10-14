@@ -70,6 +70,7 @@ namespace Grand.Web.Admin.Services
         private readonly IProductService _productService;
         private readonly ISalesEmployeeService _salesEmployeeService;
         private readonly ICustomerNoteService _customerNoteService;
+        private readonly IDownloadService _downloadService;
         private readonly IServiceProvider _serviceProvider;
 
         private readonly TaxSettings _taxSettings;
@@ -102,6 +103,7 @@ namespace Grand.Web.Admin.Services
             IProductService productService,
             ISalesEmployeeService salesEmployeeService,
             ICustomerNoteService customerNoteService,
+            IDownloadService downloadService,
             IServiceProvider serviceProvider,
             CustomerSettings customerSettings,
             TaxSettings taxSettings,
@@ -137,6 +139,7 @@ namespace Grand.Web.Admin.Services
             _productService = productService;
             _salesEmployeeService = salesEmployeeService;
             _customerNoteService = customerNoteService;
+            _downloadService = downloadService;
             _serviceProvider = serviceProvider;
         }
 
@@ -1199,6 +1202,7 @@ namespace Grand.Web.Admin.Services
             model.Address.FaxEnabled = _addressSettings.FaxEnabled;
             model.Address.FaxRequired = _addressSettings.FaxRequired;
             model.Address.NoteEnabled = _addressSettings.NoteEnabled;
+            model.Address.AddressTypeEnabled = _addressSettings.AddressTypeEnabled;
 
             //countries
             model.Address.AvailableCountries.Add(new SelectListItem { Text = _translationService.GetResource("Admin.Address.SelectCountry"), Value = "" });
@@ -1524,6 +1528,14 @@ namespace Grand.Web.Admin.Services
                 throw new ArgumentException("No customer note found with the specified id");
 
             await _customerNoteService.DeleteCustomerNote(customerNote);
+
+            //delete an old "attachment" file
+            if (!string.IsNullOrEmpty(customerNote.DownloadId))
+            {
+                var attachment = await _downloadService.GetDownloadById(customerNote.DownloadId);
+                if (attachment != null)
+                    await _downloadService.DeleteDownload(attachment);
+            }
         }
     }
 }

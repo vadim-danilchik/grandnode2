@@ -101,7 +101,7 @@ namespace Grand.Business.Marketing.Services.Customers
 
             var builder = new LiquidObjectBuilder(_mediator);
             builder.AddStoreTokens(store, language, emailAccount)
-                   .AddCustomerTokens(customer, store, language)
+                   .AddCustomerTokens(customer, store, null, language)
                    .AddShoppingCartTokens(customer, store, language);
 
             LiquidObject liquidObject = await builder.BuildAsync();
@@ -129,6 +129,8 @@ namespace Grand.Business.Marketing.Services.Customers
             email.AttachedDownloads = null;
             email.CreatedOnUtc = DateTime.UtcNow;
             email.EmailAccountId = emailAccount.Id;
+            email.Reference = Reference.CustomerReminder;
+            email.ObjectId = customerReminder.Id;
 
             await _queuedEmailService.InsertQueuedEmail(email);
             //activity log
@@ -171,9 +173,9 @@ namespace Grand.Business.Marketing.Services.Customers
 
             var builder = new LiquidObjectBuilder(_mediator);
             builder.AddStoreTokens(store, language, emailAccount)
-                   .AddCustomerTokens(customer, store, language)
+                   .AddCustomerTokens(customer, store, null, language)
                    .AddShoppingCartTokens(customer, store, language)
-                   .AddOrderTokens(order, customer, await _storeService.GetStoreById(order.StoreId));
+                   .AddOrderTokens(order, customer, await _storeService.GetStoreById(order.StoreId), null);
 
             var liquidObject = await builder.BuildAsync();
             var body = LiquidExtensions.Render(liquidObject, reminderLevel.Body);
@@ -199,6 +201,8 @@ namespace Grand.Business.Marketing.Services.Customers
                 AttachedDownloads = null,
                 CreatedOnUtc = DateTime.UtcNow,
                 EmailAccountId = emailAccount.Id,
+                Reference = Reference.CustomerReminder,
+                ObjectId = customerReminder.Id,
             };
 
             await _queuedEmailService.InsertQueuedEmail(email);

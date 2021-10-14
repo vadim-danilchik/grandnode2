@@ -186,7 +186,7 @@ namespace Grand.Web.Controllers
         //handle product attribute selection event. this way we return new price, overridden gtin/sku/mpn
         //currently we use this method on the product details pages
         [HttpPost]
-        public virtual async Task<IActionResult> ProductDetails_AttributeChange(string productId, bool validateAttributeConditions, bool loadPicture, IFormCollection form)
+        public virtual async Task<IActionResult> ProductDetails_AttributeChange(string productId, bool loadPicture, IFormCollection form)
         {
             var product = await _productService.GetProductById(productId);
             if (product == null)
@@ -199,7 +199,6 @@ namespace Grand.Web.Controllers
                 Form = form,
                 LoadPicture = loadPicture,
                 Product = product,
-                ValidateAttributeConditions = validateAttributeConditions
             });
 
             return Json(new
@@ -213,6 +212,7 @@ namespace Grand.Web.Controllers
                 buttonTextOutOfStockSubscription = model.ButtonTextOutOfStockSubscription,
                 enabledattributemappingids = model.EnabledAttributeMappingIds.ToArray(),
                 disabledattributemappingids = model.DisabledAttributeMappingids.ToArray(),
+                notAvailableAttributeMappingids = model.NotAvailableAttributeMappingids.ToArray(),
                 pictureFullSizeUrl = model.PictureFullSizeUrl,
                 pictureDefaultSizeUrl = model.PictureDefaultSizeUrl,
             });
@@ -582,6 +582,7 @@ namespace Grand.Web.Controllers
             newmodel.AddProductReview.Rating = model.AddProductReview.Rating;
             newmodel.AddProductReview.ReviewText = model.AddProductReview.ReviewText;
             newmodel.AddProductReview.Title = model.AddProductReview.Title;
+            newmodel.AddProductReview.Result = string.Join(",", ModelState.Values.SelectMany(m => m.Errors).Select(e => e.ErrorMessage).ToList());
 
             return View(newmodel);
         }
