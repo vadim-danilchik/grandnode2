@@ -12,7 +12,7 @@
 
     //title, meta
     pagebuilder.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
-    pagebuilder.AddMetaDescriptionParts(Model.MetaDescription);
+    pagebuilder.AppendMetaDescriptionParts(Model.MetaDescription);
     pagebuilder.AddMetaKeywordParts(Model.MetaKeywords);
 
     //canonical URL
