@@ -801,7 +801,7 @@ namespace Grand.Web.Admin.Controllers
             model.StoreInformationSettings.UseSystemEmailForContactUsForm = commonSettings.UseSystemEmailForContactUsForm;
             model.StoreInformationSettings.SitemapEnabled = commonSettings.SitemapEnabled;
             model.StoreInformationSettings.SitemapIncludeCategories = commonSettings.SitemapIncludeCategories;
-            model.StoreInformationSettings.SitemapIncludeImage = commonSettings.SitemapIncludeBrands;
+            model.StoreInformationSettings.SitemapIncludeImage = commonSettings.SitemapIncludeImage;
             model.StoreInformationSettings.SitemapIncludeBrands = commonSettings.SitemapIncludeBrands;
             model.StoreInformationSettings.SitemapIncludeProducts = commonSettings.SitemapIncludeProducts;
             model.StoreInformationSettings.AllowToSelectStore = commonSettings.AllowToSelectStore;

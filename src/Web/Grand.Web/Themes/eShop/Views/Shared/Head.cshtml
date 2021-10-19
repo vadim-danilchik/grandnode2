@@ -2,53 +2,49 @@
 
 @{
     var supportRtl = workContext.WorkingLanguage.Rtl;
-    @*<link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">*@
 
-    <link rel="stylesheet" type="text/css" href="/theme/eshop/Content/swiper/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/custom/style.css" asp-append-version="true">
 
     <environment include="Development">
-        <link rel="stylesheet" type="text/css" href="/theme/bootstrap-vue/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="/theme/bootstrap-vue/bootstrap-vue.min.css">
-        <link rel="stylesheet" type="text/css" href="/theme/css/animate.min.css">
+        <link rel="stylesheet" type="text/css" href="/theme/eshop/Content/swiper/swiper.min.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="/theme/bootstrap-vue/bootstrap.min.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="/theme/bootstrap-vue/bootstrap-vue.min.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="/theme/css/animate.min.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="/theme/eshop/Content/css/common/common.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="/theme/eshop/Content/css/header/header.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="/theme/eshop/Content/css/catalog/catalog.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="/theme/eshop/Content/css/product/product.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="/theme/eshop/Content/css/customer/customer.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="/theme/eshop/Content/css/cart/cart.css" asp-append-version="true">
+        <link rel="stylesheet" type="text/css" href="/theme/eshop/Content/css/home/home.css" asp-append-version="true">
     </environment>
     <environment include="Production">
-        <link rel="stylesheet" type="text/css" href="/bundles/site.min.css">
+        <link rel="stylesheet" type="text/css" href="/bundles/site.min.css" asp-append-version="true">
     </environment>
-
-    <link href="/theme/css/pikaday.min.css" type="text/css" rel="stylesheet">
-    @*<link rel="stylesheet" type="text/css" href="/assets/custom/style.css">*@
-
-    <link rel="stylesheet" type="text/css" href="/theme/eshop/Content/css/common/common.css">
-    <link rel="stylesheet" type="text/css" href="/theme/eshop/Content/css/header/header.css">
 
     <environment include="Development">
-        <script src="/theme/lib/vue.min.js"></script>
-        <script src="/theme/lib/portal-vue.umd.min.js"></script>
-        <script src="/theme/lib/bootstrap-vue.min.js"></script>
-        <script src="/theme/lib/bootstrap-vue-icons.min.js"></script>
-        <script src="/theme/lib/axios.min.js"></script>
-        <script src="/theme/lib/vue-awesome-countdown.umd.min.js"></script>
-        <script src="/theme/lib/vee-validate.minimal.min.js"></script>
+        <script src="/theme/lib/vue.min.js" asp-append-version="true"></script>
+        <script src="/theme/lib/portal-vue.umd.min.js" asp-append-version="true"></script>
+        <script src="/theme/lib/bootstrap-vue.min.js" asp-append-version="true"></script>
+        <script src="/theme/lib/bootstrap-vue-icons.min.js" asp-append-version="true"></script>
+        <script src="/theme/lib/axios.min.js" asp-append-version="true"></script>
+        <script src="/theme/lib/vue-awesome-countdown.umd.min.js" asp-append-version="true"></script>
+        <script src="/theme/lib/vee-validate.minimal.min.js" asp-append-version="true"></script>
+        <script src="/theme/script/validation-config.min.js" asp-append-version="true"></script>
+        <script src="/theme/eshop/Content/script/public.common.js" asp-append-version="true"></script>
+        <script src="/theme/script/public.axios.js" asp-append-version="true"></script>
+        <script src="/theme/lib/pikaday.min.js" asp-append-version="true"></script>
+        <script src="/theme/script/public.reservation.js" asp-append-version="true"></script>
+        <script src="/theme/eshop/Content/swiper/swiper.min.js" asp-append-version="true"></script>
+        <script src="/theme/eshop/Content/swiper/vue-awesome-swiper.min.js" asp-append-version="true"></script>
+        <script src="/theme/eshop/Content/script/medium-zoom.min.js" asp-append-version="true"></script>
     </environment>
     <environment include="Production">
-        <script src="/bundles/site.min.js"></script>
+        <script src="/bundles/site.min.js" asp-append-version="true"></script>
     </environment>
 
-    <script src="/theme/eshop/Content/script/validation-config.min.js"></script>
-    <script src="/theme/eshop/Content/script/public.common.js"></script>
-    <script src="/theme/script/public.axios.js"></script>
-    <script src="/theme/lib/pikaday.min.js"></script>
-    <script src="/theme/script/public.reservation.js"></script>
-
-    <script src="/theme/eshop/Content/swiper/swiper.min.js"></script>
-    <script src="/theme/eshop/Content/swiper/vue-awesome-swiper.min.js"></script>
-    <script src="/theme/eshop/Content/script/medium-zoom.min.js"></script>
-
-    <script asp-location="Footer" asp-src="/theme/eshop/Content/script/menu.js"></script>
-    <script asp-location="Footer" asp-src="/theme/lib/popper.min.js"></script>
-    <script asp-location="Footer" asp-src="/theme/script/app.js"></script>
-
-    <script asp-location="Footer" asp-src="/assets/custom/script.js"></script>
+    <script asp-location="Footer" src="/theme/lib/popper.min.js" asp-append-version="true"></script>
+    <script asp-location="Footer" src="/theme/eshop/Content/script/app.js" asp-append-version="true"></script>
+    <script asp-location="Footer" src="/theme/script/public.autocomplete.min.js" asp-append-version="true"></script>
+    <script asp-location="Footer" src="/assets/custom/script.js" asp-append-version="true"></script>
 }

@@ -33,9 +33,6 @@
         <meta property="twitter:url" content="@this.Url.ActionContext.HttpContext.Request.GetEncodedUrl()" />
     }
 }
-@{
-    <link rel="stylesheet" type="text/css" asp-src="/theme/eshop/Content/css/home/home.css">
-}
 <div class="page home-page custom-container d-flex flex-column mt-3">
     @await Component.InvokeAsync("PushNotificationsRegistration")
     @await Component.InvokeAsync("Widget", new { widgetZone = "home_page_top" })

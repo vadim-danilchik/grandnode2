@@ -2,8 +2,6 @@
 @{
     Layout = "_Layout";
 
-    <link rel="stylesheet" type="text/css" asp-src="/theme/eshop/Content/css/catalog/catalog.css">
-
     //current category ID
     string currentCategoryId = "";
     if (Url.ActionContext.RouteData.Values["controller"].ToString().Equals("catalog", StringComparison.OrdinalIgnoreCase) &&

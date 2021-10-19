@@ -43,7 +43,7 @@
             onSelect: this.onDatePickerDateChange,
             disableDayFn: this.daysToMark,
             format: 'MM/DD/YYYY',
-            toString(date, format) {
+            toString: function(date, format) {
                 // you should do formatting based on the passed format,
                 // but we will just return 'D/M/YYYY' for simplicity
                 const day = ("0" + date.getDate()).slice(-2);
@@ -51,7 +51,7 @@
                 const year = date.getFullYear();
                 return `${month}/${day}/${year}`;
             },
-            parse(dateString, format) {
+            parse: function(dateString, format) {
                 // dateString is the result of `toString` method
                 const parts = dateString.split('/');
                 const day = parts[0];
@@ -77,7 +77,7 @@
             onSelect: this.onDatePickerSelect,
             disableDayFn: this.daysToMarkFrom,
             format: 'MM/DD/YYYY',
-            toString(date, format) {
+            toString: function(date, format) {
                 // you should do formatting based on the passed format,
                 // but we will just return 'D/M/YYYY' for simplicity
                 const day = ("0" + date.getDate()).slice(-2);
@@ -85,7 +85,7 @@
                 const year = date.getFullYear();
                 return `${month}/${day}/${year}`;
             },
-            parse(dateString, format) {
+            parse: function(dateString, format) {
                 // dateString is the result of `toString` method
                 const parts = dateString.split('/');
                 const day = parseInt(parts[0], 10);
@@ -107,7 +107,7 @@
             onSelect: this.onDatePickerSelect,
             disableDayFn: this.daysToMarkTo,
             format: 'MM/DD/YYYY',
-            toString(date, format) {
+            toString: function(date, format) {
                 // you should do formatting based on the passed format,
                 // but we will just return 'D/M/YYYY' for simplicity
                 const day = ("0" + date.getDate()).slice(-2);
@@ -115,7 +115,7 @@
                 const year = date.getFullYear();
                 return `${month}/${day}/${year}`;
             },
-            parse(dateString, format) {
+            parse: function(dateString, format) {
                 // dateString is the result of `toString` method
                 const parts = dateString.split('/');
                 const day = parseInt(parts[0], 10);
@@ -157,7 +157,7 @@
             onSelect: this.onDatePickerDateChange,
             disableDayFn: this.daysToMark,
             format: 'MM/DD/YYYY',
-            toString(date, format) {
+            toString: function(date, format) {
                 // you should do formatting based on the passed format,
                 // but we will just return 'D/M/YYYY' for simplicity
                 const day = ("0" + date.getDate()).slice(-2);
@@ -165,7 +165,7 @@
                 const year = date.getFullYear();
                 return `${month}/${day}/${year}`;
             },
-            parse(dateString, format) {
+            parse: function(dateString, format) {
                 // dateString is the result of `toString` method
                 const parts = dateString.split('/');
                 const day = parseInt(parts[0], 10);

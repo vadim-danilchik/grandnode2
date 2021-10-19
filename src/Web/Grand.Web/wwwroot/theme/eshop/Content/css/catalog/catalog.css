@@ -108,7 +108,7 @@
     border-right: 1px solid var(--secondary-border-color);
     direction: rtl;
     z-index: 4;
-    -webkit-transition: transition: transform .4s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+    -webkit-transition: transform .4s cubic-bezier(0.645, 0.045, 0.355, 1.000);
     transition: transform .4s cubic-bezier(0.645, 0.045, 0.355, 1.000);
 }
 

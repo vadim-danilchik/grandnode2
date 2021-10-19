@@ -60,7 +60,6 @@
     <EmbeddedResource Remove="Plugins\**" />
     <None Remove="Plugins\**" />
     <None Remove="App_Data\Resources\Installation\installation.ru.xml" />
-    <None Remove="wwwroot\theme\eshop\Content\css\animate.min.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\cart\cart.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\cart\cart.rtl.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\catalog\catalog.css" />
@@ -71,7 +70,6 @@
     <None Remove="wwwroot\theme\eshop\Content\css\customer\customer.rtl.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\header\header.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\header\header.rtl.css" />
-    <None Remove="wwwroot\theme\eshop\Content\css\pikaday.min.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\print.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\product\product.css" />
     <None Remove="wwwroot\theme\eshop\Content\css\product\product.rtl.css" />
@@ -85,24 +83,13 @@
     <None Remove="wwwroot\theme\eshop\Content\images\youtube.svg" />
     <None Remove="Themes\eShop\preview.jpg" />
     <None Remove="wwwroot\theme\eshop\Content\script\app.js" />
-    <None Remove="wwwroot\theme\eshop\Content\script\menu.js" />
-    <None Remove="wwwroot\theme\eshop\Content\script\product.reviews.js" />
-    <None Remove="wwwroot\theme\eshop\Content\script\public.autocomplete.js" />
-    <None Remove="wwwroot\theme\eshop\Content\script\public.axios.js" />
-    <None Remove="wwwroot\theme\eshop\Content\script\public.checkout.js" />
     <None Remove="wwwroot\theme\eshop\Content\script\public.common.js" />
-    <None Remove="wwwroot\theme\eshop\Content\script\public.reservation.js" />
-    <None Remove="wwwroot\theme\eshop\Content\script\validation-config.js" />
     <None Remove="wwwroot\theme\eshop\Content\script\validation-config.min.js" />
-    <None Remove="wwwroot\theme\eshop\Content\script\vue.push.notifications.js" />
     <Content Update="Plugins\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Update="wwwroot\theme\eshop\Content\css\animate.min.css">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
     <Content Update="wwwroot\theme\eshop\Content\css\cart\cart.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
@@ -116,9 +103,6 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="wwwroot\theme\eshop\Content\css\header\header.css">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="wwwroot\theme\eshop\Content\css\pikaday.min.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
     <Content Update="wwwroot\theme\eshop\Content\css\print.css">
@@ -151,34 +135,7 @@
     <Content Update="wwwroot\theme\eshop\Content\script\app.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="wwwroot\theme\eshop\Content\script\menu.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="wwwroot\theme\eshop\Content\script\product.reviews.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="wwwroot\theme\eshop\Content\script\public.autocomplete.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="wwwroot\theme\eshop\Content\script\public.axios.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="wwwroot\theme\eshop\Content\script\public.checkout.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
     <Content Update="wwwroot\theme\eshop\Content\script\public.common.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="wwwroot\theme\eshop\Content\script\public.reservation.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="wwwroot\theme\eshop\Content\script\validation-config.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="wwwroot\theme\eshop\Content\script\validation-config.min.js">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
-    <Content Update="wwwroot\theme\eshop\Content\script\vue.push.notifications.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
   </ItemGroup>
@@ -201,7 +158,6 @@
     <None Include="wwwroot\theme\eshop\Content\images\mts.svg" />
     <None Include="wwwroot\theme\eshop\Content\images\telegram.svg" />
     <None Include="wwwroot\theme\eshop\Content\script\medium-zoom.min.js" />
-    <None Include="wwwroot\theme\eshop\Content\script\public.onepagecheckout.js" />
     <None Include="wwwroot\theme\eshop\Content\swiper\swiper.min.css" />
     <None Include="wwwroot\theme\eshop\Content\swiper\swiper.min.js" />
     <None Include="wwwroot\theme\eshop\Content\swiper\vue-awesome-swiper.min.js" />

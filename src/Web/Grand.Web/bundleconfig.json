@@ -2,13 +2,66 @@
   {
     "outputFileName": "wwwroot/bundles/site.min.css",
     "inputFiles": [
+      "wwwroot/theme/eshop/Content/swiper/swiper.min.css",
       "wwwroot/theme/bootstrap-vue/bootstrap.min.css",
       "wwwroot/theme/bootstrap-vue/bootstrap-vue.min.css",
-      "wwwroot/theme/css/animate.min.css"
+      "wwwroot/theme/css/animate.min.css",
+      "wwwroot/theme/css/pikaday.min.css",
+      "wwwroot/theme/eshop/Content/css/common/common.css",
+      "wwwroot/theme/eshop/Content/css/header/header.css",
+      "wwwroot/theme/eshop/Content/css/catalog/catalog.css",
+      "wwwroot/theme/eshop/Content/css/product/product.css",
+      "wwwroot/theme/eshop/Content/css/customer/customer.css",
+      "wwwroot/theme/eshop/Content/css/cart/cart.css",
+      "wwwroot/theme/eshop/Content/css/home/home.css"
     ],
     "minify": {
       "enabled": true,
       "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/theme/script/public.common.min.js",
+    "inputFiles": [
+      "wwwroot/theme/eshop/Content/script/public.common.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/theme/script/public.axios.min.js",
+    "inputFiles": [
+      "wwwroot/theme/script/public.axios.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/theme/script/public.reservation.min.js",
+    "inputFiles": [
+      "wwwroot/theme/script/public.reservation.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/theme/script/public.autocomplete.min.js",
+    "inputFiles": [
+      "wwwroot/theme/script/public.autocomplete.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
     },
     "sourceMap": false
   },
@@ -21,7 +74,15 @@
       "wwwroot/theme/lib/bootstrap-vue-icons.min.js",
       "wwwroot/theme/lib/axios.min.js",
       "wwwroot/theme/lib/vue-awesome-countdown.umd.min.js",
-      "wwwroot/theme/lib/vee-validate.minimal.min.js"
+      "wwwroot/theme/lib/vee-validate.minimal.min.js",
+      "wwwroot/theme/script/validation-config.min.js",
+      "wwwroot/theme/script/public.common.min.js",
+      "wwwroot/theme/script/public.axios.min.js",
+      "wwwroot/theme/lib/pikaday.min.js",
+      "wwwroot/theme/script/public.reservation.min.js",
+      "wwwroot/theme/eshop/Content/swiper/swiper.min.js",
+      "wwwroot/theme/eshop/Content/swiper/vue-awesome-swiper.min.js",
+      "wwwroot/theme/eshop/Content/script/medium-zoom.min.js"
     ],
     "minify": {
       "enabled": false,
