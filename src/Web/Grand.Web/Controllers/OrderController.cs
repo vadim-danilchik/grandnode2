@@ -112,7 +112,7 @@ namespace Grand.Web.Controllers
         public virtual async Task<IActionResult> Details(string orderId)
         {
             var order = await _orderService.GetOrderById(orderId);
-            if (!await order.Access(_workContext.CurrentCustomer, _groupService))
+            if (!string.IsNullOrEmpty(_workContext.CurrentCustomer.Email) && !await order.Access(_workContext.CurrentCustomer, _groupService))
                 return Challenge();
 
             var model = await _mediator.Send(new GetOrderDetails() { Order = order, Language = _workContext.WorkingLanguage });

@@ -102,10 +102,9 @@
                                 @Model.Order.ShippingAddress.Address2
                             </li>
                         }
-                        <li class="city-state-zip">
-                            @Model.Order.ShippingAddress.City, @Model.Order.ShippingAddress.StateProvinceName
-                            @Model.Order.ShippingAddress.ZipPostalCode
-                        </li>
+            <li class="city-state-zip">
+                @string.Join(", ", Model.Order.ShippingAddress.City, Model.Order.ShippingAddress.StateProvinceName, Model.Order.ShippingAddress.ZipPostalCode)
+            </li>
                         if (!String.IsNullOrEmpty(Model.Order.ShippingAddress.CountryName))
                         {
                             <li class="country">
@@ -123,8 +122,7 @@
                         @Model.Order.PickupAddress.Address1
                     </li>
                     <li class="city-state-zip">
-                        @Model.Order.PickupAddress.City,
-                        @Model.Order.PickupAddress.ZipPostalCode
+                        @string.Join(' ', Model.Order.PickupAddress.City, Model.Order.PickupAddress.ZipPostalCode)
                     </li>
                     if (!string.IsNullOrEmpty(Model.Order.PickupAddress.CountryName))
                     {

@@ -118,6 +118,21 @@
                 </fieldset>
                 <div class="form-row">
                     <fieldset class="form-group col-sm-6 col-12">
+                        <legend class="sr-only">@Loc["account.fields.lastname"]</legend>
+                        <label asp-for="LastName" class="col-form-label">@Loc["Account.Fields.LastName"]:</label>
+                        @if (Model.FirstLastNameRequired)
+                        {
+                            <span class="required">*</span>
+                            <span class="field-validation-error">{{veeErrors.first('LastName')}}</span>
+                            <input asp-for="LastName" class="form-control" v-validate="'required'" />
+                            <span asp-validation-for="LastName"></span>
+                        }
+                        else
+                        {
+                            <input asp-for="LastName" class="form-control" />
+                        }
+                    </fieldset>
+                    <fieldset class="form-group col-sm-6 col-12">
                         <legend class="sr-only">@Loc["account.fields.firstname"]</legend>
                         <label asp-for="FirstName" class="col-form-label">@Loc["Account.Fields.FirstName"]:</label>
                         @if (Model.FirstLastNameRequired)
@@ -130,20 +145,6 @@
                         else
                         {
                             <input asp-for="FirstName" class="form-control" />
-                        }
-                    </fieldset>
-                    <fieldset class="form-group col-sm-6 col-12">
-                        <legend class="sr-only">@Loc["account.fields.lastname"]</legend>
-                        <label asp-for="LastName" class="col-form-label">@Loc["Account.Fields.LastName"]:</label>
-                        @if (Model.FirstLastNameRequired)
-                        {
-                            <span class="required">*</span>
-                            <span class="field-validation-error">{{veeErrors.first('LastName')}}</span>
-                            <input asp-for="LastName" class="form-control" v-validate="'required'" />
-                            <span asp-validation-for="LastName"></span>
-                        }else
-                        {
-                        <input asp-for="LastName" class="form-control" />
                         }
                     </fieldset>
                 </div>

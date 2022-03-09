@@ -74,7 +74,7 @@ a:hover {
     pointer-events: none;
 }
 .navbar-brand {
-    margin: 0 20px 0 0;
+    margin: 0 20px 0 20px;
 }
 
     .navbar-brand img {
@@ -756,7 +756,7 @@ button.close {
     height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
-    padding: 0 0 0 20px;
+    padding: 0;
     background-color: var(--primary-color);
     box-shadow: .125rem 0rem 0.25rem rgba(0,0,0,.075);
     direction: rtl;
@@ -769,7 +769,6 @@ button.close {
 
     .left-side-container .dropdown-divider {
         width: 100%;
-        margin-right: 20px;
         border-top-color: var(--primary-border-color);
     }
 
@@ -830,7 +829,6 @@ ul.Menu.-vertical {
     width: 100%;
     height: 100%;
     margin: 0;
-    padding: 0;
 }
  ul.Menu.-floating {
      display: block;
@@ -849,9 +847,18 @@ ul.Menu.-vertical {
         word-break: break-word;
         cursor: pointer;
     }
+
+    .Menu li,
+    .Menu ul:not(.gallery) li {
+        padding: 0 20px 0 20px;
+    }
     .Menu > li.category > a,
     .Menu > li.category > div {
         color: var(--primary-text-color);
+    }
+
+    .Menu ul.gallery > li.category > a {
+        text-decoration: underline;
     }
 
     .Menu li.category img {
@@ -911,7 +918,6 @@ ul.Menu.-vertical {
         min-width: 200px;
         top: 0;
         display: none;
-        padding: 20px;
         opacity: 0;
         -webkit-transform: rotateX(90deg);
         transform: rotateX(90deg);
@@ -928,7 +934,7 @@ ul.Menu.-vertical {
         opacity: 1;
         visibility: visible;
         padding: 0;
-        margin: 10px 0 0 0;
+        margin: 0;
         border: 0;
     }
 
@@ -1035,7 +1041,7 @@ ul.Menu.-vertical {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: flex-start;
-        padding: 20px 10px 0 20px;
+        padding: 20px;
     }
 
 .Menu li.-hasSubmenu > .go-forward {
@@ -1124,12 +1130,12 @@ ul.Menu.-vertical {
             }
         /* Padding for each menu item */
         .Menu li > * {
-            padding: 0px 12px;
+            /*padding: 0px 12px;*/
         }
 /* Indent of chevron */
         .Menu li li.-hasSubmenu > a:after, .Menu > li.-hasSubmenu > a:after,
         .Menu li li.-hasSubmenu > div:after, .Menu > li.-hasSubmenu > div:after {
-            right: 0;
+            /*right: 0;*/
         }
  .Menu li li.-hasSubmenu > a {
      padding-right: 28px;
@@ -1168,12 +1174,18 @@ ul.Menu.-vertical {
      transition: background-color 0.2s;
 }
 /* Colour of :hover shading */
+        /*.Menu > li:hover,
+        .Menu > li > ul:not(.gallery) > li:hover,
+        .Menu > li ul.sublist > li:hover {
+            background-color: var(--secondary-color);
+        }*/
+
         .Menu li > a:hover,
         .Menu li > ul.gallery > li.-hasSubmenu > a:hover,
         .Menu li.-hasSubmenu .next-level > li > a:hover,
         .Menu li.-hasSubmenu > ul.gallery > li > a:hover,
         .Menu li.-hasSubmenu ul li a:hover {
-            color: var(--primary-text-hover);
+            color: var(--accent-color);
         }
 
         .Menu li > ul.gallery > li.-hasSubmenu.category > a:hover img,
@@ -2747,7 +2759,7 @@ input:checked ~ .color-container .color::before {
     .Menu li.-hasSubmenu > .go-forward,
     .Menu li.-hasSubmenu > .go-back {
         position: absolute;
-        right: 20px;
+        right: 0;
         width: 38px;
         height: 38px;
         z-index: 2;

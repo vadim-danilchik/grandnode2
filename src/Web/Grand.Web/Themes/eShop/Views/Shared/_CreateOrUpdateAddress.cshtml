@@ -140,9 +140,26 @@
             <span asp-validation-for="StateProvinceId"></span>
         </div>
     }
+    @if (Model.StreetAddress2Enabled)
+    {
+        <div class="form-group col-sm-12 col-md-6">
+            <label asp-for="Address2" class="col-form-label">@Loc["Address.Fields.Address2"]:</label>
+            @if (Model.StreetAddress2Required)
+            {
+                <span class="required">*</span>
+                <input asp-for="Address2" class="form-control" v-validate="'required'" />
+                <span class="field-validation-error">{{veeErrors.first('@(prefix).Address2')}}</span>
+            }
+            else
+            {
+                <input asp-for="Address2" class="form-control" />
+            }
+            <span asp-validation-for="Address2"></span>
+        </div>
+    }
     @if (Model.CityEnabled)
     {
-        <div class="form-group col-sm-12">
+        <div class="form-group col-sm-12 col-md-6">
             <label asp-for="City" class="col-form-label">@Loc["Address.Fields.City"]:</label>
             @if (Model.CityRequired)
             {
@@ -172,23 +189,6 @@
                 <input asp-for="Address1" class="form-control" />
             }
             <span asp-validation-for="Address1"></span>
-        </div>
-    }
-    @if (Model.StreetAddress2Enabled)
-    {
-        <div class="form-group col-sm-12 col-md-6">
-            <label asp-for="Address2" class="col-form-label">@Loc["Address.Fields.Address2"]:</label>
-            @if (Model.StreetAddress2Required)
-            {
-                <span class="required">*</span>
-                <input asp-for="Address2" class="form-control" v-validate="'required'" />
-                <span class="field-validation-error">{{veeErrors.first('@(prefix).Address2')}}</span>
-            }
-            else
-            {
-                <input asp-for="Address2" class="form-control" />
-            }
-            <span asp-validation-for="Address2"></span>
         </div>
     }
     @if (Model.ZipPostalCodeEnabled)

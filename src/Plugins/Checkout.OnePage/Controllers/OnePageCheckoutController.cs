@@ -449,12 +449,28 @@ namespace Checkout.OnePage.Controllers
                 }
 
 
-                if (model.BillToTheSameAddress && !pickupInstore)
+                if (model.BillToTheSameAddress)
                 {
-                    _workContext.CurrentCustomer.BillingAddress = _workContext.CurrentCustomer.ShippingAddress;
+                    if (!pickupInstore)
+                    {
+                        _workContext.CurrentCustomer.BillingAddress = _workContext.CurrentCustomer.ShippingAddress;
+                    }
+                    else
+                    {
+                        if (!String.IsNullOrEmpty(shippingAddressId))
+                        {
+                            var address = _workContext.CurrentCustomer.Addresses.FirstOrDefault(a => a.Id == shippingAddressId);
+                            _workContext.CurrentCustomer.BillingAddress = address;
+                        }
+                        else
+                        {
+                            ModelState.Clear();
+                            //new address
+                            await TryUpdateModelAsync(model.NewAddress, "ShippingNewAddress");
+                            _workContext.CurrentCustomer.BillingAddress = model.NewAddress.ToEntity();
+                        }
+                    }
                     await _customerService.UpdateBillingAddress(_workContext.CurrentCustomer.BillingAddress, _workContext.CurrentCustomer.Id);
-                    await _userFieldService.SaveField<ShippingOption>(_workContext.CurrentCustomer, SystemCustomerFieldNames.SelectedShippingOption, null, _workContext.CurrentStore.Id);
-                    //return await LoadStepAfterBillingAddress(cart);
                 }
                 #endregion
 
