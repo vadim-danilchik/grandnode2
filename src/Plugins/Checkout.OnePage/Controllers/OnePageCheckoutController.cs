@@ -349,6 +349,71 @@ namespace Checkout.OnePage.Controllers
             }
         }
 
+        public async Task<IActionResult> SavePaymentMethod(IFormCollection form)
+        {
+            try
+            { 
+                //validation
+                var cart = _shoppingCartService.GetShoppingCart(_workContext.CurrentStore.Id, ShoppingCartType.ShoppingCart, ShoppingCartType.Auctions);
+                await CartValidate(cart);
+
+                string paymentmethod = form["paymentmethod"];
+                //payment method 
+                if (String.IsNullOrEmpty(paymentmethod))
+                    throw new Exception("Selected payment method can't be parsed");
+
+
+                var model = new CheckoutPaymentMethodModel();
+                await TryUpdateModelAsync(model);
+
+                //loyalty points
+                if (_loyaltyPointsSettings.Enabled)
+                {
+                    await _userFieldService.SaveField(_workContext.CurrentCustomer,
+                        SystemCustomerFieldNames.UseLoyaltyPointsDuringCheckout, model.UseLoyaltyPoints,
+                        _workContext.CurrentStore.Id);
+                }
+
+                var paymentMethodInst = _paymentService.LoadPaymentMethodBySystemName(paymentmethod);
+                if (paymentMethodInst == null ||
+                    !paymentMethodInst.IsPaymentMethodActive(_paymentSettings) ||
+                    !paymentMethodInst.IsAuthenticateStore(_workContext.CurrentStore))
+                    throw new Exception("Selected payment method can't be parsed");
+
+                //save
+                await _userFieldService.SaveField(_workContext.CurrentCustomer,
+                    SystemCustomerFieldNames.SelectedPaymentMethod, paymentmethod, _workContext.CurrentStore.Id);
+
+                var paymentTransaction = await paymentMethodInst.InitPaymentTransaction();
+                if (paymentTransaction != null)
+                {
+                    await _userFieldService.SaveField(_workContext.CurrentCustomer,
+                        SystemCustomerFieldNames.PaymentTransaction, paymentTransaction.Id, _workContext.CurrentStore.Id);
+                }
+                else
+                    await _userFieldService.SaveField<string>(_workContext.CurrentCustomer,
+                        SystemCustomerFieldNames.PaymentTransaction, null, _workContext.CurrentStore.Id);
+
+                if (ModelState.IsValid)
+                {
+                    return Json(new
+                    {
+                        update_section = new UpdateSectionJsonModel {
+                            name = "payment_method"
+                        },
+                        goto_section = "payment_method"
+                    });
+                }
+
+                return Json(new { error = 1 });
+            }
+            catch (Exception exc)
+            {
+                _logger.Warning(exc.Message, exc, _workContext.CurrentCustomer);
+                return Json(new { error = 1, message = exc.Message });
+            }
+        }
+
         public async Task<IActionResult> ConfirmOrder(CheckoutShippingAddressModel model, IFormCollection form)
         {
             try

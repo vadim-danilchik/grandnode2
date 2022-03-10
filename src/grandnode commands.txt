@@ -146,3 +146,7 @@ sudo mongorestore --uri="mongodb://85.209.148.26:27017/elfikshop" --username="el
 
 sudo systemctl stop grandnode.service
 sudo systemctl start grandnode.service
+
+
+
+mongodb://elfikiAdmin:1qaz%40WSX@85.209.148.26:27017/elfikshop?authSource=admin

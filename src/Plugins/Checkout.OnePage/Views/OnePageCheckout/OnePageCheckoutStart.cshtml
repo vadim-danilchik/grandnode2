@@ -160,6 +160,7 @@
                 checkoutForm: false,
                 saveShippingMethodUrl: false,
                 savePickUpInSoreUrl: false,
+                savePaymentMethodUrl: false,
 
                 init: function () {
                     this.loadWaiting = false;
@@ -169,6 +170,7 @@
                     this.checkoutForm = '#checkout-form';
                     this.saveShippingMethodUrl = '/onepagecheckout/SaveShippingMethod/';
                     this.savePickUpInSoreUrl = '/onepagecheckout/SavePickUpInSore/';
+                    this.savePaymentMethodUrl = '/onepagecheckout/SavePaymentMethod/';
 
                     vmorder.ShippingAllowPickUpInStore = vmorder.Model.ShippingAddress.AllowPickUpInStore;
                     vmorder.ShippingExistingAddresses = vmorder.Model.ShippingAddress.ExistingAddresses;
@@ -196,14 +198,8 @@
                     vmorder.LoyaltyPointsBalance = vmorder.Model.PaymentMethod.LoyaltyPointsBalance;
                     vmorder.LoyaltyPointsEnoughToPayForOrder = vmorder.Model.PaymentMethod.LoyaltyPointsEnoughToPayForOrder;
                     vmorder.UseLoyaltyPoints = vmorder.Model.PaymentMethod.UseLoyaltyPoints;
-                    if (vmorder.PaymentMethods.length > 0) {
-                        var index;
-                        if (vmorder.selectedPaymentMethod !== undefined) {
-                            index = vmorder.selectedPaymentMethod;
-                        } else {
-                            index = 0;
-                        }
-                    }
+                    vmorder.selectedPaymentMethod = vmorder.PaymentMethods.findIndex(currentValue => currentValue.Selected);
+
                 },
 
                 axiosFailure: function () {
@@ -264,6 +260,12 @@
                             vmorder.ShippingNewAddressPreselected = model.NewAddressPreselected;
                             vmorder.ShippingWarnings = model.Warnings;
                             vmorder.ShippingAddress = true;
+                        }
+
+                        if (response.data.goto_section == "payment_method") {
+                            this.updateOrderSummary(true);
+                            vmorder.updateTotals();
+
                         }
                         if (response.data.goto_section == "confirm_order") {
                             var model = response.data.update_section.model;
@@ -357,6 +359,28 @@
                     }
                 },
 
+                savePaymentMethod: function () {
+                    if (vmorder.Checkout.loadWaiting != false) return;
+
+                    if (this.validatePaymentMethod()) {
+                        vmorder.Checkout.setLoadWaiting('confirm-order');
+                        var checkoutEl = document.querySelector(this.checkoutForm);
+                        var data = new FormData(checkoutEl);
+                        axios({
+                            url: this.savePaymentMethodUrl,
+                            method: 'post',
+                            data: data,
+                        }).then(function (response) {
+                            vmorder.Checkout.nextStep(response);
+                        }).catch(function (error) {
+                            error.axiosFailure;
+                        }).then(function () {
+                            vmorder.updateTotals();
+                            vmorder.Checkout.setLoadWaiting(false);
+                        });
+                    }
+                },
+
                 save: function () {
                     if (vmorder.Checkout.loadWaiting != false) return;
                     vmorder.Checkout.setLoadWaiting('confirm-order');
@@ -431,6 +455,22 @@
                         }
                     }
                     alert('Please specify shipping method.');
+                    return false;
+                },
+
+                validatePaymentMethod: function () {
+                    var methods = document.getElementsByName('paymentmethod');
+                    if (methods.length == 0) {
+                        alert('Your order cannot be completed at this time as there is no payment methods available for it.');
+                        return false;
+                    }
+
+                    for (var i = 0; i < methods.length; i++) {
+                        if (methods[i].checked) {
+                            return true;
+                        }
+                    }
+                    alert('Please specify payment method.');
                     return false;
                 },
 
